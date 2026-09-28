@@ -1,0 +1,1908 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PokiRadar V1</title>
+
+<style>
+:root {
+    --bg: #080a0f;
+    --panel: rgba(18, 22, 30, 0.88);
+    --panel-2: rgba(25, 30, 40, 0.88);
+    --border: rgba(255,255,255,0.09);
+    --text: #f5f7fb;
+    --muted: #8d96a6;
+    --green: #49d17d;
+    --red: #ff6262;
+    --yellow: #f4c95d;
+    --blue: #69a7ff;
+    --purple: #a987ff;
+    --shadow: 0 20px 60px rgba(0,0,0,0.35);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background:
+        radial-gradient(circle at 15% 0%, rgba(75,105,180,0.18), transparent 30%),
+        radial-gradient(circle at 90% 15%, rgba(130,80,180,0.12), transparent 28%),
+        var(--bg);
+    color: var(--text);
+    font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+}
+
+button,
+input {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+.app {
+    width: min(1500px, calc(100% - 40px));
+    margin: auto;
+    padding: 28px 0 60px;
+}
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+    margin-bottom: 28px;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.logo {
+    width: 48px;
+    height: 48px;
+    border-radius: 15px;
+    display: grid;
+    place-items: center;
+    background:
+        linear-gradient(145deg, #263c67, #141927);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+    font-size: 24px;
+}
+
+.brand h1 {
+    margin: 0;
+    font-size: 30px;
+    letter-spacing: -1px;
+}
+
+.brand p {
+    margin: 4px 0 0;
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.status {
+    padding: 8px 12px;
+    border-radius: 999px;
+    border: 1px solid rgba(244,201,93,0.25);
+    background: rgba(244,201,93,0.08);
+    color: var(--yellow);
+    font-size: 12px;
+    font-weight: 700;
+}
+
+/* =========================================================
+   HERO
+   ========================================================= */
+
+.hero {
+    position: relative;
+    overflow: hidden;
+    padding: 32px;
+    border: 1px solid var(--border);
+    border-radius: 28px;
+    background:
+        linear-gradient(
+            135deg,
+            rgba(28,38,58,0.95),
+            rgba(15,18,25,0.92)
+        );
+    box-shadow: var(--shadow);
+    margin-bottom: 20px;
+}
+
+.hero::after {
+    content: "";
+    position: absolute;
+    width: 320px;
+    height: 320px;
+    right: -120px;
+    top: -150px;
+    border-radius: 50%;
+    background: rgba(105,167,255,0.10);
+    filter: blur(20px);
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 760px;
+}
+
+.eyebrow {
+    color: var(--blue);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+
+.hero h2 {
+    margin: 10px 0 10px;
+    font-size: clamp(28px, 4vw, 46px);
+    letter-spacing: -1.7px;
+    line-height: 1.05;
+}
+
+.hero p {
+    margin: 0;
+    color: #aeb6c4;
+    line-height: 1.6;
+    max-width: 700px;
+}
+
+.hero-note {
+    margin-top: 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 12px;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border);
+    color: #cbd2dc;
+    font-size: 12px;
+}
+
+/* =========================================================
+   SEARCH / FILTER BAR
+   ========================================================= */
+
+.toolbar {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 22px;
+    flex-wrap: wrap;
+}
+
+.search {
+    flex: 1;
+    min-width: 230px;
+    position: relative;
+}
+
+.search input {
+    width: 100%;
+    height: 48px;
+    padding: 0 16px 0 44px;
+    color: var(--text);
+    background: rgba(17,21,29,0.9);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    outline: none;
+}
+
+.search input:focus {
+    border-color: rgba(105,167,255,0.55);
+}
+
+.search-icon {
+    position: absolute;
+    left: 16px;
+    top: 14px;
+    color: var(--muted);
+}
+
+.filter-btn {
+    height: 48px;
+    padding: 0 16px;
+    border-radius: 14px;
+    color: #cbd2dc;
+    background: rgba(17,21,29,0.9);
+    border: 1px solid var(--border);
+}
+
+.filter-btn.active {
+    background: rgba(105,167,255,0.12);
+    border-color: rgba(105,167,255,0.35);
+    color: #dce9ff;
+}
+
+/* =========================================================
+   STATS
+   ========================================================= */
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin-bottom: 28px;
+}
+
+.stat {
+    padding: 19px;
+    border-radius: 18px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+}
+
+.stat-label {
+    color: var(--muted);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .09em;
+}
+
+.stat-value {
+    margin-top: 7px;
+    font-size: 27px;
+    font-weight: 750;
+}
+
+.stat-small {
+    margin-top: 4px;
+    color: var(--muted);
+    font-size: 12px;
+}
+
+/* =========================================================
+   SECTION
+   ========================================================= */
+
+.section {
+    margin-top: 32px;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    gap: 15px;
+    margin-bottom: 13px;
+}
+
+.section-title {
+    margin: 0;
+    font-size: 19px;
+    letter-spacing: -.4px;
+}
+
+.section-description {
+    margin: 5px 0 0;
+    color: var(--muted);
+    font-size: 12px;
+}
+
+/* =========================================================
+   RADAR GRID
+   ========================================================= */
+
+.radar-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.card {
+    padding: 20px;
+    border-radius: 20px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.18);
+    transition:
+        transform .18s ease,
+        border-color .18s ease,
+        background .18s ease;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(255,255,255,0.15);
+    background: var(--panel-2);
+}
+
+.card-top {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.card-name {
+    font-size: 18px;
+    font-weight: 750;
+}
+
+.card-set {
+    color: var(--muted);
+    font-size: 12px;
+    margin-top: 4px;
+}
+
+.signal-count {
+    min-width: 34px;
+    height: 34px;
+    padding: 0 8px;
+    border-radius: 11px;
+    display: grid;
+    place-items: center;
+    background: rgba(105,167,255,0.10);
+    border: 1px solid rgba(105,167,255,0.2);
+    color: var(--blue);
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.market-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 9px;
+    margin-top: 17px;
+}
+
+.market {
+    padding: 12px;
+    border-radius: 13px;
+    background: rgba(255,255,255,0.035);
+}
+
+.market-label {
+    color: var(--muted);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: .07em;
+}
+
+.market-value {
+    margin-top: 4px;
+    font-size: 18px;
+    font-weight: 750;
+}
+
+.positive {
+    color: var(--green);
+}
+
+.negative {
+    color: var(--red);
+}
+
+.neutral {
+    color: #cbd2dc;
+}
+
+.signal-list {
+    margin-top: 15px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.signal {
+    padding: 6px 8px;
+    border-radius: 8px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border);
+    color: #bdc5d2;
+    font-size: 10px;
+}
+
+/* =========================================================
+   TWO COLUMN
+   ========================================================= */
+
+.two-column {
+    display: grid;
+    grid-template-columns: 1.15fr .85fr;
+    gap: 15px;
+}
+
+/* =========================================================
+   TABLE
+   ========================================================= */
+
+.table-wrap {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th {
+    color: var(--muted);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    font-weight: 700;
+    text-align: left;
+    padding: 13px 12px;
+    border-bottom: 1px solid var(--border);
+}
+
+td {
+    padding: 14px 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.055);
+    font-size: 13px;
+}
+
+td:first-child {
+    font-weight: 700;
+}
+
+tr:last-child td {
+    border-bottom: 0;
+}
+
+/* =========================================================
+   EVENTS
+   ========================================================= */
+
+.event {
+    padding: 15px 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.event:last-child {
+    border-bottom: 0;
+}
+
+.event-top {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.event-type {
+    color: var(--blue);
+    font-size: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+}
+
+.event-date {
+    color: var(--muted);
+    font-size: 10px;
+}
+
+.event-title {
+    margin-top: 6px;
+    font-weight: 700;
+}
+
+.event-summary {
+    margin-top: 5px;
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.confidence {
+    display: inline-block;
+    margin-top: 8px;
+    font-size: 10px;
+    color: var(--yellow);
+}
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+.footer {
+    margin-top: 45px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+    color: #70798a;
+    font-size: 11px;
+    line-height: 1.6;
+}
+
+/* =========================================================
+   EMPTY
+   ========================================================= */
+
+.empty {
+    padding: 35px;
+    text-align: center;
+    color: var(--muted);
+    border: 1px dashed rgba(255,255,255,0.12);
+    border-radius: 18px;
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 1100px) {
+    .radar-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .two-column {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 680px) {
+    .app {
+        width: min(100% - 24px, 1500px);
+        padding-top: 16px;
+    }
+
+    .header {
+        align-items: flex-start;
+    }
+
+    .brand h1 {
+        font-size: 25px;
+    }
+
+    .header-right {
+        display: none;
+    }
+
+    .hero {
+        padding: 23px;
+        border-radius: 22px;
+    }
+
+    .radar-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .stats {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .stat {
+        padding: 15px;
+    }
+
+    .stat-value {
+        font-size: 22px;
+    }
+
+    .two-column {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- =====================================================
+         HEADER
+    ====================================================== -->
+
+    <header class="header">
+
+        <div class="brand">
+
+            <div class="logo">
+                ◈
+            </div>
+
+            <div>
+                <h1>PokiRadar</h1>
+                <p>Pokémon TCG Market Intelligence</p>
+            </div>
+
+        </div>
+
+        <div class="header-right">
+
+            <div class="status">
+                V1 · DEMO DATA
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- =====================================================
+         HERO
+    ====================================================== -->
+
+    <section class="hero">
+
+        <div class="hero-content">
+
+            <div class="eyebrow">
+                Market Radar
+            </div>
+
+            <h2>
+                Find what is changing<br>
+                before simply watching prices.
+            </h2>
+
+            <p>
+                PokiRadar combines price movement, listing activity,
+                cross-market differences and market information to
+                identify unusual Pokémon TCG situations worth researching.
+            </p>
+
+            <div class="hero-note">
+                ◉ V1 is using demonstration data
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         SEARCH
+    ====================================================== -->
+
+    <div class="toolbar">
+
+        <div class="search">
+
+            <span class="search-icon">⌕</span>
+
+            <input
+                id="searchInput"
+                type="text"
+                placeholder="Search Pokémon, set or card number..."
+            >
+
+        </div>
+
+        <button class="filter-btn active" data-filter="all">
+            All
+        </button>
+
+        <button class="filter-btn" data-filter="momentum">
+            Momentum
+        </button>
+
+        <button class="filter-btn" data-filter="divergence">
+            Divergence
+        </button>
+
+        <button class="filter-btn" data-filter="drops">
+            Drops
+        </button>
+
+    </div>
+
+
+    <!-- =====================================================
+         SUMMARY STATS
+    ====================================================== -->
+
+    <section class="stats">
+
+        <div class="stat">
+            <div class="stat-label">
+                Cards Tracked
+            </div>
+
+            <div class="stat-value" id="trackedCount">
+                0
+            </div>
+
+            <div class="stat-small">
+                V1 demonstration universe
+            </div>
+        </div>
+
+        <div class="stat">
+            <div class="stat-label">
+                Radar Signals
+            </div>
+
+            <div class="stat-value" id="signalCount">
+                0
+            </div>
+
+            <div class="stat-small">
+                Current detectable signals
+            </div>
+        </div>
+
+        <div class="stat">
+            <div class="stat-label">
+                Biggest 7d Move
+            </div>
+
+            <div class="stat-value" id="biggestMove">
+                —
+            </div>
+
+            <div class="stat-small">
+                Across tracked markets
+            </div>
+        </div>
+
+        <div class="stat">
+            <div class="stat-label">
+                Market Divergence
+            </div>
+
+            <div class="stat-value" id="divergenceCount">
+                0
+            </div>
+
+            <div class="stat-small">
+                Japan vs global
+            </div>
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         TOP RADAR
+    ====================================================== -->
+
+    <section class="section">
+
+        <div class="section-header">
+
+            <div>
+                <h3 class="section-title">
+                    🔥 Radar Candidates
+                </h3>
+
+                <p class="section-description">
+                    Cards showing measurable unusual movement.
+                </p>
+            </div>
+
+        </div>
+
+        <div id="radarGrid" class="radar-grid"></div>
+
+    </section>
+
+
+    <!-- =====================================================
+         MOVERS + EVENTS
+    ====================================================== -->
+
+    <section class="section">
+
+        <div class="two-column">
+
+            <div class="card">
+
+                <div class="section-header">
+
+                    <div>
+                        <h3 class="section-title">
+                            📈 Biggest 7d Movers
+                        </h3>
+
+                        <p class="section-description">
+                            Movement only — not an investment recommendation.
+                        </p>
+                    </div>
+
+                </div>
+
+                <div class="table-wrap">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+                                <th>Card</th>
+                                <th>Japan</th>
+                                <th>Global</th>
+                                <th>Listings</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody id="moversTable"></tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="section-header">
+
+                    <div>
+                        <h3 class="section-title">
+                            📰 Market Information
+                        </h3>
+
+                        <p class="section-description">
+                            Evidence that may help explain movement.
+                        </p>
+                    </div>
+
+                </div>
+
+                <div id="events"></div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         JAPAN / GLOBAL
+    ====================================================== -->
+
+    <section class="section">
+
+        <div class="card">
+
+            <div class="section-header">
+
+                <div>
+                    <h3 class="section-title">
+                        🇯🇵 Japan → Global Divergence
+                    </h3>
+
+                    <p class="section-description">
+                        Identifies situations where Japanese and global markets
+                        are moving differently.
+                    </p>
+                </div>
+
+            </div>
+
+            <div class="table-wrap">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+                            <th>Card</th>
+                            <th>Japan 7d</th>
+                            <th>Global 7d</th>
+                            <th>Gap</th>
+                            <th>Listings</th>
+                            <th>Signal</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="divergenceTable"></tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         FOOTER
+    ====================================================== -->
+
+    <footer class="footer">
+
+        <strong>PokiRadar V1</strong><br>
+
+        This prototype uses demonstration data.
+        Radar signals describe observed market conditions and
+        do not predict future prices or guarantee investment outcomes.
+
+        <br><br>
+
+        Future versions will connect compliant market-data collectors,
+        historical snapshots, supply/availability information and
+        verified news or market events.
+
+    </footer>
+
+</div>
+
+
+<script>
+
+/* ============================================================
+   POKIRADAR V1 DATA MODEL
+
+   This is intentionally structured so real collectors can later
+   replace the demonstration dataset without rewriting the UI.
+============================================================ */
+
+const cards = [
+
+    {
+        id: "demo-001",
+        name: "Pikachu ex",
+        set: "Surging Sparks",
+        number: "238/191",
+        language: "Japanese",
+        markets: {
+            japan: {
+                current: 22800,
+                previous24h: 21500,
+                previous7d: 18500,
+                listings: 18,
+                listingsPrevious: 28
+            },
+
+            global: {
+                current: 136,
+                previous24h: 134,
+                previous7d: 128
+            }
+        }
+    },
+
+    {
+        id: "demo-002",
+        name: "Latias ex",
+        set: "Surging Sparks",
+        number: "239/191",
+        language: "Japanese",
+        markets: {
+            japan: {
+                current: 7900,
+                previous24h: 8100,
+                previous7d: 8200,
+                listings: 34,
+                listingsPrevious: 31
+            },
+
+            global: {
+                current: 56,
+                previous24h: 57,
+                previous7d: 59
+            }
+        }
+    },
+
+    {
+        id: "demo-003",
+        name: "Milotic ex",
+        set: "Surging Sparks",
+        number: "237/191",
+        language: "Japanese",
+        markets: {
+            japan: {
+                current: 11800,
+                previous24h: 10900,
+                previous7d: 9700,
+                listings: 20,
+                listingsPrevious: 30
+            },
+
+            global: {
+                current: 74,
+                previous24h: 72,
+                previous7d: 68
+            }
+        }
+    },
+
+    {
+        id: "demo-004",
+        name: "Umbreon ex",
+        set: "Prismatic Evolutions",
+        number: "161/131",
+        language: "Japanese",
+        markets: {
+            japan: {
+                current: 24800,
+                previous24h: 24200,
+                previous7d: 23100,
+                listings: 15,
+                listingsPrevious: 20
+            },
+
+            global: {
+                current: 145,
+                previous24h: 143,
+                previous7d: 139
+            }
+        }
+    },
+
+    {
+        id: "demo-005",
+        name: "Charizard ex",
+        set: "Obsidian Flames",
+        number: "223/197",
+        language: "Japanese",
+        markets: {
+            japan: {
+                current: 6200,
+                previous24h: 6500,
+                previous7d: 7200,
+                listings: 43,
+                listingsPrevious: 37
+            },
+
+            global: {
+                current: 51,
+                previous24h: 53,
+                previous7d: 57
+            }
+        }
+    },
+
+    {
+        id: "demo-006",
+        name: "Mew ex",
+        set: "151",
+        number: "205/165",
+        language: "Japanese",
+        markets: {
+            japan: {
+                current: 14500,
+                previous24h: 14200,
+                previous7d: 13600,
+                listings: 22,
+                listingsPrevious: 29
+            },
+
+            global: {
+                current: 91,
+                previous24h: 90,
+                previous7d: 86
+            }
+        }
+    }
+
+];
+
+
+/* ============================================================
+   DEMONSTRATION EVENTS
+
+   Future versions will populate this from verified sources.
+============================================================ */
+
+const events = [
+
+    {
+        type: "Availability",
+        date: "Demo",
+        title: "Example supply contraction",
+        summary:
+            "Demonstration event showing how a set availability change could be attached to a card.",
+        confidence: "UNVERIFIED DEMO"
+    },
+
+    {
+        type: "Market",
+        date: "Demo",
+        title: "Japanese listings declining",
+        summary:
+            "Example market observation. Listing changes can later be collected automatically.",
+        confidence: "SAMPLE DATA"
+    },
+
+    {
+        type: "News",
+        date: "Demo",
+        title: "Set information placeholder",
+        summary:
+            "Future versions will connect verified Pokémon TCG news, product announcements and availability information.",
+        confidence: "NOT LIVE"
+    }
+
+];
+
+
+/* ============================================================
+   CALCULATION ENGINE
+============================================================ */
+
+function percentChange(current, previous) {
+
+    if (
+        current === null ||
+        previous === null ||
+        previous === 0 ||
+        current === undefined ||
+        previous === undefined
+    ) {
+        return null;
+    }
+
+    return ((current - previous) / previous) * 100;
+}
+
+
+function getStats(card) {
+
+    const jp = card.markets.japan;
+    const global = card.markets.global;
+
+    const jp24 = percentChange(
+        jp.current,
+        jp.previous24h
+    );
+
+    const jp7 = percentChange(
+        jp.current,
+        jp.previous7d
+    );
+
+    const global24 = percentChange(
+        global.current,
+        global.previous24h
+    );
+
+    const global7 = percentChange(
+        global.current,
+        global.previous7d
+    );
+
+    const listingChange = percentChange(
+        jp.listings,
+        jp.listingsPrevious
+    );
+
+    const divergence =
+        jp7 !== null && global7 !== null
+            ? jp7 - global7
+            : null;
+
+    const signals = [];
+
+
+    /* Japan / global divergence */
+
+    if (
+        divergence !== null &&
+        Math.abs(divergence) >= 8
+    ) {
+
+        signals.push({
+            type: "divergence",
+            label: "Cross-market divergence"
+        });
+
+    }
+
+
+    /* Listing contraction */
+
+    if (
+        listingChange !== null &&
+        listingChange <= -20
+    ) {
+
+        signals.push({
+            type: "supply",
+            label: "Listing contraction"
+        });
+
+    }
+
+
+    /* Multi-market momentum */
+
+    if (
+        jp7 !== null &&
+        global7 !== null &&
+        jp7 > 5 &&
+        global7 > 3
+    ) {
+
+        signals.push({
+            type: "momentum",
+            label: "Multi-market momentum"
+        });
+
+    }
+
+
+    /* Broad decline */
+
+    if (
+        jp7 !== null &&
+        global7 !== null &&
+        jp7 < -5 &&
+        global7 < -5
+    ) {
+
+        signals.push({
+            type: "drops",
+            label: "Broad decline"
+        });
+
+    }
+
+
+    /* Japanese acceleration */
+
+    if (
+        jp24 !== null &&
+        jp7 !== null &&
+        jp24 > jp7 / 7 &&
+        jp24 > 2
+    ) {
+
+        signals.push({
+            type: "momentum",
+            label: "Recent acceleration"
+        });
+
+    }
+
+
+    return {
+        jp24,
+        jp7,
+        global24,
+        global7,
+        listingChange,
+        divergence,
+        signals
+    };
+
+}
+
+
+/* ============================================================
+   FORMATTERS
+============================================================ */
+
+function formatPercent(value) {
+
+    if (value === null || value === undefined) {
+        return "—";
+    }
+
+    const prefix = value >= 0 ? "+" : "";
+
+    return prefix + value.toFixed(1) + "%";
+
+}
+
+
+function percentClass(value) {
+
+    if (value === null || value === undefined) {
+        return "neutral";
+    }
+
+    if (value > 0) {
+        return "positive";
+    }
+
+    if (value < 0) {
+        return "negative";
+    }
+
+    return "neutral";
+
+}
+
+
+function formatJPY(value) {
+
+    if (value === null || value === undefined) {
+        return "—";
+    }
+
+    return "¥" + value.toLocaleString();
+
+}
+
+
+function formatUSD(value) {
+
+    if (value === null || value === undefined) {
+        return "—";
+    }
+
+    return "$" + value.toLocaleString();
+
+}
+
+
+/* ============================================================
+   BUILD RADAR DATA
+============================================================ */
+
+let radarData = cards.map(card => {
+
+    const stats = getStats(card);
+
+    return {
+        card,
+        stats
+    };
+
+});
+
+
+/* ============================================================
+   SORTING
+============================================================ */
+
+radarData.sort((a, b) => {
+
+    if (
+        b.stats.signals.length !==
+        a.stats.signals.length
+    ) {
+
+        return (
+            b.stats.signals.length -
+            a.stats.signals.length
+        );
+
+    }
+
+    const aMove =
+        Math.max(
+            Math.abs(a.stats.jp7 || 0),
+            Math.abs(a.stats.global7 || 0)
+        );
+
+    const bMove =
+        Math.max(
+            Math.abs(b.stats.jp7 || 0),
+            Math.abs(b.stats.global7 || 0)
+        );
+
+    return bMove - aMove;
+
+});
+
+
+/* ============================================================
+   DASHBOARD STATS
+============================================================ */
+
+document.getElementById("trackedCount").textContent =
+    cards.length;
+
+
+const totalSignals = radarData.reduce(
+    (total, item) =>
+        total + item.stats.signals.length,
+    0
+);
+
+document.getElementById("signalCount").textContent =
+    totalSignals;
+
+
+let biggestMove = 0;
+
+radarData.forEach(item => {
+
+    biggestMove = Math.max(
+        biggestMove,
+        Math.abs(item.stats.jp7 || 0),
+        Math.abs(item.stats.global7 || 0)
+    );
+
+});
+
+document.getElementById("biggestMove").textContent =
+    biggestMove.toFixed(1) + "%";
+
+
+const divergenceTotal =
+    radarData.filter(
+        item =>
+            item.stats.divergence !== null &&
+            Math.abs(item.stats.divergence) >= 8
+    ).length;
+
+
+document.getElementById("divergenceCount").textContent =
+    divergenceTotal;
+
+
+/* ============================================================
+   RENDER RADAR
+============================================================ */
+
+function renderRadar(data) {
+
+    const grid =
+        document.getElementById("radarGrid");
+
+    if (!data.length) {
+
+        grid.innerHTML =
+            `<div class="empty">
+                No cards match your search.
+            </div>`;
+
+        return;
+    }
+
+
+    grid.innerHTML =
+        data.map(item => {
+
+            const card = item.card;
+            const stats = item.stats;
+
+            return `
+
+                <article
+                    class="card"
+                    data-types="${stats.signals
+                        .map(signal => signal.type)
+                        .join(" ")}"
+                >
+
+                    <div class="card-top">
+
+                        <div>
+
+                            <div class="card-name">
+                                ${card.name}
+                            </div>
+
+                            <div class="card-set">
+                                ${card.set}
+                                · ${card.number}
+                                · ${card.language}
+                            </div>
+
+                        </div>
+
+                        <div class="signal-count">
+                            ${stats.signals.length}
+                        </div>
+
+                    </div>
+
+
+                    <div class="market-row">
+
+                        <div class="market">
+
+                            <div class="market-label">
+                                🇯🇵 Japan 7d
+                            </div>
+
+                            <div
+                                class="market-value ${percentClass(stats.jp7)}"
+                            >
+                                ${formatPercent(stats.jp7)}
+                            </div>
+
+                        </div>
+
+
+                        <div class="market">
+
+                            <div class="market-label">
+                                🌎 Global 7d
+                            </div>
+
+                            <div
+                                class="market-value ${percentClass(stats.global7)}"
+                            >
+                                ${formatPercent(stats.global7)}
+                            </div>
+
+                        </div>
+
+
+                        <div class="market">
+
+                            <div class="market-label">
+                                Japan Price
+                            </div>
+
+                            <div class="market-value">
+                                ${formatJPY(card.markets.japan.current)}
+                            </div>
+
+                        </div>
+
+
+                        <div class="market">
+
+                            <div class="market-label">
+                                Japan Listings
+                            </div>
+
+                            <div
+                                class="market-value ${percentClass(stats.listingChange)}"
+                            >
+                                ${formatPercent(stats.listingChange)}
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="signal-list">
+
+                        ${
+                            stats.signals.length
+                                ? stats.signals
+                                    .map(
+                                        signal =>
+                                            `<span class="signal">
+                                                ${signal.label}
+                                            </span>`
+                                    )
+                                    .join("")
+                                : `<span class="signal">
+                                        No strong V1 signal
+                                   </span>`
+                        }
+
+                    </div>
+
+                </article>
+
+            `;
+
+        }).join("");
+
+}
+
+
+renderRadar(radarData);
+
+
+/* ============================================================
+   MOVERS TABLE
+============================================================ */
+
+function renderMovers(data) {
+
+    const table =
+        document.getElementById("moversTable");
+
+    const sorted =
+        [...data].sort(
+            (a, b) =>
+                Math.abs(b.stats.jp7 || 0) -
+                Math.abs(a.stats.jp7 || 0)
+        );
+
+
+    table.innerHTML =
+        sorted
+            .slice(0, 8)
+            .map(item => {
+
+                const card = item.card;
+                const stats = item.stats;
+
+                return `
+
+                    <tr>
+
+                        <td>
+                            ${card.name}
+                        </td>
+
+                        <td class="${percentClass(stats.jp7)}">
+                            ${formatPercent(stats.jp7)}
+                        </td>
+
+                        <td class="${percentClass(stats.global7)}">
+                            ${formatPercent(stats.global7)}
+                        </td>
+
+                        <td class="${percentClass(stats.listingChange)}">
+                            ${formatPercent(stats.listingChange)}
+                        </td>
+
+                    </tr>
+
+                `;
+
+            })
+            .join("");
+
+}
+
+
+renderMovers(radarData);
+
+
+/* ============================================================
+   DIVERGENCE TABLE
+============================================================ */
+
+function renderDivergence(data) {
+
+    const table =
+        document.getElementById("divergenceTable");
+
+
+    const divergenceCards =
+        data
+            .filter(
+                item =>
+                    item.stats.divergence !== null
+            )
+            .sort(
+                (a, b) =>
+                    Math.abs(b.stats.divergence) -
+                    Math.abs(a.stats.divergence)
+            );
+
+
+    if (!divergenceCards.length) {
+
+        table.innerHTML =
+            `<tr>
+                <td colspan="6">
+                    No divergence detected.
+                </td>
+            </tr>`;
+
+        return;
+    }
+
+
+    table.innerHTML =
+        divergenceCards
+            .map(item => {
+
+                const card = item.card;
+                const stats = item.stats;
+
+                return `
+
+                    <tr>
+
+                        <td>
+                            ${card.name}
+                        </td>
+
+                        <td class="${percentClass(stats.jp7)}">
+                            ${formatPercent(stats.jp7)}
+                        </td>
+
+                        <td class="${percentClass(stats.global7)}">
+                            ${formatPercent(stats.global7)}
+                        </td>
+
+                        <td class="${percentClass(stats.divergence)}">
+                            ${formatPercent(stats.divergence)}
+                        </td>
+
+                        <td class="${percentClass(stats.listingChange)}">
+                            ${formatPercent(stats.listingChange)}
+                        </td>
+
+                        <td>
+                            Cross-market
+                        </td>
+
+                    </tr>
+
+                `;
+
+            })
+            .join("");
+
+}
+
+
+renderDivergence(radarData);
+
+
+/* ============================================================
+   EVENTS
+============================================================ */
+
+function renderEvents() {
+
+    const container =
+        document.getElementById("events");
+
+
+    container.innerHTML =
+        events
+            .map(event => {
+
+                return `
+
+                    <div class="event">
+
+                        <div class="event-top">
+
+                            <div class="event-type">
+                                ${event.type}
+                            </div>
+
+                            <div class="event-date">
+                                ${event.date}
+                            </div>
+
+                        </div>
+
+                        <div class="event-title">
+                            ${event.title}
+                        </div>
+
+                        <div class="event-summary">
+                            ${event.summary}
+                        </div>
+
+                        <div class="confidence">
+                            ${event.confidence}
+                        </div>
+
+                    </div>
+
+                `;
+
+            })
+            .join("");
+
+}
+
+
+renderEvents();
+
+
+/* ============================================================
+   SEARCH
+============================================================ */
+
+const searchInput =
+    document.getElementById("searchInput");
+
+
+searchInput.addEventListener(
+    "input",
+    applyFilters
+);
+
+
+let activeFilter = "all";
+
+
+document
+    .querySelectorAll(".filter-btn")
+    .forEach(button => {
+
+        button.addEventListener(
+            "click",
+            () => {
+
+                document
+                    .querySelectorAll(".filter-btn")
+                    .forEach(btn =>
+                        btn.classList.remove("active")
+                    );
+
+                button.classList.add("active");
+
+                activeFilter =
+                    button.dataset.filter;
+
+                applyFilters();
+
+            }
+        );
+
+    });
+
+
+function applyFilters() {
+
+    const query =
+        searchInput.value
+            .trim()
+            .toLowerCase();
+
+
+    const filtered =
+        radarData.filter(item => {
+
+            const card = item.card;
+            const stats = item.stats;
+
+
+            const matchesSearch =
+                !query ||
+                card.name.toLowerCase().includes(query) ||
+                card.set.toLowerCase().includes(query) ||
+                card.number.toLowerCase().includes(query);
+
+
+            if (!matchesSearch) {
+                return false;
+            }
+
+
+            if (activeFilter === "all") {
+                return true;
+            }
+
+
+            if (activeFilter === "drops") {
+
+                return stats.signals.some(
+                    signal =>
+                        signal.type === "drops"
+                );
+
+            }
+
+
+            return stats.signals.some(
+                signal =>
+                    signal.type === activeFilter
+            );
+
+        });
+
+
+    renderRadar(filtered);
+
+}
+
+
+/* ============================================================
+   END V1
+============================================================ */
+
+</script>
+
+</body>
+</html>
+```
