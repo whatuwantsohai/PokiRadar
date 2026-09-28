@@ -1,1907 +1,1524 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PokiRadar V1</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#050608">
+<title>PokiRadar — Pokémon TCG Market Intelligence</title>
 
 <style>
-:root {
-    --bg: #080a0f;
-    --panel: rgba(18, 22, 30, 0.88);
-    --panel-2: rgba(25, 30, 40, 0.88);
-    --border: rgba(255,255,255,0.09);
-    --text: #f5f7fb;
-    --muted: #8d96a6;
-    --green: #49d17d;
-    --red: #ff6262;
-    --yellow: #f4c95d;
-    --blue: #69a7ff;
-    --purple: #a987ff;
-    --shadow: 0 20px 60px rgba(0,0,0,0.35);
+:root{
+  --bg:#050608;
+  --panel:#0b0e13;
+  --panel2:#10141b;
+  --border:rgba(255,255,255,.08);
+  --text:#f4f6f8;
+  --muted:#8e98a7;
+  --green:#5ee6a8;
+  --red:#ff6f7d;
+  --yellow:#ffd66b;
+  --blue:#79a9ff;
+  --shadow:0 20px 60px rgba(0,0,0,.38);
 }
 
-* {
-    box-sizing: border-box;
+*{box-sizing:border-box}
+
+html,body{
+  margin:0;
+  min-height:100%;
+  background:var(--bg);
+  color:var(--text);
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+}
+
+body{
+  overflow-x:hidden;
 }
 
-html {
-    scroll-behavior: smooth;
-}
-
-body {
-    margin: 0;
-    min-height: 100vh;
-    background:
-        radial-gradient(circle at 15% 0%, rgba(75,105,180,0.18), transparent 30%),
-        radial-gradient(circle at 90% 15%, rgba(130,80,180,0.12), transparent 28%),
-        var(--bg);
-    color: var(--text);
-    font-family:
-        Inter,
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
-        sans-serif;
-}
-
-button,
-input {
-    font: inherit;
-}
-
-button {
-    cursor: pointer;
-}
-
-.app {
-    width: min(1500px, calc(100% - 40px));
-    margin: auto;
-    padding: 28px 0 60px;
-}
-
-/* =========================================================
-   HEADER
-   ========================================================= */
-
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 24px;
-    margin-bottom: 28px;
-}
-
-.brand {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-}
-
-.logo {
-    width: 48px;
-    height: 48px;
-    border-radius: 15px;
-    display: grid;
-    place-items: center;
-    background:
-        linear-gradient(145deg, #263c67, #141927);
-    border: 1px solid var(--border);
-    box-shadow: var(--shadow);
-    font-size: 24px;
-}
-
-.brand h1 {
-    margin: 0;
-    font-size: 30px;
-    letter-spacing: -1px;
-}
-
-.brand p {
-    margin: 4px 0 0;
-    color: var(--muted);
-    font-size: 13px;
-}
-
-.header-right {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.status {
-    padding: 8px 12px;
-    border-radius: 999px;
-    border: 1px solid rgba(244,201,93,0.25);
-    background: rgba(244,201,93,0.08);
-    color: var(--yellow);
-    font-size: 12px;
-    font-weight: 700;
-}
-
-/* =========================================================
-   HERO
-   ========================================================= */
-
-.hero {
-    position: relative;
-    overflow: hidden;
-    padding: 32px;
-    border: 1px solid var(--border);
-    border-radius: 28px;
-    background:
-        linear-gradient(
-            135deg,
-            rgba(28,38,58,0.95),
-            rgba(15,18,25,0.92)
-        );
-    box-shadow: var(--shadow);
-    margin-bottom: 20px;
-}
-
-.hero::after {
-    content: "";
-    position: absolute;
-    width: 320px;
-    height: 320px;
-    right: -120px;
-    top: -150px;
-    border-radius: 50%;
-    background: rgba(105,167,255,0.10);
-    filter: blur(20px);
-}
-
-.hero-content {
-    position: relative;
-    z-index: 2;
-    max-width: 760px;
-}
-
-.eyebrow {
-    color: var(--blue);
-    font-size: 11px;
-    font-weight: 800;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-}
-
-.hero h2 {
-    margin: 10px 0 10px;
-    font-size: clamp(28px, 4vw, 46px);
-    letter-spacing: -1.7px;
-    line-height: 1.05;
-}
-
-.hero p {
-    margin: 0;
-    color: #aeb6c4;
-    line-height: 1.6;
-    max-width: 700px;
+#boot{
+  position:fixed;
+  inset:0;
+  z-index:99999;
+  background:
+    radial-gradient(circle at 50% 35%,rgba(92,120,255,.12),transparent 34%),
+    #050608;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  gap:14px;
+  transition:opacity .35s ease,visibility .35s ease;
 }
 
-.hero-note {
-    margin-top: 20px;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 9px 12px;
-    border-radius: 12px;
-    background: rgba(255,255,255,0.05);
-    border: 1px solid var(--border);
-    color: #cbd2dc;
-    font-size: 12px;
+#boot.hidden{
+  opacity:0;
+  visibility:hidden;
+  pointer-events:none;
 }
 
-/* =========================================================
-   SEARCH / FILTER BAR
-   ========================================================= */
+.boot-logo{
+  font-size:30px;
+  font-weight:800;
+  letter-spacing:-1px;
+}
+
+.boot-sub{
+  color:var(--muted);
+  font-size:13px;
+}
 
-.toolbar {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 22px;
-    flex-wrap: wrap;
+.spinner{
+  width:24px;
+  height:24px;
+  border:2px solid rgba(255,255,255,.12);
+  border-top-color:#fff;
+  border-radius:50%;
+  animation:spin .75s linear infinite;
 }
 
-.search {
-    flex: 1;
-    min-width: 230px;
-    position: relative;
+@keyframes spin{
+  to{transform:rotate(360deg)}
 }
 
-.search input {
-    width: 100%;
-    height: 48px;
-    padding: 0 16px 0 44px;
-    color: var(--text);
-    background: rgba(17,21,29,0.9);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    outline: none;
+.app{
+  width:min(1500px,100%);
+  margin:auto;
+  padding:28px;
 }
 
-.search input:focus {
-    border-color: rgba(105,167,255,0.55);
+header{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:20px;
+  margin-bottom:30px;
 }
 
-.search-icon {
-    position: absolute;
-    left: 16px;
-    top: 14px;
-    color: var(--muted);
+.brand h1{
+  margin:0;
+  font-size:34px;
+  line-height:1;
+  letter-spacing:-1.4px;
 }
 
-.filter-btn {
-    height: 48px;
-    padding: 0 16px;
-    border-radius: 14px;
-    color: #cbd2dc;
-    background: rgba(17,21,29,0.9);
-    border: 1px solid var(--border);
+.brand p{
+  margin:9px 0 0;
+  color:var(--muted);
+  font-size:14px;
 }
 
-.filter-btn.active {
-    background: rgba(105,167,255,0.12);
-    border-color: rgba(105,167,255,0.35);
-    color: #dce9ff;
+.status{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  padding:9px 13px;
+  border:1px solid var(--border);
+  border-radius:999px;
+  background:rgba(255,255,255,.025);
+  color:var(--muted);
+  font-size:12px;
+  white-space:nowrap;
 }
 
-/* =========================================================
-   STATS
-   ========================================================= */
+.status-dot{
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:var(--yellow);
+  box-shadow:0 0 12px rgba(255,214,107,.5);
+}
 
-.stats {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 14px;
-    margin-bottom: 28px;
+.status.live .status-dot{
+  background:var(--green);
+  box-shadow:0 0 12px rgba(94,230,168,.55);
 }
 
-.stat {
-    padding: 19px;
-    border-radius: 18px;
-    background: var(--panel);
-    border: 1px solid var(--border);
+.status.error .status-dot{
+  background:var(--red);
+  box-shadow:0 0 12px rgba(255,111,125,.55);
 }
 
-.stat-label {
-    color: var(--muted);
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: .09em;
+.hero{
+  padding:30px;
+  border:1px solid var(--border);
+  border-radius:24px;
+  background:
+    radial-gradient(circle at 90% 20%,rgba(105,135,255,.13),transparent 35%),
+    linear-gradient(135deg,rgba(255,255,255,.035),rgba(255,255,255,.015));
+  box-shadow:var(--shadow);
+  margin-bottom:22px;
 }
 
-.stat-value {
-    margin-top: 7px;
-    font-size: 27px;
-    font-weight: 750;
+.hero h2{
+  margin:0;
+  font-size:clamp(25px,4vw,42px);
+  line-height:1.05;
+  letter-spacing:-1.8px;
+  max-width:780px;
 }
 
-.stat-small {
-    margin-top: 4px;
-    color: var(--muted);
-    font-size: 12px;
+.hero p{
+  margin:13px 0 0;
+  color:var(--muted);
+  max-width:720px;
+  line-height:1.6;
 }
 
-/* =========================================================
-   SECTION
-   ========================================================= */
+.controls{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:25px;
+}
 
-.section {
-    margin-top: 32px;
+.search{
+  flex:1 1 300px;
+  min-width:220px;
 }
 
-.section-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: end;
-    gap: 15px;
-    margin-bottom: 13px;
+input,select,button{
+  font:inherit;
 }
 
-.section-title {
-    margin: 0;
-    font-size: 19px;
-    letter-spacing: -.4px;
+input,select{
+  width:100%;
+  border:1px solid var(--border);
+  background:#080b10;
+  color:var(--text);
+  padding:12px 14px;
+  border-radius:13px;
+  outline:none;
 }
 
-.section-description {
-    margin: 5px 0 0;
-    color: var(--muted);
-    font-size: 12px;
+input:focus,select:focus{
+  border-color:rgba(121,169,255,.55);
 }
 
-/* =========================================================
-   RADAR GRID
-   ========================================================= */
+button{
+  border:1px solid var(--border);
+  background:#11161e;
+  color:var(--text);
+  padding:11px 15px;
+  border-radius:12px;
+  cursor:pointer;
+  transition:.18s ease;
+}
 
-.radar-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 15px;
+button:hover{
+  background:#171d27;
+  border-color:rgba(255,255,255,.16);
 }
 
-.card {
-    padding: 20px;
-    border-radius: 20px;
-    background: var(--panel);
-    border: 1px solid var(--border);
-    box-shadow: 0 12px 40px rgba(0,0,0,0.18);
-    transition:
-        transform .18s ease,
-        border-color .18s ease,
-        background .18s ease;
+button.primary{
+  background:#f4f6f8;
+  color:#050608;
+  border-color:#f4f6f8;
+  font-weight:700;
 }
 
-.card:hover {
-    transform: translateY(-2px);
-    border-color: rgba(255,255,255,0.15);
-    background: var(--panel-2);
+button.primary:hover{
+  background:#fff;
 }
 
-.card-top {
-    display: flex;
-    justify-content: space-between;
-    gap: 12px;
+.filters{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
 }
 
-.card-name {
-    font-size: 18px;
-    font-weight: 750;
+.filter.active{
+  background:#f4f6f8;
+  color:#050608;
 }
 
-.card-set {
-    color: var(--muted);
-    font-size: 12px;
-    margin-top: 4px;
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
+  margin:22px 0;
 }
 
-.signal-count {
-    min-width: 34px;
-    height: 34px;
-    padding: 0 8px;
-    border-radius: 11px;
-    display: grid;
-    place-items: center;
-    background: rgba(105,167,255,0.10);
-    border: 1px solid rgba(105,167,255,0.2);
-    color: var(--blue);
-    font-size: 12px;
-    font-weight: 800;
+.stat{
+  padding:19px;
+  border:1px solid var(--border);
+  border-radius:18px;
+  background:var(--panel);
 }
 
-.market-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 9px;
-    margin-top: 17px;
+.stat-label{
+  color:var(--muted);
+  font-size:12px;
+  text-transform:uppercase;
+  letter-spacing:.8px;
 }
 
-.market {
-    padding: 12px;
-    border-radius: 13px;
-    background: rgba(255,255,255,0.035);
+.stat-value{
+  margin-top:8px;
+  font-size:27px;
+  font-weight:750;
+  letter-spacing:-.7px;
 }
 
-.market-label {
-    color: var(--muted);
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: .07em;
+.stat-note{
+  margin-top:5px;
+  color:var(--muted);
+  font-size:11px;
 }
 
-.market-value {
-    margin-top: 4px;
-    font-size: 18px;
-    font-weight: 750;
+.section{
+  margin-top:24px;
 }
 
-.positive {
-    color: var(--green);
+.section-head{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:15px;
+  margin-bottom:13px;
 }
 
-.negative {
-    color: var(--red);
+.section-head h3{
+  margin:0;
+  font-size:18px;
 }
 
-.neutral {
-    color: #cbd2dc;
+.section-head span{
+  color:var(--muted);
+  font-size:12px;
 }
 
-.signal-list {
-    margin-top: 15px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
+.grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:13px;
 }
 
-.signal {
-    padding: 6px 8px;
-    border-radius: 8px;
-    background: rgba(255,255,255,0.05);
-    border: 1px solid var(--border);
-    color: #bdc5d2;
-    font-size: 10px;
+.card{
+  border:1px solid var(--border);
+  background:var(--panel);
+  border-radius:18px;
+  padding:18px;
+  min-width:0;
 }
 
-/* =========================================================
-   TWO COLUMN
-   ========================================================= */
+.card-top{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+}
 
-.two-column {
-    display: grid;
-    grid-template-columns: 1.15fr .85fr;
-    gap: 15px;
+.card-name{
+  font-size:16px;
+  font-weight:750;
 }
 
-/* =========================================================
-   TABLE
-   ========================================================= */
+.card-set{
+  margin-top:4px;
+  color:var(--muted);
+  font-size:12px;
+}
 
-.table-wrap {
-    overflow-x: auto;
+.badges{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+  margin-top:13px;
 }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
+.badge{
+  border-radius:999px;
+  padding:5px 8px;
+  font-size:10px;
+  font-weight:700;
+  border:1px solid var(--border);
+  color:var(--muted);
 }
 
-th {
-    color: var(--muted);
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: .08em;
-    font-weight: 700;
-    text-align: left;
-    padding: 13px 12px;
-    border-bottom: 1px solid var(--border);
+.badge.green{
+  color:var(--green);
+  background:rgba(94,230,168,.07);
 }
 
-td {
-    padding: 14px 12px;
-    border-bottom: 1px solid rgba(255,255,255,0.055);
-    font-size: 13px;
+.badge.red{
+  color:var(--red);
+  background:rgba(255,111,125,.07);
 }
 
-td:first-child {
-    font-weight: 700;
+.badge.yellow{
+  color:var(--yellow);
+  background:rgba(255,214,107,.07);
 }
 
-tr:last-child td {
-    border-bottom: 0;
+.price-row{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:10px;
+  margin-top:20px;
 }
 
-/* =========================================================
-   EVENTS
-   ========================================================= */
+.price{
+  font-size:25px;
+  font-weight:800;
+}
 
-.event {
-    padding: 15px 0;
-    border-bottom: 1px solid var(--border);
+.change{
+  font-size:14px;
+  font-weight:750;
 }
+
+.positive{color:var(--green)}
+.negative{color:var(--red)}
+.neutral{color:var(--muted)}
 
-.event:last-child {
-    border-bottom: 0;
+.meta{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  color:var(--muted);
+  font-size:11px;
+  margin-top:12px;
 }
 
-.event-top {
-    display: flex;
-    justify-content: space-between;
-    gap: 10px;
+.table-wrap{
+  overflow:auto;
+  border:1px solid var(--border);
+  border-radius:18px;
+  background:var(--panel);
 }
 
-.event-type {
-    color: var(--blue);
-    font-size: 10px;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: .08em;
+table{
+  width:100%;
+  border-collapse:collapse;
+  min-width:720px;
 }
 
-.event-date {
-    color: var(--muted);
-    font-size: 10px;
+th,td{
+  padding:14px 16px;
+  border-bottom:1px solid rgba(255,255,255,.055);
+  text-align:left;
+  font-size:12px;
 }
 
-.event-title {
-    margin-top: 6px;
-    font-weight: 700;
+th{
+  color:var(--muted);
+  font-size:10px;
+  text-transform:uppercase;
+  letter-spacing:.7px;
+  font-weight:700;
 }
 
-.event-summary {
-    margin-top: 5px;
-    color: var(--muted);
-    font-size: 12px;
-    line-height: 1.5;
+tr:last-child td{
+  border-bottom:0;
 }
 
-.confidence {
-    display: inline-block;
-    margin-top: 8px;
-    font-size: 10px;
-    color: var(--yellow);
+td strong{
+  font-size:13px;
 }
 
-/* =========================================================
-   FOOTER
-   ========================================================= */
+.info{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:13px;
+}
 
-.footer {
-    margin-top: 45px;
-    padding-top: 20px;
-    border-top: 1px solid var(--border);
-    color: #70798a;
-    font-size: 11px;
-    line-height: 1.6;
+.info-card{
+  padding:18px;
+  border:1px solid var(--border);
+  border-radius:18px;
+  background:var(--panel);
 }
 
-/* =========================================================
-   EMPTY
-   ========================================================= */
+.info-type{
+  color:var(--blue);
+  font-size:10px;
+  font-weight:800;
+  text-transform:uppercase;
+  letter-spacing:.7px;
+}
 
-.empty {
-    padding: 35px;
-    text-align: center;
-    color: var(--muted);
-    border: 1px dashed rgba(255,255,255,0.12);
-    border-radius: 18px;
+.info-title{
+  margin-top:9px;
+  font-weight:700;
 }
 
-/* =========================================================
-   RESPONSIVE
-   ========================================================= */
+.info-body{
+  margin-top:6px;
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.5;
+}
 
-@media (max-width: 1100px) {
-    .radar-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
+.empty{
+  padding:42px 20px;
+  text-align:center;
+  color:var(--muted);
+  border:1px dashed var(--border);
+  border-radius:18px;
+}
 
-    .stats {
-        grid-template-columns: repeat(2, 1fr);
-    }
+.error-box{
+  display:none;
+  margin-bottom:20px;
+  padding:16px;
+  border:1px solid rgba(255,111,125,.25);
+  border-radius:16px;
+  background:rgba(255,111,125,.06);
+}
 
-    .two-column {
-        grid-template-columns: 1fr;
-    }
+.error-box.show{
+  display:block;
 }
 
-@media (max-width: 680px) {
-    .app {
-        width: min(100% - 24px, 1500px);
-        padding-top: 16px;
-    }
+.error-title{
+  font-weight:750;
+  color:var(--red);
+}
 
-    .header {
-        align-items: flex-start;
-    }
+.error-message{
+  color:var(--muted);
+  margin-top:5px;
+  font-size:12px;
+  line-height:1.5;
+}
 
-    .brand h1 {
-        font-size: 25px;
-    }
+.api-panel{
+  margin-top:24px;
+  padding:18px;
+  border:1px solid var(--border);
+  border-radius:18px;
+  background:rgba(255,255,255,.018);
+}
 
-    .header-right {
-        display: none;
-    }
+.api-panel summary{
+  cursor:pointer;
+  color:var(--muted);
+  font-size:12px;
+}
 
-    .hero {
-        padding: 23px;
-        border-radius: 22px;
-    }
+.api-form{
+  display:grid;
+  grid-template-columns:1fr auto;
+  gap:10px;
+  margin-top:14px;
+}
 
-    .radar-grid {
-        grid-template-columns: 1fr;
-    }
+footer{
+  padding:30px 0 10px;
+  color:#657080;
+  font-size:11px;
+  line-height:1.6;
+}
 
-    .stats {
-        grid-template-columns: 1fr 1fr;
-    }
+.source{
+  color:#7e8da3;
+}
 
-    .stat {
-        padding: 15px;
-    }
+@media(max-width:1000px){
+  .grid{grid-template-columns:repeat(2,1fr)}
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .info{grid-template-columns:1fr}
+}
 
-    .stat-value {
-        font-size: 22px;
-    }
+@media(max-width:650px){
+  .app{padding:17px}
+  header{align-items:flex-start}
+  .brand h1{font-size:28px}
+  .hero{padding:22px;border-radius:20px}
+  .stats{grid-template-columns:1fr 1fr}
+  .grid{grid-template-columns:1fr}
+  .api-form{grid-template-columns:1fr}
+}
 
-    .two-column {
-        grid-template-columns: 1fr;
-    }
+@media(max-width:420px){
+  .stats{grid-template-columns:1fr}
+  .status{font-size:10px;padding:7px 9px}
 }
 </style>
+
 </head>
 
 <body>
 
+<div id="boot">
+  <div class="boot-logo">PokiRadar</div>
+  <div class="spinner"></div>
+  <div class="boot-sub" id="bootText">Starting market radar…</div>
+</div>
+
 <div class="app">
 
-    <!-- =====================================================
-         HEADER
-    ====================================================== -->
+<header>
+  <div class="brand">
+    <h1>PokiRadar</h1>
+    <p>Pokémon TCG Market Intelligence</p>
+  </div>
 
-    <header class="header">
+  <div class="status" id="status">
+    <span class="status-dot"></span>
+    <span id="statusText">Connecting</span>
+  </div>
+</header>
 
-        <div class="brand">
+<div class="error-box" id="errorBox">
+  <div class="error-title">Live data could not be loaded</div>
+  <div class="error-message" id="errorMessage"></div>
+</div>
 
-            <div class="logo">
-                ◈
-            </div>
+<section class="hero">
+  <h2>Find what is changing before simply watching prices.</h2>
+  <p>
+    PokiRadar tracks observed Pokémon TCG market data and turns price movement,
+    historical trends and market differences into research signals.
+  </p>
 
-            <div>
-                <h1>PokiRadar</h1>
-                <p>Pokémon TCG Market Intelligence</p>
-            </div>
-
-        </div>
-
-        <div class="header-right">
-
-            <div class="status">
-                V1 · DEMO DATA
-            </div>
-
-        </div>
-
-    </header>
-
-
-    <!-- =====================================================
-         HERO
-    ====================================================== -->
-
-    <section class="hero">
-
-        <div class="hero-content">
-
-            <div class="eyebrow">
-                Market Radar
-            </div>
-
-            <h2>
-                Find what is changing<br>
-                before simply watching prices.
-            </h2>
-
-            <p>
-                PokiRadar combines price movement, listing activity,
-                cross-market differences and market information to
-                identify unusual Pokémon TCG situations worth researching.
-            </p>
-
-            <div class="hero-note">
-                ◉ V1 is using demonstration data
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- =====================================================
-         SEARCH
-    ====================================================== -->
-
-    <div class="toolbar">
-
-        <div class="search">
-
-            <span class="search-icon">⌕</span>
-
-            <input
-                id="searchInput"
-                type="text"
-                placeholder="Search Pokémon, set or card number..."
-            >
-
-        </div>
-
-        <button class="filter-btn active" data-filter="all">
-            All
-        </button>
-
-        <button class="filter-btn" data-filter="momentum">
-            Momentum
-        </button>
-
-        <button class="filter-btn" data-filter="divergence">
-            Divergence
-        </button>
-
-        <button class="filter-btn" data-filter="drops">
-            Drops
-        </button>
-
+  <div class="controls">
+    <div class="search">
+      <input id="search" type="search" placeholder="Search card, set or number…">
     </div>
 
-
-    <!-- =====================================================
-         SUMMARY STATS
-    ====================================================== -->
-
-    <section class="stats">
-
-        <div class="stat">
-            <div class="stat-label">
-                Cards Tracked
-            </div>
-
-            <div class="stat-value" id="trackedCount">
-                0
-            </div>
-
-            <div class="stat-small">
-                V1 demonstration universe
-            </div>
-        </div>
-
-        <div class="stat">
-            <div class="stat-label">
-                Radar Signals
-            </div>
-
-            <div class="stat-value" id="signalCount">
-                0
-            </div>
-
-            <div class="stat-small">
-                Current detectable signals
-            </div>
-        </div>
-
-        <div class="stat">
-            <div class="stat-label">
-                Biggest 7d Move
-            </div>
-
-            <div class="stat-value" id="biggestMove">
-                —
-            </div>
-
-            <div class="stat-small">
-                Across tracked markets
-            </div>
-        </div>
-
-        <div class="stat">
-            <div class="stat-label">
-                Market Divergence
-            </div>
-
-            <div class="stat-value" id="divergenceCount">
-                0
-            </div>
-
-            <div class="stat-small">
-                Japan vs global
-            </div>
-        </div>
-
-    </section>
-
-
-    <!-- =====================================================
-         TOP RADAR
-    ====================================================== -->
-
-    <section class="section">
-
-        <div class="section-header">
-
-            <div>
-                <h3 class="section-title">
-                    🔥 Radar Candidates
-                </h3>
-
-                <p class="section-description">
-                    Cards showing measurable unusual movement.
-                </p>
-            </div>
-
-        </div>
-
-        <div id="radarGrid" class="radar-grid"></div>
-
-    </section>
-
-
-    <!-- =====================================================
-         MOVERS + EVENTS
-    ====================================================== -->
-
-    <section class="section">
-
-        <div class="two-column">
-
-            <div class="card">
-
-                <div class="section-header">
-
-                    <div>
-                        <h3 class="section-title">
-                            📈 Biggest 7d Movers
-                        </h3>
-
-                        <p class="section-description">
-                            Movement only — not an investment recommendation.
-                        </p>
-                    </div>
-
-                </div>
-
-                <div class="table-wrap">
-
-                    <table>
-
-                        <thead>
-
-                            <tr>
-                                <th>Card</th>
-                                <th>Japan</th>
-                                <th>Global</th>
-                                <th>Listings</th>
-                            </tr>
-
-                        </thead>
-
-                        <tbody id="moversTable"></tbody>
-
-                    </table>
-
-                </div>
-
-            </div>
-
-
-            <div class="card">
-
-                <div class="section-header">
-
-                    <div>
-                        <h3 class="section-title">
-                            📰 Market Information
-                        </h3>
-
-                        <p class="section-description">
-                            Evidence that may help explain movement.
-                        </p>
-                    </div>
-
-                </div>
-
-                <div id="events"></div>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- =====================================================
-         JAPAN / GLOBAL
-    ====================================================== -->
-
-    <section class="section">
-
-        <div class="card">
-
-            <div class="section-header">
-
-                <div>
-                    <h3 class="section-title">
-                        🇯🇵 Japan → Global Divergence
-                    </h3>
-
-                    <p class="section-description">
-                        Identifies situations where Japanese and global markets
-                        are moving differently.
-                    </p>
-                </div>
-
-            </div>
-
-            <div class="table-wrap">
-
-                <table>
-
-                    <thead>
-
-                        <tr>
-                            <th>Card</th>
-                            <th>Japan 7d</th>
-                            <th>Global 7d</th>
-                            <th>Gap</th>
-                            <th>Listings</th>
-                            <th>Signal</th>
-                        </tr>
-
-                    </thead>
-
-                    <tbody id="divergenceTable"></tbody>
-
-                </table>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- =====================================================
-         FOOTER
-    ====================================================== -->
-
-    <footer class="footer">
-
-        <strong>PokiRadar V1</strong><br>
-
-        This prototype uses demonstration data.
-        Radar signals describe observed market conditions and
-        do not predict future prices or guarantee investment outcomes.
-
-        <br><br>
-
-        Future versions will connect compliant market-data collectors,
-        historical snapshots, supply/availability information and
-        verified news or market events.
-
-    </footer>
+```
+<div class="filters">
+  <button class="filter active" data-filter="all">All</button>
+  <button class="filter" data-filter="momentum">Momentum</button>
+  <button class="filter" data-filter="divergence">Divergence</button>
+  <button class="filter" data-filter="drops">Drops</button>
+</div>
+
+<button class="primary" id="refresh">Refresh data</button>
+```
+
+  </div>
+</section>
+
+<section class="stats">
+  <div class="stat">
+    <div class="stat-label">Cards Tracked</div>
+    <div class="stat-value" id="statCards">—</div>
+    <div class="stat-note">Live API dataset</div>
+  </div>
+
+  <div class="stat">
+    <div class="stat-label">Radar Signals</div>
+    <div class="stat-value" id="statSignals">—</div>
+    <div class="stat-note">Observed market conditions</div>
+  </div>
+
+  <div class="stat">
+    <div class="stat-label">Biggest 7d Move</div>
+    <div class="stat-value" id="statMove">—</div>
+    <div class="stat-note">Absolute price movement</div>
+  </div>
+
+  <div class="stat">
+    <div class="stat-label">Data Age</div>
+    <div class="stat-value" id="statAge">—</div>
+    <div class="stat-note">Newest observation</div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-head">
+    <h3>🔥 Radar Candidates</h3>
+    <span id="candidateCount">Loading…</span>
+  </div>
+
+  <div class="grid" id="candidates"></div>
+</section>
+
+<section class="section">
+  <div class="section-head">
+    <h3>📈 Biggest 7d Movers</h3>
+    <span>Sorted by absolute movement</span>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Card</th>
+          <th>Set</th>
+          <th>Market</th>
+          <th>1d</th>
+          <th>7d</th>
+          <th>30d</th>
+          <th>Signal</th>
+        </tr>
+      </thead>
+      <tbody id="movers"></tbody>
+    </table>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-head">
+    <h3>📰 Market Information</h3>
+    <span>Data-source context</span>
+  </div>
+
+  <div class="info" id="info"></div>
+</section>
+
+<section class="section">
+  <div class="section-head">
+    <h3>🇯🇵 Japan → Global</h3>
+    <span>Available when the API provides locale-specific observations</span>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Card</th>
+          <th>Japanese</th>
+          <th>Global</th>
+          <th>Difference</th>
+          <th>Source</th>
+        </tr>
+      </thead>
+      <tbody id="divergence"></tbody>
+    </table>
+  </div>
+</section>
+
+<details class="api-panel">
+  <summary>API connection</summary>
+
+  <div class="api-form">
+    <input
+      id="apiKey"
+      type="password"
+      autocomplete="off"
+      placeholder="Paste your Pokémon TCG API key here">
+    <button class="primary" id="saveKey">Save & Load</button>
+  </div>
+
+  <div style="margin-top:10px;color:#687385;font-size:11px;line-height:1.5">
+    Your key is stored only in this browser's local storage.
+    Do not publish a private API key inside a public GitHub repository.
+  </div>
+</details>
+
+<footer>
+  PokiRadar V2 · Live market data mode<br>
+  Prices are displayed with source/provenance where supplied by the API.
+  Radar signals describe observed market conditions and do not predict future prices
+  or guarantee outcomes.
+</footer>
 
 </div>
 
-
 <script>
+"use strict";
 
-/* ============================================================
-   POKIRADAR V1 DATA MODEL
+/*
+  PokiRadar V2
 
-   This is intentionally structured so real collectors can later
-   replace the demonstration dataset without rewriting the UI.
-============================================================ */
+  Live source:
+  pokemontcgapi.com
 
-const cards = [
+  The browser needs an API key.
+  Store it locally only; never commit it to GitHub.
+*/
 
-    {
-        id: "demo-001",
-        name: "Pikachu ex",
-        set: "Surging Sparks",
-        number: "238/191",
-        language: "Japanese",
-        markets: {
-            japan: {
-                current: 22800,
-                previous24h: 21500,
-                previous7d: 18500,
-                listings: 18,
-                listingsPrevious: 28
-            },
+const API_BASE = "https://api.pokemontcgapi.com/v1";
 
-            global: {
-                current: 136,
-                previous24h: 134,
-                previous7d: 128
-            }
-        }
-    },
+const state = {
+  cards: [],
+  filtered: [],
+  filter: "all",
+  loading: false,
+  lastUpdated: null
+};
 
-    {
-        id: "demo-002",
-        name: "Latias ex",
-        set: "Surging Sparks",
-        number: "239/191",
-        language: "Japanese",
-        markets: {
-            japan: {
-                current: 7900,
-                previous24h: 8100,
-                previous7d: 8200,
-                listings: 34,
-                listingsPrevious: 31
-            },
+const $ = id => document.getElementById(id);
 
-            global: {
-                current: 56,
-                previous24h: 57,
-                previous7d: 59
-            }
-        }
-    },
-
-    {
-        id: "demo-003",
-        name: "Milotic ex",
-        set: "Surging Sparks",
-        number: "237/191",
-        language: "Japanese",
-        markets: {
-            japan: {
-                current: 11800,
-                previous24h: 10900,
-                previous7d: 9700,
-                listings: 20,
-                listingsPrevious: 30
-            },
-
-            global: {
-                current: 74,
-                previous24h: 72,
-                previous7d: 68
-            }
-        }
-    },
-
-    {
-        id: "demo-004",
-        name: "Umbreon ex",
-        set: "Prismatic Evolutions",
-        number: "161/131",
-        language: "Japanese",
-        markets: {
-            japan: {
-                current: 24800,
-                previous24h: 24200,
-                previous7d: 23100,
-                listings: 15,
-                listingsPrevious: 20
-            },
-
-            global: {
-                current: 145,
-                previous24h: 143,
-                previous7d: 139
-            }
-        }
-    },
-
-    {
-        id: "demo-005",
-        name: "Charizard ex",
-        set: "Obsidian Flames",
-        number: "223/197",
-        language: "Japanese",
-        markets: {
-            japan: {
-                current: 6200,
-                previous24h: 6500,
-                previous7d: 7200,
-                listings: 43,
-                listingsPrevious: 37
-            },
-
-            global: {
-                current: 51,
-                previous24h: 53,
-                previous7d: 57
-            }
-        }
-    },
-
-    {
-        id: "demo-006",
-        name: "Mew ex",
-        set: "151",
-        number: "205/165",
-        language: "Japanese",
-        markets: {
-            japan: {
-                current: 14500,
-                previous24h: 14200,
-                previous7d: 13600,
-                listings: 22,
-                listingsPrevious: 29
-            },
-
-            global: {
-                current: 91,
-                previous24h: 90,
-                previous7d: 86
-            }
-        }
-    }
-
-];
-
-
-/* ============================================================
-   DEMONSTRATION EVENTS
-
-   Future versions will populate this from verified sources.
-============================================================ */
-
-const events = [
-
-    {
-        type: "Availability",
-        date: "Demo",
-        title: "Example supply contraction",
-        summary:
-            "Demonstration event showing how a set availability change could be attached to a card.",
-        confidence: "UNVERIFIED DEMO"
-    },
-
-    {
-        type: "Market",
-        date: "Demo",
-        title: "Japanese listings declining",
-        summary:
-            "Example market observation. Listing changes can later be collected automatically.",
-        confidence: "SAMPLE DATA"
-    },
-
-    {
-        type: "News",
-        date: "Demo",
-        title: "Set information placeholder",
-        summary:
-            "Future versions will connect verified Pokémon TCG news, product announcements and availability information.",
-        confidence: "NOT LIVE"
-    }
-
-];
-
-
-/* ============================================================
-   CALCULATION ENGINE
-============================================================ */
-
-function percentChange(current, previous) {
-
-    if (
-        current === null ||
-        previous === null ||
-        previous === 0 ||
-        current === undefined ||
-        previous === undefined
-    ) {
-        return null;
-    }
-
-    return ((current - previous) / previous) * 100;
+function setStatus(text, type=""){
+  $("statusText").textContent = text;
+  $("status").className = "status " + type;
 }
 
-
-function getStats(card) {
-
-    const jp = card.markets.japan;
-    const global = card.markets.global;
-
-    const jp24 = percentChange(
-        jp.current,
-        jp.previous24h
-    );
-
-    const jp7 = percentChange(
-        jp.current,
-        jp.previous7d
-    );
-
-    const global24 = percentChange(
-        global.current,
-        global.previous24h
-    );
-
-    const global7 = percentChange(
-        global.current,
-        global.previous7d
-    );
-
-    const listingChange = percentChange(
-        jp.listings,
-        jp.listingsPrevious
-    );
-
-    const divergence =
-        jp7 !== null && global7 !== null
-            ? jp7 - global7
-            : null;
-
-    const signals = [];
-
-
-    /* Japan / global divergence */
-
-    if (
-        divergence !== null &&
-        Math.abs(divergence) >= 8
-    ) {
-
-        signals.push({
-            type: "divergence",
-            label: "Cross-market divergence"
-        });
-
-    }
-
-
-    /* Listing contraction */
-
-    if (
-        listingChange !== null &&
-        listingChange <= -20
-    ) {
-
-        signals.push({
-            type: "supply",
-            label: "Listing contraction"
-        });
-
-    }
-
-
-    /* Multi-market momentum */
-
-    if (
-        jp7 !== null &&
-        global7 !== null &&
-        jp7 > 5 &&
-        global7 > 3
-    ) {
-
-        signals.push({
-            type: "momentum",
-            label: "Multi-market momentum"
-        });
-
-    }
-
-
-    /* Broad decline */
-
-    if (
-        jp7 !== null &&
-        global7 !== null &&
-        jp7 < -5 &&
-        global7 < -5
-    ) {
-
-        signals.push({
-            type: "drops",
-            label: "Broad decline"
-        });
-
-    }
-
-
-    /* Japanese acceleration */
-
-    if (
-        jp24 !== null &&
-        jp7 !== null &&
-        jp24 > jp7 / 7 &&
-        jp24 > 2
-    ) {
-
-        signals.push({
-            type: "momentum",
-            label: "Recent acceleration"
-        });
-
-    }
-
-
-    return {
-        jp24,
-        jp7,
-        global24,
-        global7,
-        listingChange,
-        divergence,
-        signals
-    };
-
+function showError(message){
+  $("errorMessage").textContent = message;
+  $("errorBox").classList.add("show");
+  setStatus("Data error","error");
 }
 
-
-/* ============================================================
-   FORMATTERS
-============================================================ */
-
-function formatPercent(value) {
-
-    if (value === null || value === undefined) {
-        return "—";
-    }
-
-    const prefix = value >= 0 ? "+" : "";
-
-    return prefix + value.toFixed(1) + "%";
-
+function clearError(){
+  $("errorBox").classList.remove("show");
 }
 
+function formatMoney(value,currency="USD"){
+  if(value === null || value === undefined || Number.isNaN(Number(value))){
+    return "—";
+  }
 
-function percentClass(value) {
+  const symbols = {
+    USD:"$",
+    EUR:"€",
+    GBP:"£",
+    JPY:"¥"
+  };
 
-    if (value === null || value === undefined) {
-        return "neutral";
-    }
+  const symbol = symbols[currency] || currency + " ";
 
-    if (value > 0) {
-        return "positive";
-    }
+  const n = Number(value);
 
-    if (value < 0) {
-        return "negative";
-    }
-
-    return "neutral";
-
+  return symbol + n.toLocaleString(undefined,{
+    minimumFractionDigits:n < 10 ? 2 : 0,
+    maximumFractionDigits:2
+  });
 }
 
+function formatPercent(value){
+  if(value === null || value === undefined || Number.isNaN(Number(value))){
+    return "—";
+  }
 
-function formatJPY(value) {
+  const n = Number(value);
+  return (n > 0 ? "+" : "") + n.toFixed(2) + "%";
+}
 
-    if (value === null || value === undefined) {
-        return "—";
+function changeClass(value){
+  if(Number(value) > 0) return "positive";
+  if(Number(value) < 0) return "negative";
+  return "neutral";
+}
+
+function escapeHTML(value){
+  return String(value ?? "")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
+
+function getApiKey(){
+  return localStorage.getItem("pokiradar_api_key") || "";
+}
+
+function getPriceRows(card){
+  const rows = [];
+
+  if(Array.isArray(card.prices)){
+    rows.push(...card.prices);
+  }
+
+  if(card.price){
+    if(Array.isArray(card.price)) rows.push(...card.price);
+    else rows.push(card.price);
+  }
+
+  if(card.pricing){
+    if(Array.isArray(card.pricing)) rows.push(...card.pricing);
+  }
+
+  return rows.filter(Boolean);
+}
+
+function chooseMarketPrice(card){
+  const rows = getPriceRows(card);
+
+  const preferred = [
+    r => r.variant === "MARKET" && r.basis === "SOLD",
+    r => r.variant === "MARKET",
+    r => r.variant === "AVG_30D",
+    r => r.variant === "TREND",
+    r => r.variant === "INDEX"
+  ];
+
+  for(const test of preferred){
+    const row = rows.find(test);
+
+    if(row && Number.isFinite(Number(row.amount))){
+      return row;
     }
+  }
 
-    return "¥" + value.toLocaleString();
+  const fallback = rows.find(r =>
+    Number.isFinite(Number(r.amount))
+  );
 
+  return fallback || null;
 }
 
+function trendValue(row,days){
+  if(!row || !row.trends) return null;
 
-function formatUSD(value) {
+  const key =
+    days === 1 ? "days_1" :
+    days === 7 ? "days_7" :
+    days === 30 ? "days_30" :
+    null;
 
-    if (value === null || value === undefined) {
-        return "—";
-    }
+  const t = key ? row.trends[key] : null;
 
-    return "$" + value.toLocaleString();
+  if(!t) return null;
 
+  return Number(t.percent_change);
 }
 
-
-/* ============================================================
-   BUILD RADAR DATA
-============================================================ */
-
-let radarData = cards.map(card => {
-
-    const stats = getStats(card);
-
-    return {
-        card,
-        stats
-    };
-
-});
-
-
-/* ============================================================
-   SORTING
-============================================================ */
-
-radarData.sort((a, b) => {
-
-    if (
-        b.stats.signals.length !==
-        a.stats.signals.length
-    ) {
-
-        return (
-            b.stats.signals.length -
-            a.stats.signals.length
-        );
-
-    }
-
-    const aMove =
-        Math.max(
-            Math.abs(a.stats.jp7 || 0),
-            Math.abs(a.stats.global7 || 0)
-        );
-
-    const bMove =
-        Math.max(
-            Math.abs(b.stats.jp7 || 0),
-            Math.abs(b.stats.global7 || 0)
-        );
-
-    return bMove - aMove;
-
-});
-
-
-/* ============================================================
-   DASHBOARD STATS
-============================================================ */
-
-document.getElementById("trackedCount").textContent =
-    cards.length;
-
-
-const totalSignals = radarData.reduce(
-    (total, item) =>
-        total + item.stats.signals.length,
-    0
-);
-
-document.getElementById("signalCount").textContent =
-    totalSignals;
-
-
-let biggestMove = 0;
-
-radarData.forEach(item => {
-
-    biggestMove = Math.max(
-        biggestMove,
-        Math.abs(item.stats.jp7 || 0),
-        Math.abs(item.stats.global7 || 0)
-    );
-
-});
-
-document.getElementById("biggestMove").textContent =
-    biggestMove.toFixed(1) + "%";
-
-
-const divergenceTotal =
-    radarData.filter(
-        item =>
-            item.stats.divergence !== null &&
-            Math.abs(item.stats.divergence) >= 8
-    ).length;
-
-
-document.getElementById("divergenceCount").textContent =
-    divergenceTotal;
-
-
-/* ============================================================
-   RENDER RADAR
-============================================================ */
-
-function renderRadar(data) {
-
-    const grid =
-        document.getElementById("radarGrid");
-
-    if (!data.length) {
-
-        grid.innerHTML =
-            `<div class="empty">
-                No cards match your search.
-            </div>`;
-
-        return;
-    }
-
-
-    grid.innerHTML =
-        data.map(item => {
-
-            const card = item.card;
-            const stats = item.stats;
-
-            return `
-
-                <article
-                    class="card"
-                    data-types="${stats.signals
-                        .map(signal => signal.type)
-                        .join(" ")}"
-                >
-
-                    <div class="card-top">
-
-                        <div>
-
-                            <div class="card-name">
-                                ${card.name}
-                            </div>
-
-                            <div class="card-set">
-                                ${card.set}
-                                · ${card.number}
-                                · ${card.language}
-                            </div>
-
-                        </div>
-
-                        <div class="signal-count">
-                            ${stats.signals.length}
-                        </div>
-
-                    </div>
-
-
-                    <div class="market-row">
-
-                        <div class="market">
-
-                            <div class="market-label">
-                                🇯🇵 Japan 7d
-                            </div>
-
-                            <div
-                                class="market-value ${percentClass(stats.jp7)}"
-                            >
-                                ${formatPercent(stats.jp7)}
-                            </div>
-
-                        </div>
-
-
-                        <div class="market">
-
-                            <div class="market-label">
-                                🌎 Global 7d
-                            </div>
-
-                            <div
-                                class="market-value ${percentClass(stats.global7)}"
-                            >
-                                ${formatPercent(stats.global7)}
-                            </div>
-
-                        </div>
-
-
-                        <div class="market">
-
-                            <div class="market-label">
-                                Japan Price
-                            </div>
-
-                            <div class="market-value">
-                                ${formatJPY(card.markets.japan.current)}
-                            </div>
-
-                        </div>
-
-
-                        <div class="market">
-
-                            <div class="market-label">
-                                Japan Listings
-                            </div>
-
-                            <div
-                                class="market-value ${percentClass(stats.listingChange)}"
-                            >
-                                ${formatPercent(stats.listingChange)}
-                            </div>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="signal-list">
-
-                        ${
-                            stats.signals.length
-                                ? stats.signals
-                                    .map(
-                                        signal =>
-                                            `<span class="signal">
-                                                ${signal.label}
-                                            </span>`
-                                    )
-                                    .join("")
-                                : `<span class="signal">
-                                        No strong V1 signal
-                                   </span>`
-                        }
-
-                    </div>
-
-                </article>
-
-            `;
-
-        }).join("");
-
+function normalizeCard(card){
+  const price = chooseMarketPrice(card);
+
+  const trends = price?.trends || {};
+
+  const oneDay =
+    trendValue(price,1) ??
+    Number(trends.days_1?.percent_change);
+
+  const sevenDay =
+    trendValue(price,7) ??
+    Number(trends.days_7?.percent_change);
+
+  const thirtyDay =
+    trendValue(price,30) ??
+    Number(trends.days_30?.percent_change);
+
+  const p = Number(price?.amount);
+
+  return {
+    id: card.id || "",
+    name: card.name || "Unknown card",
+    set:
+      card.set?.name ||
+      card.expansion?.name ||
+      "Unknown set",
+    number:
+      card.number ||
+      card.collector_number ||
+      "",
+    image:
+      card.images?.small ||
+      card.images?.large ||
+      "",
+    market: Number.isFinite(p) ? p : null,
+    currency: price?.currency || "USD",
+    source:
+      price?.provenance ||
+      price?.source ||
+      "API",
+    asOf:
+      price?.as_of ||
+      price?.asOf ||
+      null,
+    oneDay: Number.isFinite(oneDay) ? oneDay : null,
+    sevenDay: Number.isFinite(sevenDay) ? sevenDay : null,
+    thirtyDay: Number.isFinite(thirtyDay) ? thirtyDay : null,
+    locale: price?.locale || card.language || "",
+    rows: getPriceRows(card)
+  };
 }
 
-
-renderRadar(radarData);
-
-
-/* ============================================================
-   MOVERS TABLE
-============================================================ */
-
-function renderMovers(data) {
-
-    const table =
-        document.getElementById("moversTable");
-
-    const sorted =
-        [...data].sort(
-            (a, b) =>
-                Math.abs(b.stats.jp7 || 0) -
-                Math.abs(a.stats.jp7 || 0)
-        );
-
-
-    table.innerHTML =
-        sorted
-            .slice(0, 8)
-            .map(item => {
-
-                const card = item.card;
-                const stats = item.stats;
-
-                return `
-
-                    <tr>
-
-                        <td>
-                            ${card.name}
-                        </td>
-
-                        <td class="${percentClass(stats.jp7)}">
-                            ${formatPercent(stats.jp7)}
-                        </td>
-
-                        <td class="${percentClass(stats.global7)}">
-                            ${formatPercent(stats.global7)}
-                        </td>
-
-                        <td class="${percentClass(stats.listingChange)}">
-                            ${formatPercent(stats.listingChange)}
-                        </td>
-
-                    </tr>
-
-                `;
-
-            })
-            .join("");
-
-}
-
-
-renderMovers(radarData);
-
-
-/* ============================================================
-   DIVERGENCE TABLE
-============================================================ */
-
-function renderDivergence(data) {
-
-    const table =
-        document.getElementById("divergenceTable");
-
-
-    const divergenceCards =
-        data
-            .filter(
-                item =>
-                    item.stats.divergence !== null
-            )
-            .sort(
-                (a, b) =>
-                    Math.abs(b.stats.divergence) -
-                    Math.abs(a.stats.divergence)
-            );
-
-
-    if (!divergenceCards.length) {
-
-        table.innerHTML =
-            `<tr>
-                <td colspan="6">
-                    No divergence detected.
-                </td>
-            </tr>`;
-
-        return;
-    }
-
-
-    table.innerHTML =
-        divergenceCards
-            .map(item => {
-
-                const card = item.card;
-                const stats = item.stats;
-
-                return `
-
-                    <tr>
-
-                        <td>
-                            ${card.name}
-                        </td>
-
-                        <td class="${percentClass(stats.jp7)}">
-                            ${formatPercent(stats.jp7)}
-                        </td>
-
-                        <td class="${percentClass(stats.global7)}">
-                            ${formatPercent(stats.global7)}
-                        </td>
-
-                        <td class="${percentClass(stats.divergence)}">
-                            ${formatPercent(stats.divergence)}
-                        </td>
-
-                        <td class="${percentClass(stats.listingChange)}">
-                            ${formatPercent(stats.listingChange)}
-                        </td>
-
-                        <td>
-                            Cross-market
-                        </td>
-
-                    </tr>
-
-                `;
-
-            })
-            .join("");
-
-}
-
-
-renderDivergence(radarData);
-
-
-/* ============================================================
-   EVENTS
-============================================================ */
-
-function renderEvents() {
-
-    const container =
-        document.getElementById("events");
-
-
-    container.innerHTML =
-        events
-            .map(event => {
-
-                return `
-
-                    <div class="event">
-
-                        <div class="event-top">
-
-                            <div class="event-type">
-                                ${event.type}
-                            </div>
-
-                            <div class="event-date">
-                                ${event.date}
-                            </div>
-
-                        </div>
-
-                        <div class="event-title">
-                            ${event.title}
-                        </div>
-
-                        <div class="event-summary">
-                            ${event.summary}
-                        </div>
-
-                        <div class="confidence">
-                            ${event.confidence}
-                        </div>
-
-                    </div>
-
-                `;
-
-            })
-            .join("");
-
-}
-
-
-renderEvents();
-
-
-/* ============================================================
-   SEARCH
-============================================================ */
-
-const searchInput =
-    document.getElementById("searchInput");
-
-
-searchInput.addEventListener(
-    "input",
-    applyFilters
-);
-
-
-let activeFilter = "all";
-
-
-document
-    .querySelectorAll(".filter-btn")
-    .forEach(button => {
-
-        button.addEventListener(
-            "click",
-            () => {
-
-                document
-                    .querySelectorAll(".filter-btn")
-                    .forEach(btn =>
-                        btn.classList.remove("active")
-                    );
-
-                button.classList.add("active");
-
-                activeFilter =
-                    button.dataset.filter;
-
-                applyFilters();
-
-            }
-        );
-
+function calculateSignals(card){
+  const signals = [];
+
+  const d1 = Number(card.oneDay);
+  const d7 = Number(card.sevenDay);
+  const d30 = Number(card.thirtyDay);
+
+  if(Number.isFinite(d7) && d7 >= 8){
+    signals.push({
+      type:"momentum",
+      label:"7d momentum",
+      cls:"green"
     });
+  }
 
+  if(Number.isFinite(d7) && d7 <= -8){
+    signals.push({
+      type:"drops",
+      label:"7d drop",
+      cls:"red"
+    });
+  }
 
-function applyFilters() {
+  if(
+    Number.isFinite(d1) &&
+    Number.isFinite(d7) &&
+    d1 > 2 &&
+    d1 > d7 / 7
+  ){
+    signals.push({
+      type:"momentum",
+      label:"recent acceleration",
+      cls:"yellow"
+    });
+  }
 
-    const query =
-        searchInput.value
-            .trim()
-            .toLowerCase();
+  if(
+    Number.isFinite(d7) &&
+    Number.isFinite(d30) &&
+    Math.abs(d7 - d30 / 4) >= 5
+  ){
+    signals.push({
+      type:"divergence",
+      label:"trend divergence",
+      cls:"yellow"
+    });
+  }
 
-
-    const filtered =
-        radarData.filter(item => {
-
-            const card = item.card;
-            const stats = item.stats;
-
-
-            const matchesSearch =
-                !query ||
-                card.name.toLowerCase().includes(query) ||
-                card.set.toLowerCase().includes(query) ||
-                card.number.toLowerCase().includes(query);
-
-
-            if (!matchesSearch) {
-                return false;
-            }
-
-
-            if (activeFilter === "all") {
-                return true;
-            }
-
-
-            if (activeFilter === "drops") {
-
-                return stats.signals.some(
-                    signal =>
-                        signal.type === "drops"
-                );
-
-            }
-
-
-            return stats.signals.some(
-                signal =>
-                    signal.type === activeFilter
-            );
-
-        });
-
-
-    renderRadar(filtered);
-
+  return signals;
 }
 
+function renderStats(cards){
+  $("statCards").textContent =
+    cards.length.toLocaleString();
 
-/* ============================================================
-   END V1
-============================================================ */
+  const signals = cards.reduce(
+    (sum,c) => sum + calculateSignals(c).length,
+    0
+  );
 
+  $("statSignals").textContent =
+    signals.toLocaleString();
+
+  const moves = cards
+    .map(c => Math.abs(Number(c.sevenDay)))
+    .filter(Number.isFinite);
+
+  $("statMove").textContent =
+    moves.length
+      ? Math.max(...moves).toFixed(2) + "%"
+      : "—";
+
+  const dates = cards
+    .map(c => c.asOf)
+    .filter(Boolean)
+    .sort();
+
+  if(dates.length){
+    const latest = new Date(dates[dates.length-1]);
+    const age = Math.max(
+      0,
+      Math.floor(
+        (Date.now() - latest.getTime()) / 86400000
+      )
+    );
+
+    $("statAge").textContent =
+      age === 0 ? "Today" :
+      age === 1 ? "1d" :
+      age + "d";
+  }else{
+    $("statAge").textContent = "—";
+  }
+}
+
+function renderCandidates(cards){
+  const root = $("candidates");
+
+  const ranked = cards
+    .map(card => ({
+      card,
+      signals: calculateSignals(card),
+      score:
+        calculateSignals(card).length * 100 +
+        Math.abs(Number(card.sevenDay) || 0)
+    }))
+    .filter(x => x.signals.length)
+    .sort((a,b) => b.score - a.score)
+    .slice(0,9);
+
+  $("candidateCount").textContent =
+    ranked.length + " signals";
+
+  if(!ranked.length){
+    root.innerHTML = `
+      <div class="empty" style="grid-column:1/-1">
+        No radar signals in the current dataset.
+      </div>
+    `;
+    return;
+  }
+
+  root.innerHTML = ranked.map(item => {
+    const c = item.card;
+
+    return `
+      <article class="card">
+        <div class="card-top">
+          <div>
+            <div class="card-name">${escapeHTML(c.name)}</div>
+            <div class="card-set">
+              ${escapeHTML(c.set)}
+              ${c.number ? " · " + escapeHTML(c.number) : ""}
+            </div>
+          </div>
+        </div>
+
+        <div class="badges">
+          ${item.signals.map(s =>
+            `<span class="badge ${s.cls}">
+              ${escapeHTML(s.label)}
+            </span>`
+          ).join("")}
+        </div>
+
+        <div class="price-row">
+          <div class="price">
+            ${formatMoney(c.market,c.currency)}
+          </div>
+
+          <div class="change ${changeClass(c.sevenDay)}">
+            ${formatPercent(c.sevenDay)}
+          </div>
+        </div>
+
+        <div class="meta">
+          <span>1d ${formatPercent(c.oneDay)}</span>
+          <span>30d ${formatPercent(c.thirtyDay)}</span>
+        </div>
+      </article>
+    `;
+  }).join("");
+}
+
+function renderMovers(cards){
+  const root = $("movers");
+
+  const sorted = [...cards]
+    .filter(c => Number.isFinite(Number(c.sevenDay)))
+    .sort(
+      (a,b) =>
+        Math.abs(Number(b.sevenDay)) -
+        Math.abs(Number(a.sevenDay))
+    )
+    .slice(0,30);
+
+  if(!sorted.length){
+    root.innerHTML = `
+      <tr>
+        <td colspan="7">
+          No price-trend data returned.
+        </td>
+      </tr>
+    `;
+    return;
+  }
+
+  root.innerHTML = sorted.map(c => {
+    const signals = calculateSignals(c);
+
+    return `
+      <tr>
+        <td>
+          <strong>${escapeHTML(c.name)}</strong>
+          <br>
+          <span style="color:#687385">
+            ${escapeHTML(c.number)}
+          </span>
+        </td>
+
+        <td>${escapeHTML(c.set)}</td>
+
+        <td>${formatMoney(c.market,c.currency)}</td>
+
+        <td class="${changeClass(c.oneDay)}">
+          ${formatPercent(c.oneDay)}
+        </td>
+
+        <td class="${changeClass(c.sevenDay)}">
+          ${formatPercent(c.sevenDay)}
+        </td>
+
+        <td class="${changeClass(c.thirtyDay)}">
+          ${formatPercent(c.thirtyDay)}
+        </td>
+
+        <td>
+          ${signals.length
+            ? signals.map(s =>
+              `<span class="badge ${s.cls}">
+                ${escapeHTML(s.label)}
+              </span>`
+            ).join(" ")
+            : '<span class="neutral">—</span>'
+          }
+        </td>
+      </tr>
+    `;
+  }).join("");
+}
+
+function renderInfo(cards){
+  const root = $("info");
+
+  const sourceCounts = {};
+
+  cards.forEach(card => {
+    const source = card.source || "API";
+    sourceCounts[source] =
+      (sourceCounts[source] || 0) + 1;
+  });
+
+  const sources = Object.entries(sourceCounts)
+    .sort((a,b) => b[1] - a[1])
+    .slice(0,3);
+
+  const latestDate =
+    cards
+      .map(c => c.asOf)
+      .filter(Boolean)
+      .sort()
+      .pop();
+
+  root.innerHTML = `
+    <div class="info-card">
+      <div class="info-type">DATA</div>
+      <div class="info-title">
+        ${cards.length.toLocaleString()} cards loaded
+      </div>
+      <div class="info-body">
+        The dashboard is using live API responses rather than
+        the original V1 demo dataset.
+      </div>
+    </div>
+
+    <div class="info-card">
+      <div class="info-type">PROVENANCE</div>
+      <div class="info-title">
+        ${sources.length ? escapeHTML(sources[0][0]) : "Unavailable"}
+      </div>
+      <div class="info-body">
+        ${sources.map(
+          ([name,count]) =>
+            escapeHTML(name) + ": " + count
+        ).join(" · ")}
+      </div>
+    </div>
+
+    <div class="info-card">
+      <div class="info-type">OBSERVATION</div>
+      <div class="info-title">
+        ${latestDate || "Not supplied"}
+      </div>
+      <div class="info-body">
+        The observation date belongs to the underlying price
+        record, not the moment this page was opened.
+      </div>
+    </div>
+  `;
+}
+
+function renderDivergence(cards){
+  const root = $("divergence");
+
+  const candidates = cards
+    .map(c => {
+      const rows = c.rows || [];
+
+      const jp = rows.find(r =>
+        String(r.locale || "").toLowerCase()
+          .startsWith("ja") &&
+        Number.isFinite(Number(r.amount))
+      );
+
+      const global = rows.find(r =>
+        !String(r.locale || "").toLowerCase()
+          .startsWith("ja") &&
+        Number.isFinite(Number(r.amount))
+      );
+
+      if(!jp || !global) return null;
+
+      if(jp.currency === global.currency){
+        return {
+          card:c,
+          jp:Number(jp.amount),
+          global:Number(global.amount),
+          diff:Number(jp.amount)-Number(global.amount),
+          source:jp.provenance || jp.source || "API"
+        };
+      }
+
+      return null;
+    })
+    .filter(Boolean)
+    .sort(
+      (a,b) =>
+        Math.abs(b.diff) -
+        Math.abs(a.diff)
+    )
+    .slice(0,20);
+
+  if(!candidates.length){
+    root.innerHTML = `
+      <tr>
+        <td colspan="5">
+          Japanese/global comparable observations are not available
+          in the current response set.
+        </td>
+      </tr>
+    `;
+    return;
+  }
+
+  root.innerHTML = candidates.map(x => `
+    <tr>
+      <td><strong>${escapeHTML(x.card.name)}</strong></td>
+      <td>${formatMoney(x.jp,x.card.currency)}</td>
+      <td>${formatMoney(x.global,x.card.currency)}</td>
+      <td class="${changeClass(x.diff)}">
+        ${x.diff > 0 ? "+" : ""}
+        ${formatMoney(x.diff,x.card.currency)}
+      </td>
+      <td>${escapeHTML(x.source)}</td>
+    </tr>
+  `).join("");
+}
+
+function applyFilters(){
+  const query =
+    $("search").value
+      .trim()
+      .toLowerCase();
+
+  state.filtered = state.cards.filter(card => {
+    const haystack = [
+      card.name,
+      card.set,
+      card.number,
+      card.id
+    ].join(" ").toLowerCase();
+
+    if(query && !haystack.includes(query)){
+      return false;
+    }
+
+    const signals = calculateSignals(card);
+
+    if(state.filter === "momentum"){
+      return signals.some(s => s.type === "momentum");
+    }
+
+    if(state.filter === "divergence"){
+      return signals.some(s => s.type === "divergence");
+    }
+
+    if(state.filter === "drops"){
+      return signals.some(s => s.type === "drops");
+    }
+
+    return true;
+  });
+
+  renderCandidates(state.filtered);
+  renderMovers(state.filtered);
+  renderDivergence(state.filtered);
+}
+
+async function fetchAPI(url){
+  const key = getApiKey();
+
+  if(!key){
+    throw new Error(
+      "No API key is configured yet. Open “API connection” at the bottom, paste your API key, then press Save & Load."
+    );
+  }
+
+  const response = await fetch(url,{
+    headers:{
+      "X-Api-Key":key,
+      "Accept":"application/json"
+    },
+    cache:"no-store"
+  });
+
+  if(!response.ok){
+    let detail = "";
+
+    try{
+      const body = await response.json();
+      detail =
+        body?.message ||
+        body?.error ||
+        "";
+    }catch(_){}
+
+    throw new Error(
+      "API request failed (" +
+      response.status +
+      ")" +
+      (detail ? ": " + detail : ".")
+    );
+  }
+
+  return response.json();
+}
+
+async function loadCards(){
+  if(state.loading) return;
+
+  state.loading = true;
+  clearError();
+  setStatus("Loading data");
+
+  $("bootText").textContent =
+    "Loading live Pokémon market data…";
+
+  try{
+
+    /*
+      First request deliberately stays reasonably small.
+      This makes the single-file app fast and prevents a browser
+      from requesting thousands of cards immediately.
+    */
+
+    const url =
+      API_BASE +
+      "/cards?limit=100&include=prices";
+
+    const data = await fetchAPI(url);
+
+    const raw =
+      Array.isArray(data?.data)
+        ? data.data
+        : Array.isArray(data)
+          ? data
+          : [];
+
+    if(!raw.length){
+      throw new Error(
+        "The API returned no cards."
+      );
+    }
+
+    state.cards =
+      raw
+        .map(normalizeCard)
+        .filter(c =>
+          c.name &&
+          (
+            c.market !== null ||
+            c.sevenDay !== null ||
+            c.thirtyDay !== null
+          )
+        );
+
+    if(!state.cards.length){
+      throw new Error(
+        "Cards were returned, but no usable pricing records were found."
+      );
+    }
+
+    state.lastUpdated = new Date();
+
+    renderStats(state.cards);
+    renderInfo(state.cards);
+
+    applyFilters();
+
+    setStatus(
+      "Live · " +
+      state.cards.length.toLocaleString() +
+      " cards",
+      "live"
+    );
+
+    $("bootText").textContent =
+      "Market data loaded.";
+
+    setTimeout(() => {
+      $("boot").classList.add("hidden");
+    },250);
+
+  }catch(error){
+
+    console.error(error);
+
+    showError(
+      error?.message ||
+      "Unknown loading error."
+    );
+
+    /*
+      Keep the dark dashboard visible rather than leaving
+      the user with a white screen.
+    */
+
+    $("bootText").textContent =
+      "Waiting for API connection…";
+
+    setTimeout(() => {
+      $("boot").classList.add("hidden");
+    },250);
+
+  }finally{
+    state.loading = false;
+  }
+}
+
+$("search").addEventListener(
+  "input",
+  applyFilters
+);
+
+document.querySelectorAll(".filter")
+.forEach(button => {
+  button.addEventListener("click",() => {
+
+    document.querySelectorAll(".filter")
+      .forEach(b => b.classList.remove("active"));
+
+    button.classList.add("active");
+
+    state.filter =
+      button.dataset.filter;
+
+    applyFilters();
+  });
+});
+
+$("refresh").addEventListener(
+  "click",
+  loadCards
+);
+
+$("saveKey").addEventListener(
+  "click",
+  () => {
+
+    const key =
+      $("apiKey").value.trim();
+
+    if(!key){
+      showError("Please paste an API key first.");
+      return;
+    }
+
+    localStorage.setItem(
+      "pokiradar_api_key",
+      key
+    );
+
+    loadCards();
+  }
+);
+
+window.addEventListener("DOMContentLoaded",() => {
+
+  const existingKey = getApiKey();
+
+  if(existingKey){
+    $("apiKey").value = existingKey;
+    loadCards();
+  }else{
+    setStatus("API key required");
+
+    $("bootText").textContent =
+      "Connect your market data source…";
+
+    setTimeout(() => {
+      $("boot").classList.add("hidden");
+    },350);
+
+    $("apiKey").focus();
+  }
+});
 </script>
 
 </body>
 </html>
-
