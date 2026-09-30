@@ -52,9 +52,7 @@ button{
     margin:auto;
 }
 
-/* =========================
-   HEADER
-========================= */
+/* HEADER */
 
 header{
     padding:28px 0 18px;
@@ -105,9 +103,7 @@ header{
     background:var(--red);
 }
 
-/* =========================
-   HERO
-========================= */
+/* HERO */
 
 .hero{
     padding:44px 0 28px;
@@ -128,9 +124,7 @@ header{
     line-height:1.7;
 }
 
-/* =========================
-   CONTROLS
-========================= */
+/* CONTROLS */
 
 .controls{
     display:flex;
@@ -170,12 +164,6 @@ header{
     background:var(--panel2);
 }
 
-.btn.primary{
-    background:var(--accent);
-    color:#07101f;
-    border-color:var(--accent);
-}
-
 .filters{
     display:flex;
     gap:8px;
@@ -197,9 +185,7 @@ header{
     background:rgba(120,169,255,.10);
 }
 
-/* =========================
-   STATS
-========================= */
+/* STATS */
 
 .stats{
     display:grid;
@@ -234,9 +220,7 @@ header{
     font-size:12px;
 }
 
-/* =========================
-   SECTIONS
-========================= */
+/* SECTIONS */
 
 .section{
     margin:42px 0;
@@ -261,9 +245,7 @@ header{
     font-size:12px;
 }
 
-/* =========================
-   RADAR CARDS
-========================= */
+/* RADAR CARDS */
 
 .radar-grid{
     display:grid;
@@ -347,9 +329,7 @@ header{
     color:var(--green);
 }
 
-/* =========================
-   TABLE
-========================= */
+/* TABLE */
 
 .table-wrap{
     overflow:auto;
@@ -361,7 +341,7 @@ header{
 table{
     width:100%;
     border-collapse:collapse;
-    min-width:1100px;
+    min-width:1150px;
 }
 
 th,
@@ -417,9 +397,7 @@ tr:last-child td{
     margin-top:2px;
 }
 
-/* =========================
-   DATA CONNECTION
-========================= */
+/* CONNECTION */
 
 .connection-panel{
     border:1px solid var(--border);
@@ -466,9 +444,7 @@ tr:last-child td{
     background:var(--red);
 }
 
-/* =========================
-   EMPTY / LOADING
-========================= */
+/* EMPTY */
 
 .empty{
     border:1px dashed var(--border);
@@ -483,18 +459,11 @@ tr:last-child td{
 }
 
 @keyframes pulse{
-    0%,100%{
-        opacity:.45;
-    }
-
-    50%{
-        opacity:1;
-    }
+    0%,100%{opacity:.45}
+    50%{opacity:1}
 }
 
-/* =========================
-   FOOTER
-========================= */
+/* FOOTER */
 
 footer{
     padding:35px 0 50px;
@@ -504,9 +473,7 @@ footer{
     border-top:1px solid var(--border);
 }
 
-/* =========================
-   RESPONSIVE
-========================= */
+/* RESPONSIVE */
 
 @media(max-width:1050px){
 
@@ -571,396 +538,333 @@ footer{
 
 <header>
 
-    <div class="container">
+<div class="container">
 
-        <div class="header-row">
+<div class="header-row">
 
-            <div class="logo">
-                Poki<span>Radar</span>
-            </div>
+<div class="logo">
+Poki<span>Radar</span>
+</div>
 
-            <div
-                class="status"
-                id="status"
-            >
-                <span class="status-dot"></span>
+<div
+class="status"
+id="status"
+>
+<span class="status-dot"></span>
+<span id="statusText">Loading data...</span>
+</div>
 
-                <span id="statusText">
-                    Connecting...
-                </span>
-            </div>
+</div>
 
-        </div>
-
-    </div>
+</div>
 
 </header>
 
 
 <main class="container">
 
-    <!-- HERO -->
+<section class="hero">
 
-    <section class="hero">
+<h1>
+Pokémon TCG<br>
+Market Intelligence.
+</h1>
 
-        <h1>
-            Pokémon TCG<br>
-            Market Intelligence.
-        </h1>
+<p>
+Find what is changing before simply watching prices.
+PokiRadar connects verified card identity, artwork and
+market data so every card stays matched to the correct
+printing.
+</p>
 
-        <p>
-            Find what is changing before simply watching prices.
-            PokiRadar connects verified card identity, artwork and
-            market data so every card stays matched to the correct
-            printing.
-        </p>
+</section>
 
-    </section>
 
+<div class="controls">
 
-    <!-- SEARCH -->
+<input
+id="search"
+class="search"
+type="search"
+placeholder="Search Pokémon, set or card number..."
+>
 
-    <div class="controls">
+<button
+class="btn"
+id="refreshBtn"
+>
+Refresh Data
+</button>
 
-        <input
-            id="search"
-            class="search"
-            type="search"
-            placeholder="Search Pokémon, set or card number..."
-        >
+</div>
 
-        <button
-            class="btn primary"
-            id="refreshBtn"
-        >
-            Refresh Data
-        </button>
 
-    </div>
+<div class="filters">
 
+<button
+class="filter active"
+data-filter="all"
+>
+All
+</button>
 
-    <!-- FILTERS -->
+<button
+class="filter"
+data-filter="market"
+>
+Market Covered
+</button>
 
-    <div class="filters">
+<button
+class="filter"
+data-filter="priced"
+>
+Priced
+</button>
 
-        <button
-            class="filter active"
-            data-filter="all"
-        >
-            All
-        </button>
+</div>
 
-        <button
-            class="filter"
-            data-filter="market"
-        >
-            Market Covered
-        </button>
 
-        <button
-            class="filter"
-            data-filter="priced"
-        >
-            Priced
-        </button>
+<section class="stats">
 
-    </div>
+<div class="stat">
 
+<div class="stat-label">
+Cards Loaded
+</div>
 
-    <!-- STATS -->
+<div
+class="stat-value"
+id="trackedCount"
+>
+0
+</div>
 
-    <section class="stats">
+<div class="stat-sub">
+Catalogue records
+</div>
 
-        <div class="stat">
+</div>
 
-            <div class="stat-label">
-                Cards Loaded
-            </div>
 
-            <div
-                class="stat-value"
-                id="trackedCount"
-            >
-                0
-            </div>
+<div class="stat">
 
-            <div class="stat-sub">
-                Catalogue records
-            </div>
+<div class="stat-label">
+Market Covered
+</div>
 
-        </div>
+<div
+class="stat-value"
+id="coveredCount"
+>
+0
+</div>
 
+<div class="stat-sub">
+Cards with market data
+</div>
 
-        <div class="stat">
+</div>
 
-            <div class="stat-label">
-                Market Covered
-            </div>
 
-            <div
-                class="stat-value"
-                id="coveredCount"
-            >
-                0
-            </div>
+<div class="stat">
 
-            <div class="stat-sub">
-                Cards with market data
-            </div>
+<div class="stat-label">
+Highest Current Price
+</div>
 
-        </div>
+<div
+class="stat-value"
+id="highestPrice"
+>
+—
+</div>
 
+<div class="stat-sub">
+Displayed in SGD
+</div>
 
-        <div class="stat">
+</div>
 
-            <div class="stat-label">
-                Highest Current Price
-            </div>
 
-            <div
-                class="stat-value"
-                id="highestPrice"
-            >
-                —
-            </div>
+<div class="stat">
 
-            <div class="stat-sub">
-                Displayed in SGD
-            </div>
+<div class="stat-label">
+Last Update
+</div>
 
-        </div>
+<div
+class="stat-value"
+id="lastUpdate"
+>
+—
+</div>
 
+<div class="stat-sub">
+Latest data snapshot
+</div>
 
-        <div class="stat">
+</div>
 
-            <div class="stat-label">
-                Last Update
-            </div>
+</section>
 
-            <div
-                class="stat-value"
-                id="lastUpdate"
-            >
-                —
-            </div>
 
-            <div class="stat-sub">
-                PokiRadar data refresh
-            </div>
+<section class="section">
 
-        </div>
+<div class="section-head">
 
-    </section>
+<div>
+<h2>Radar Candidates</h2>
+</div>
 
+<div
+class="section-note"
+>
+Current market data
+</div>
 
-    <!-- RADAR -->
+</div>
 
-    <section class="section">
 
-        <div class="section-head">
+<div
+id="radarGrid"
+class="radar-grid"
+>
 
-            <div>
-                <h2>
-                    Radar Candidates
-                </h2>
-            </div>
+<div class="empty loading">
+Loading PokiRadar data...
+</div>
 
-            <div
-                class="section-note"
-                id="radarNote"
-            >
-                Current market data
-            </div>
+</div>
 
-        </div>
+</section>
 
 
-        <div
-            id="radarGrid"
-            class="radar-grid"
-        >
+<section class="section">
 
-            <div class="empty loading">
+<div class="section-head">
 
-                Connecting to PokiRadar data...
+<div>
+<h2>Current Market Catalogue</h2>
+</div>
 
-            </div>
+<div
+class="section-note"
+id="resultCount"
+>
+0 cards
+</div>
 
-        </div>
+</div>
 
-    </section>
 
+<div class="table-wrap">
 
-    <!-- CATALOGUE -->
+<table>
 
-    <section class="section">
+<thead>
 
-        <div class="section-head">
+<tr>
 
-            <div>
-                <h2>
-                    Current Market Catalogue
-                </h2>
-            </div>
+<th>Card</th>
+<th>Set</th>
+<th>Number</th>
+<th>Rarity</th>
+<th>SGD</th>
+<th>USD</th>
+<th>EUR</th>
+<th>JPY</th>
+<th>GBP</th>
 
-            <div
-                class="section-note"
-                id="resultCount"
-            >
-                0 cards
-            </div>
+</tr>
 
-        </div>
+</thead>
 
+<tbody id="catalogueBody">
 
-        <div class="table-wrap">
+<tr>
 
-            <table>
+<td colspan="9">
 
-                <thead>
+<div class="empty">
+Loading market catalogue...
+</div>
 
-                    <tr>
+</td>
 
-                        <th>
-                            Card
-                        </th>
+</tr>
 
-                        <th>
-                            Set
-                        </th>
+</tbody>
 
-                        <th>
-                            Number
-                        </th>
+</table>
 
-                        <th>
-                            Rarity
-                        </th>
+</div>
 
-                        <th>
-                            SGD
-                        </th>
+</section>
 
-                        <th>
-                            USD
-                        </th>
 
-                        <th>
-                            EUR
-                        </th>
+<section class="section">
 
-                        <th>
-                            JPY
-                        </th>
+<div class="section-head">
 
-                        <th>
-                            GBP
-                        </th>
+<div>
+<h2>Data Connection</h2>
+</div>
 
-                    </tr>
+</div>
 
-                </thead>
 
+<div class="connection-panel">
 
-                <tbody id="catalogueBody">
+<h3>
+PokiRadar Market Data
+</h3>
 
-                    <tr>
+<p>
+PokiRadar retrieves market data through a secure scheduled
+data collector. Your private Pokémon TCG API key is never
+placed inside this public website.
+</p>
 
-                        <td colspan="9">
 
-                            <div class="empty">
+<div
+id="connectionStatus"
+class="connection-status"
+>
 
-                                Waiting for market data...
+<span class="dot"></span>
 
-                            </div>
+<span id="connectionStatusText">
+Waiting for data...
+</span>
 
-                        </td>
+</div>
 
-                    </tr>
+</div>
 
-                </tbody>
-
-            </table>
-
-        </div>
-
-    </section>
-
-
-    <!-- DATA CONNECTION -->
-
-    <section class="section">
-
-        <div class="section-head">
-
-            <div>
-                <h2>
-                    Data Connection
-                </h2>
-            </div>
-
-        </div>
-
-
-        <div class="connection-panel">
-
-            <h3>
-                PokiRadar Market Data
-            </h3>
-
-            <p>
-                PokiRadar keeps the Pokémon TCG API secret key
-                outside the public website. The website receives
-                prepared card data from the secure data service.
-            </p>
-
-
-            <div
-                id="connectionStatus"
-                class="connection-status"
-            >
-
-                <span class="dot"></span>
-
-                <span id="connectionStatusText">
-                    Waiting for secure data service...
-                </span>
-
-            </div>
-
-        </div>
-
-    </section>
+</section>
 
 </main>
 
 
 <footer>
 
-    <div class="container">
+<div class="container">
 
-        <strong>
-            PokiRadar
-        </strong>
+<strong>PokiRadar</strong>
 
-        <br>
+<br>
 
-        Pokémon TCG market intelligence with verified card
-        identity, artwork and multi-currency market data.
+Pokémon TCG market intelligence with verified card
+identity, artwork and multi-currency market data.
 
-        <br><br>
+<br><br>
 
-        SGD is the primary display currency.
-        Where the source does not provide an SGD value directly,
-        PokiRadar labels the value as converted.
+SGD is the primary display currency.
+When the source does not provide SGD directly,
+PokiRadar labels the value as converted.
 
-        <br><br>
-
-        Historical movement, momentum, divergence and market
-        intelligence signals will be built on top of this
-        verified card-data foundation.
-
-    </div>
+</div>
 
 </footer>
 
@@ -968,85 +872,26 @@ footer{
 <script>
 
 /* ============================================================
-   POKIRADAR
-   ============================================================
-
-   FRONTEND DATA CONTRACT
-
-   The secure backend should expose:
-
-       /api/cards
-
-   returning either:
-
-       {
-           "data": [...]
-       }
-
-   or:
-
-       [...]
-   
-   Every card should retain its ORIGINAL API ID.
-
-   Example:
-
-       {
-           "id": "sv08-123",
-           "name": "Pikachu ex",
-           "number": "123",
-           "rarity": "Illustration Rare",
-
-           "set": {
-               "name": "Surging Sparks"
-           },
-
-           "images": {
-               "small": "...",
-               "large": "..."
-           },
-
-           "prices": [...]
-       }
-
-   IMPORTANT:
-
-   The frontend NEVER matches images by Pokémon name.
-
-   The image belongs to the exact card object / ID.
-
+   POKIRADAR DATA SOURCE
 ============================================================ */
 
+const DATA_ENDPOINT = "./data/cards.json";
 
-/* ============================================================
-   CONFIG
-============================================================ */
+const FX_ENDPOINT = "./data/fx.json";
 
-const DATA_ENDPOINT = "/api/cards";
-
-const FX_ENDPOINT =
-    "https://api.frankfurter.app/latest?from=USD&to=SGD,EUR,JPY,GBP";
-
-
-/* ============================================================
-   STATE
-============================================================ */
 
 let cards = [];
 
 let activeFilter = "all";
 
+
 let fxRates = {
 
-    USD:1,
-
-    SGD:1.30,
-
-    EUR:0.85,
-
-    JPY:147,
-
-    GBP:0.74
+    USD: 1,
+    SGD: 1.30,
+    EUR: 0.85,
+    JPY: 147,
+    GBP: 0.74
 
 };
 
@@ -1065,7 +910,9 @@ const connectionStatus =
     document.getElementById("connectionStatus");
 
 const connectionStatusText =
-    document.getElementById("connectionStatusText");
+    document.getElementById(
+        "connectionStatusText"
+    );
 
 const searchInput =
     document.getElementById("search");
@@ -1104,8 +951,7 @@ function setStatus(
     type = "normal"
 ){
 
-    statusText.textContent =
-        text;
+    statusText.textContent = text;
 
     statusEl.classList.remove(
         "connected",
@@ -1113,19 +959,11 @@ function setStatus(
     );
 
     if(type === "connected"){
-
-        statusEl.classList.add(
-            "connected"
-        );
-
+        statusEl.classList.add("connected");
     }
 
     if(type === "error"){
-
-        statusEl.classList.add(
-            "error"
-        );
-
+        statusEl.classList.add("error");
     }
 
 }
@@ -1136,8 +974,7 @@ function setConnectionStatus(
     type = "normal"
 ){
 
-    connectionStatusText.textContent =
-        text;
+    connectionStatusText.textContent = text;
 
     connectionStatus.classList.remove(
         "connected",
@@ -1145,26 +982,18 @@ function setConnectionStatus(
     );
 
     if(type === "connected"){
-
-        connectionStatus.classList.add(
-            "connected"
-        );
-
+        connectionStatus.classList.add("connected");
     }
 
     if(type === "error"){
-
-        connectionStatus.classList.add(
-            "error"
-        );
-
+        connectionStatus.classList.add("error");
     }
 
 }
 
 
 /* ============================================================
-   FX
+   FX DATA
 ============================================================ */
 
 async function loadFX(){
@@ -1173,18 +1002,18 @@ async function loadFX(){
 
         const response =
             await fetch(
-                FX_ENDPOINT,
+                FX_ENDPOINT +
+                "?t=" +
+                Date.now(),
                 {
                     cache:"no-store"
                 }
             );
 
         if(!response.ok){
-
             throw new Error(
-                "FX service unavailable"
+                "FX data unavailable"
             );
-
         }
 
         const data =
@@ -1197,23 +1026,31 @@ async function loadFX(){
 
             fxRates = {
 
-                USD:1,
+                USD: 1,
 
                 SGD:
-                    Number(data.rates.SGD)
-                    || fxRates.SGD,
+                    Number(
+                        data.rates.SGD
+                    ) ||
+                    fxRates.SGD,
 
                 EUR:
-                    Number(data.rates.EUR)
-                    || fxRates.EUR,
+                    Number(
+                        data.rates.EUR
+                    ) ||
+                    fxRates.EUR,
 
                 JPY:
-                    Number(data.rates.JPY)
-                    || fxRates.JPY,
+                    Number(
+                        data.rates.JPY
+                    ) ||
+                    fxRates.JPY,
 
                 GBP:
-                    Number(data.rates.GBP)
-                    || fxRates.GBP
+                    Number(
+                        data.rates.GBP
+                    ) ||
+                    fxRates.GBP
 
             };
 
@@ -1235,15 +1072,13 @@ async function loadFX(){
    NUMBER / CURRENCY
 ============================================================ */
 
-function cleanNumber(
-    value
-){
+function cleanNumber(value){
 
-    const n =
+    const number =
         Number(value);
 
-    return Number.isFinite(n)
-        ? n
+    return Number.isFinite(number)
+        ? number
         : null;
 
 }
@@ -1258,9 +1093,7 @@ function formatCurrency(
         cleanNumber(value);
 
     if(number === null){
-
         return "—";
-
     }
 
     return new Intl.NumberFormat(
@@ -1282,22 +1115,30 @@ function formatCurrency(
    CARD IDENTITY
 ============================================================ */
 
-function getSetName(
-    card
-){
+function getSetName(card){
+
+    if(
+        card.set &&
+        typeof card.set === "object"
+    ){
+
+        return (
+            card.set.name ||
+            "Unknown Set"
+        );
+
+    }
 
     return (
-        card.set?.name ||
         card.set_name ||
+        card.setName ||
         "Unknown Set"
     );
 
 }
 
 
-function getCardNumber(
-    card
-){
+function getCardNumber(card){
 
     return (
         card.number ||
@@ -1308,9 +1149,7 @@ function getCardNumber(
 }
 
 
-function getRarity(
-    card
-){
+function getRarity(card){
 
     return (
         card.rarity ||
@@ -1321,53 +1160,29 @@ function getRarity(
 
 
 /*
-    EXACT IMAGE MATCHING
+    IMPORTANT:
 
-    This is deliberately based on the image attached to
-    the exact card record.
+    The image always comes from the SAME card object.
 
-    We DO NOT:
-
-    - search by Pokémon name
-    - use Google images
-    - construct image URLs
-    - match only by set name
-    - match only by number
-
-    Therefore:
-
-        sv08-123
-              ↓
-        THAT exact card
-              ↓
-        THAT exact image
+    We never match images by Pokémon name.
+    We never search Google.
+    We never match images across different IDs.
 */
 
-function getCardImage(
-    card
-){
+function getCardImage(card){
 
     if(
         card.images &&
-        typeof card.images === "object"
+        typeof card.images === "object" &&
+        !Array.isArray(card.images)
     ){
 
-        if(
-            typeof card.images.large === "string" &&
-            card.images.large
-        ){
-
+        if(card.images.large){
             return card.images.large;
-
         }
 
-        if(
-            typeof card.images.small === "string" &&
-            card.images.small
-        ){
-
+        if(card.images.small){
             return card.images.small;
-
         }
 
     }
@@ -1377,38 +1192,19 @@ function getCardImage(
         Array.isArray(card.images)
     ){
 
-        const large =
+        const image =
             card.images.find(
-                image =>
-                    image &&
-                    image.url &&
-                    (
-                        image.size === "LARGE" ||
-                        image.type === "large"
-                    )
+                item =>
+                    item &&
+                    item.url
             );
 
-        if(large){
-
-            return large.url;
-
-        }
-
-
-        const first =
-            card.images.find(
-                image =>
-                    image &&
-                    image.url
-            );
-
-        if(first){
-
-            return first.url;
-
+        if(image){
+            return image.url;
         }
 
     }
+
 
     return "";
 
@@ -1419,38 +1215,33 @@ function getCardImage(
    PRICE SELECTION
 ============================================================ */
 
-/*
-    Select the strongest current price record.
-
-    We don't calculate movement here.
-
-    Historical movement belongs to the future
-    snapshot/movement engine.
-*/
-
-function getBestPrice(
-    card
-){
+function getPriceRows(card){
 
     if(
         !Array.isArray(card.prices)
     ){
-
-        return null;
-
+        return [];
     }
 
-    const usable =
-        card.prices.filter(
-            price =>
-                cleanNumber(price.amount) !== null &&
-                price.currency
-        );
+    return card.prices.filter(
+        price =>
+            price &&
+            cleanNumber(
+                price.amount
+            ) !== null &&
+            price.currency
+    );
 
-    if(!usable.length){
+}
 
+
+function getBestPrice(card){
+
+    const prices =
+        getPriceRows(card);
+
+    if(!prices.length){
         return null;
-
     }
 
 
@@ -1480,50 +1271,35 @@ function getBestPrice(
     ){
 
         const found =
-            usable.find(test);
+            prices.find(test);
 
         if(found){
-
             return found;
-
         }
 
     }
 
 
-    return usable[0];
+    return prices[0];
 
 }
 
-
-/* ============================================================
-   NATIVE PRICE
-============================================================ */
 
 function getNativePrice(
     card,
     currency
 ){
 
-    if(
-        !Array.isArray(card.prices)
-    ){
+    const prices =
+        getPriceRows(card)
+            .filter(
+                price =>
+                    price.currency === currency
+            );
 
+
+    if(!prices.length){
         return null;
-
-    }
-
-    const rows =
-        card.prices.filter(
-            price =>
-                price.currency === currency &&
-                cleanNumber(price.amount) !== null
-        );
-
-    if(!rows.length){
-
-        return null;
-
     }
 
 
@@ -1553,35 +1329,28 @@ function getNativePrice(
     ){
 
         const found =
-            rows.find(test);
+            prices.find(test);
 
         if(found){
-
             return found;
-
         }
 
     }
 
 
-    return rows[0];
+    return prices[0];
 
 }
 
 
 /* ============================================================
-   DISPLAY PRICE
+   PRICE CONVERSION
 ============================================================ */
 
 function getDisplayPrice(
     card,
     currency
 ){
-
-    /*
-        If API already has the requested currency,
-        use it directly.
-    */
 
     const native =
         getNativePrice(
@@ -1598,38 +1367,21 @@ function getDisplayPrice(
                 Number(native.amount),
 
             currency:
-
                 currency,
 
-            converted:
-                false,
-
-            source:
-                native.source || "",
-
-            asOf:
-                native.as_of || null
+            converted:false
 
         };
 
     }
 
 
-    /*
-        Otherwise convert from the best available
-        native market value.
-
-        This is especially important for SGD.
-    */
-
     const primary =
         getBestPrice(card);
 
 
     if(!primary){
-
         return null;
-
     }
 
 
@@ -1640,9 +1392,7 @@ function getDisplayPrice(
 
 
     if(amount === null){
-
         return null;
-
     }
 
 
@@ -1653,9 +1403,7 @@ function getDisplayPrice(
     if(
         !fxRates[sourceCurrency]
     ){
-
         return null;
-
     }
 
 
@@ -1677,20 +1425,11 @@ function getDisplayPrice(
 
     return {
 
-        amount:
-            converted,
+        amount:converted,
 
-        currency:
-            currency,
+        currency:currency,
 
-        converted:
-            true,
-
-        source:
-            primary.source || "",
-
-        asOf:
-            primary.as_of || null
+        converted:true
 
     };
 
@@ -1698,7 +1437,7 @@ function getDisplayPrice(
 
 
 /* ============================================================
-   FETCH DATA
+   LOAD CARDS
 ============================================================ */
 
 async function loadCards(){
@@ -1708,19 +1447,8 @@ async function loadCards(){
     );
 
     setConnectionStatus(
-        "Connecting to secure data service..."
+        "Loading latest market snapshot..."
     );
-
-
-    radarGrid.innerHTML = `
-
-        <div class="empty loading">
-
-            Loading PokiRadar market data...
-
-        </div>
-
-    `;
 
 
     try{
@@ -1730,13 +1458,11 @@ async function loadCards(){
 
         const response =
             await fetch(
-                DATA_ENDPOINT,
+                DATA_ENDPOINT +
+                "?t=" +
+                Date.now(),
                 {
-                    cache:"no-store",
-                    headers:{
-                        "Accept":
-                            "application/json"
-                    }
+                    cache:"no-store"
                 }
             );
 
@@ -1744,7 +1470,8 @@ async function loadCards(){
         if(!response.ok){
 
             throw new Error(
-                `Data service returned HTTP ${response.status}`
+                "cards.json returned HTTP " +
+                response.status
             );
 
         }
@@ -1754,17 +1481,6 @@ async function loadCards(){
             await response.json();
 
 
-        /*
-            Support either:
-
-                { data:[...] }
-
-            or:
-
-                [...]
-
-        */
-
         if(
             Array.isArray(payload)
         ){
@@ -1773,7 +1489,9 @@ async function loadCards(){
                 payload;
 
         }else if(
-            Array.isArray(payload.data)
+            Array.isArray(
+                payload.data
+            )
         ){
 
             cards =
@@ -1782,18 +1500,20 @@ async function loadCards(){
         }else{
 
             throw new Error(
-                "Invalid card data format."
+                "cards.json has an invalid format."
             );
 
         }
 
 
         /*
-            Keep only actual card records
-            with an ID.
+            SAFETY:
 
-            This prevents accidental image/data
-            mismatching caused by malformed rows.
+            Every displayed card must have a stable
+            API ID.
+
+            Cards without IDs are discarded rather
+            than risking incorrect matching.
         */
 
         cards =
@@ -1815,19 +1535,49 @@ async function loadCards(){
 
 
         setConnectionStatus(
-            `${cards.length.toLocaleString()} cards loaded`,
+            cards.length.toLocaleString() +
+            " verified card records loaded",
             "connected"
         );
 
 
-        lastUpdate.textContent =
-            new Date().toLocaleTimeString(
-                "en-SG",
-                {
-                    hour:"2-digit",
-                    minute:"2-digit"
-                }
-            );
+        const updatedAt =
+            payload.updated_at ||
+            payload.updatedAt ||
+            null;
+
+
+        if(updatedAt){
+
+            const date =
+                new Date(updatedAt);
+
+
+            if(!Number.isNaN(date.getTime())){
+
+                lastUpdate.textContent =
+                    date.toLocaleTimeString(
+                        "en-SG",
+                        {
+                            hour:"2-digit",
+                            minute:"2-digit"
+                        }
+                    );
+
+            }
+
+        }else{
+
+            lastUpdate.textContent =
+                new Date().toLocaleTimeString(
+                    "en-SG",
+                    {
+                        hour:"2-digit",
+                        minute:"2-digit"
+                    }
+                );
+
+        }
 
 
     }catch(error){
@@ -1855,20 +1605,23 @@ async function loadCards(){
             <div class="empty">
 
                 <strong>
-                    PokiRadar data is not connected yet.
+                    PokiRadar cannot find its market data.
                 </strong>
 
                 <br><br>
 
-                The frontend is ready, but the secure
-                <strong>/api/cards</strong> data endpoint
-                still needs to be connected.
+                Expected:
+
+                <br>
+
+                <strong>
+                    data/cards.json
+                </strong>
 
                 <br><br>
 
-                This keeps your
-                <strong>ptcg_live_</strong>
-                API secret out of the public GitHub Pages site.
+                The GitHub data collector must create
+                this file before the catalogue can load.
 
             </div>
 
@@ -1883,7 +1636,7 @@ async function loadCards(){
 
                     <div class="empty">
 
-                        Waiting for secure market data...
+                        No market data snapshot available.
 
                     </div>
 
@@ -1899,7 +1652,7 @@ async function loadCards(){
 
 
 /* ============================================================
-   FILTERING
+   FILTER
 ============================================================ */
 
 function getFilteredCards(){
@@ -1967,10 +1720,7 @@ function getFilteredCards(){
         result =
             result.filter(
                 card =>
-                    Array.isArray(
-                        card.prices
-                    ) &&
-                    card.prices.length > 0
+                    getPriceRows(card).length
             );
 
     }
@@ -2006,8 +1756,7 @@ function render(){
         covered.toLocaleString();
 
 
-    let highest =
-        null;
+    let highest = null;
 
 
     cards.forEach(
@@ -2048,14 +1797,12 @@ function render(){
 
 
     resultCount.textContent =
-        `${filtered.length.toLocaleString()} cards`;
+        filtered.length.toLocaleString() +
+        " cards";
 
 
     renderRadar(
-        filtered.slice(
-            0,
-            8
-        )
+        filtered.slice(0,8)
     );
 
 
@@ -2070,9 +1817,7 @@ function render(){
    RADAR
 ============================================================ */
 
-function renderRadar(
-    list
-){
+function renderRadar(list){
 
     if(!list.length){
 
@@ -2125,27 +1870,20 @@ function renderRadar(
                                 ?
 
                                 `
-
                                 <img
                                     src="${escapeAttribute(image)}"
                                     alt="${escapeAttribute(card.name || "Pokémon card")}"
                                     loading="lazy"
                                 >
-
                                 `
 
                                 :
 
                                 `
-
                                 <div class="empty">
-
                                     Image unavailable
-
                                 </div>
-
                                 `
-
                             }
 
                         </div>
@@ -2155,39 +1893,31 @@ function renderRadar(
 
                             <div class="card-name">
 
-                                ${
-                                    escapeHTML(
-                                        card.name ||
-                                        "Unknown Card"
-                                    )
-                                }
+                                ${escapeHTML(
+                                    card.name ||
+                                    "Unknown Card"
+                                )}
 
                             </div>
 
 
                             <div class="card-meta">
 
-                                ${
-                                    escapeHTML(
-                                        getSetName(card)
-                                    )
-                                }
+                                ${escapeHTML(
+                                    getSetName(card)
+                                )}
 
                                 · #
 
-                                ${
-                                    escapeHTML(
-                                        getCardNumber(card)
-                                    )
-                                }
+                                ${escapeHTML(
+                                    getCardNumber(card)
+                                )}
 
                                 <br>
 
-                                ${
-                                    escapeHTML(
-                                        getRarity(card)
-                                    )
-                                }
+                                ${escapeHTML(
+                                    getRarity(card)
+                                )}
 
                             </div>
 
@@ -2195,11 +1925,9 @@ function renderRadar(
                             <div class="card-id">
 
                                 ID:
-                                ${
-                                    escapeHTML(
-                                        card.id
-                                    )
-                                }
+                                ${escapeHTML(
+                                    card.id
+                                )}
 
                             </div>
 
@@ -2216,17 +1944,11 @@ function renderRadar(
 
                                         ${
                                             sgd
-
-                                            ?
-
-                                            formatCurrency(
-                                                sgd.amount,
-                                                "SGD"
-                                            )
-
-                                            :
-
-                                            "—"
+                                                ? formatCurrency(
+                                                    sgd.amount,
+                                                    "SGD"
+                                                )
+                                                : "—"
                                         }
 
                                     </div>
@@ -2244,17 +1966,11 @@ function renderRadar(
 
                                         ${
                                             usd
-
-                                            ?
-
-                                            formatCurrency(
-                                                usd.amount,
-                                                "USD"
-                                            )
-
-                                            :
-
-                                            "—"
+                                                ? formatCurrency(
+                                                    usd.amount,
+                                                    "USD"
+                                                )
+                                                : "—"
                                         }
 
                                     </div>
@@ -2280,9 +1996,7 @@ function renderRadar(
    TABLE
 ============================================================ */
 
-function renderTable(
-    list
-){
+function renderTable(list){
 
     if(!list.length){
 
@@ -2317,39 +2031,39 @@ function renderTable(
                     getCardImage(card);
 
 
-                const sgd =
-                    getDisplayPrice(
-                        card,
-                        "SGD"
-                    );
+                const prices = {
 
+                    SGD:
+                        getDisplayPrice(
+                            card,
+                            "SGD"
+                        ),
 
-                const usd =
-                    getDisplayPrice(
-                        card,
-                        "USD"
-                    );
+                    USD:
+                        getDisplayPrice(
+                            card,
+                            "USD"
+                        ),
 
+                    EUR:
+                        getDisplayPrice(
+                            card,
+                            "EUR"
+                        ),
 
-                const eur =
-                    getDisplayPrice(
-                        card,
-                        "EUR"
-                    );
+                    JPY:
+                        getDisplayPrice(
+                            card,
+                            "JPY"
+                        ),
 
+                    GBP:
+                        getDisplayPrice(
+                            card,
+                            "GBP"
+                        )
 
-                const jpy =
-                    getDisplayPrice(
-                        card,
-                        "JPY"
-                    );
-
-
-                const gbp =
-                    getDisplayPrice(
-                        card,
-                        "GBP"
-                    );
+                };
 
 
                 return `
@@ -2363,32 +2077,28 @@ function renderTable(
                                 ${
                                     image
 
-                                    ?
+                                        ?
 
-                                    `
+                                        `
+                                        <img
+                                            src="${escapeAttribute(image)}"
+                                            alt="${escapeAttribute(card.name || "Card")}"
+                                            loading="lazy"
+                                        >
+                                        `
 
-                                    <img
-                                        src="${escapeAttribute(image)}"
-                                        alt="${escapeAttribute(card.name || "Card")}"
-                                        loading="lazy"
-                                    >
+                                        :
 
-                                    `
-
-                                    :
-
-                                    `
-
-                                    <div
-                                        style="
-                                            width:42px;
-                                            height:59px;
-                                            border-radius:5px;
-                                            background:#080d14;
-                                        "
-                                    ></div>
-
-                                    `
+                                        `
+                                        <div
+                                            style="
+                                                width:42px;
+                                                height:59px;
+                                                border-radius:5px;
+                                                background:#080d14;
+                                            "
+                                        ></div>
+                                        `
                                 }
 
 
@@ -2396,12 +2106,10 @@ function renderTable(
 
                                     <div class="table-name">
 
-                                        ${
-                                            escapeHTML(
-                                                card.name ||
-                                                "Unknown"
-                                            )
-                                        }
+                                        ${escapeHTML(
+                                            card.name ||
+                                            "Unknown"
+                                        )}
 
                                     </div>
 
@@ -2409,11 +2117,9 @@ function renderTable(
                                     <div class="table-meta">
 
                                         ID:
-                                        ${
-                                            escapeHTML(
-                                                card.id
-                                            )
-                                        }
+                                        ${escapeHTML(
+                                            card.id
+                                        )}
 
                                     </div>
 
@@ -2426,93 +2132,77 @@ function renderTable(
 
                         <td>
 
-                            ${
-                                escapeHTML(
-                                    getSetName(card)
-                                )
-                            }
+                            ${escapeHTML(
+                                getSetName(card)
+                            )}
 
                         </td>
 
 
                         <td>
 
-                            ${
-                                escapeHTML(
-                                    getCardNumber(card)
-                                )
-                            }
+                            ${escapeHTML(
+                                getCardNumber(card)
+                            )}
 
                         </td>
 
 
                         <td>
 
-                            ${
-                                escapeHTML(
-                                    getRarity(card)
-                                )
-                            }
+                            ${escapeHTML(
+                                getRarity(card)
+                            )}
 
                         </td>
 
 
                         <td>
 
-                            ${
-                                renderPrice(
-                                    sgd,
-                                    "SGD"
-                                )
-                            }
+                            ${renderPrice(
+                                prices.SGD,
+                                "SGD"
+                            )}
 
                         </td>
 
 
                         <td>
 
-                            ${
-                                renderPrice(
-                                    usd,
-                                    "USD"
-                                )
-                            }
+                            ${renderPrice(
+                                prices.USD,
+                                "USD"
+                            )}
 
                         </td>
 
 
                         <td>
 
-                            ${
-                                renderPrice(
-                                    eur,
-                                    "EUR"
-                                )
-                            }
+                            ${renderPrice(
+                                prices.EUR,
+                                "EUR"
+                            )}
 
                         </td>
 
 
                         <td>
 
-                            ${
-                                renderPrice(
-                                    jpy,
-                                    "JPY"
-                                )
-                            }
+                            ${renderPrice(
+                                prices.JPY,
+                                "JPY"
+                            )}
 
                         </td>
 
 
                         <td>
 
-                            ${
-                                renderPrice(
-                                    gbp,
-                                    "GBP"
-                                )
-                            }
+                            ${renderPrice(
+                                prices.GBP,
+                                "GBP"
+                            )}
 
                         </td>
 
@@ -2537,9 +2227,7 @@ function renderPrice(
 ){
 
     if(!price){
-
         return "—";
-
     }
 
 
@@ -2559,9 +2247,7 @@ function renderPrice(
                 ${formatted}
 
                 <div class="converted">
-
                     converted
-
                 </div>
 
             </div>
@@ -2577,12 +2263,10 @@ function renderPrice(
 
 
 /* ============================================================
-   ESCAPING
+   HTML ESCAPING
 ============================================================ */
 
-function escapeHTML(
-    value
-){
+function escapeHTML(value){
 
     return String(
         value ?? ""
@@ -2611,13 +2295,9 @@ function escapeHTML(
 }
 
 
-function escapeAttribute(
-    value
-){
+function escapeAttribute(value){
 
-    return escapeHTML(
-        value
-    );
+    return escapeHTML(value);
 
 }
 
