@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>PokiRadar V3.1</title>
+<title>PokiRadar</title>
 
 <style>
 :root{
@@ -52,7 +52,9 @@ button{
     margin:auto;
 }
 
-/* HEADER */
+/* =========================
+   HEADER
+========================= */
 
 header{
     padding:28px 0 18px;
@@ -99,7 +101,13 @@ header{
     background:var(--green);
 }
 
-/* HERO */
+.status.error .status-dot{
+    background:var(--red);
+}
+
+/* =========================
+   HERO
+========================= */
 
 .hero{
     padding:44px 0 28px;
@@ -120,13 +128,15 @@ header{
     line-height:1.7;
 }
 
-/* CONTROLS */
+/* =========================
+   CONTROLS
+========================= */
 
 .controls{
     display:flex;
     gap:10px;
     flex-wrap:wrap;
-    margin:12px 0 28px;
+    margin:12px 0 16px;
 }
 
 .search{
@@ -187,7 +197,9 @@ header{
     background:rgba(120,169,255,.10);
 }
 
-/* STATS */
+/* =========================
+   STATS
+========================= */
 
 .stats{
     display:grid;
@@ -222,7 +234,9 @@ header{
     font-size:12px;
 }
 
-/* SECTION */
+/* =========================
+   SECTIONS
+========================= */
 
 .section{
     margin:42px 0;
@@ -247,7 +261,9 @@ header{
     font-size:12px;
 }
 
-/* CARDS */
+/* =========================
+   RADAR CARDS
+========================= */
 
 .radar-grid{
     display:grid;
@@ -294,6 +310,13 @@ header{
     line-height:1.45;
 }
 
+.card-id{
+    margin-top:7px;
+    font-size:10px;
+    color:#617083;
+    word-break:break-all;
+}
+
 .card-prices{
     margin-top:14px;
     display:grid;
@@ -324,7 +347,9 @@ header{
     color:var(--green);
 }
 
-/* TABLE */
+/* =========================
+   TABLE
+========================= */
 
 .table-wrap{
     overflow:auto;
@@ -336,7 +361,7 @@ header{
 table{
     width:100%;
     border-collapse:collapse;
-    min-width:1000px;
+    min-width:1100px;
 }
 
 th,
@@ -386,54 +411,64 @@ tr:last-child td{
     margin-top:3px;
 }
 
-/* API PANEL */
+.converted{
+    color:var(--muted);
+    font-size:9px;
+    margin-top:2px;
+}
 
-.api-panel{
+/* =========================
+   DATA CONNECTION
+========================= */
+
+.connection-panel{
     border:1px solid var(--border);
     background:var(--panel);
     border-radius:15px;
     padding:20px;
 }
 
-.api-panel h3{
+.connection-panel h3{
     margin:0 0 8px;
 }
 
-.api-panel p{
+.connection-panel p{
     color:var(--muted);
     font-size:13px;
     line-height:1.6;
+    margin:0;
 }
 
-.api-row{
+.connection-status{
+    margin-top:16px;
     display:flex;
+    align-items:center;
     gap:10px;
-    margin-top:15px;
-}
-
-.api-input{
-    flex:1;
-    height:44px;
+    padding:12px 14px;
+    border-radius:10px;
+    background:rgba(255,255,255,.025);
     border:1px solid var(--border);
-    border-radius:9px;
-    background:#080e16;
-    color:var(--text);
-    padding:0 13px;
-    outline:none;
-}
-
-.api-warning{
-    margin-top:12px;
-    padding:11px 13px;
-    border-radius:9px;
-    background:rgba(244,201,93,.07);
-    border:1px solid rgba(244,201,93,.2);
-    color:#d9c989;
     font-size:12px;
-    line-height:1.5;
 }
 
-/* EMPTY / LOADING */
+.connection-status .dot{
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    background:var(--yellow);
+}
+
+.connection-status.connected .dot{
+    background:var(--green);
+}
+
+.connection-status.error .dot{
+    background:var(--red);
+}
+
+/* =========================
+   EMPTY / LOADING
+========================= */
 
 .empty{
     border:1px dashed var(--border);
@@ -448,11 +483,18 @@ tr:last-child td{
 }
 
 @keyframes pulse{
-    0%,100%{opacity:.45}
-    50%{opacity:1}
+    0%,100%{
+        opacity:.45;
+    }
+
+    50%{
+        opacity:1;
+    }
 }
 
-/* FOOTER */
+/* =========================
+   FOOTER
+========================= */
 
 footer{
     padding:35px 0 50px;
@@ -462,9 +504,12 @@ footer{
     border-top:1px solid var(--border);
 }
 
-/* RESPONSIVE */
+/* =========================
+   RESPONSIVE
+========================= */
 
 @media(max-width:1050px){
+
     .stats{
         grid-template-columns:repeat(2,1fr);
     }
@@ -472,9 +517,11 @@ footer{
     .radar-grid{
         grid-template-columns:repeat(3,1fr);
     }
+
 }
 
 @media(max-width:760px){
+
     .hero{
         padding-top:32px;
     }
@@ -487,12 +534,10 @@ footer{
         grid-template-columns:repeat(2,1fr);
     }
 
-    .api-row{
-        flex-direction:column;
-    }
 }
 
 @media(max-width:500px){
+
     .container{
         width:92%;
     }
@@ -502,7 +547,7 @@ footer{
     }
 
     .radar-grid{
-        grid-template-columns:1fr 1fr;
+        grid-template-columns:repeat(2,1fr);
         gap:10px;
     }
 
@@ -517,6 +562,7 @@ footer{
     .hero h1{
         letter-spacing:-1.5px;
     }
+
 }
 </style>
 </head>
@@ -524,31 +570,55 @@ footer{
 <body>
 
 <header>
+
     <div class="container">
+
         <div class="header-row">
+
             <div class="logo">
                 Poki<span>Radar</span>
             </div>
 
-            <div class="status" id="status">
+            <div
+                class="status"
+                id="status"
+            >
                 <span class="status-dot"></span>
-                <span id="statusText">Not connected</span>
+
+                <span id="statusText">
+                    Connecting...
+                </span>
             </div>
+
         </div>
+
     </div>
+
 </header>
+
 
 <main class="container">
 
+    <!-- HERO -->
+
     <section class="hero">
-        <h1>Pokémon TCG<br>Market Intelligence.</h1>
+
+        <h1>
+            Pokémon TCG<br>
+            Market Intelligence.
+        </h1>
 
         <p>
             Find what is changing before simply watching prices.
-            V3.1 adds verified card identity, real card artwork,
-            current market prices and multi-currency display.
+            PokiRadar connects verified card identity, artwork and
+            market data so every card stays matched to the correct
+            printing.
         </p>
+
     </section>
+
+
+    <!-- SEARCH -->
 
     <div class="controls">
 
@@ -559,113 +629,253 @@ footer{
             placeholder="Search Pokémon, set or card number..."
         >
 
-        <button class="btn primary" id="refreshBtn">
+        <button
+            class="btn primary"
+            id="refreshBtn"
+        >
             Refresh Data
         </button>
 
     </div>
 
+
+    <!-- FILTERS -->
+
     <div class="filters">
 
-        <button class="filter active" data-filter="all">
+        <button
+            class="filter active"
+            data-filter="all"
+        >
             All
         </button>
 
-        <button class="filter" data-filter="market">
+        <button
+            class="filter"
+            data-filter="market"
+        >
             Market Covered
         </button>
 
-        <button class="filter" data-filter="priced">
+        <button
+            class="filter"
+            data-filter="priced"
+        >
             Priced
         </button>
 
     </div>
 
+
+    <!-- STATS -->
+
     <section class="stats">
 
         <div class="stat">
-            <div class="stat-label">Cards Loaded</div>
-            <div class="stat-value" id="trackedCount">0</div>
-            <div class="stat-sub">Catalogue records</div>
+
+            <div class="stat-label">
+                Cards Loaded
+            </div>
+
+            <div
+                class="stat-value"
+                id="trackedCount"
+            >
+                0
+            </div>
+
+            <div class="stat-sub">
+                Catalogue records
+            </div>
+
         </div>
 
-        <div class="stat">
-            <div class="stat-label">Market Covered</div>
-            <div class="stat-value" id="coveredCount">0</div>
-            <div class="stat-sub">Cards with market data</div>
-        </div>
 
         <div class="stat">
-            <div class="stat-label">Highest Current Price</div>
-            <div class="stat-value" id="highestPrice">—</div>
-            <div class="stat-sub">API index / available market data</div>
+
+            <div class="stat-label">
+                Market Covered
+            </div>
+
+            <div
+                class="stat-value"
+                id="coveredCount"
+            >
+                0
+            </div>
+
+            <div class="stat-sub">
+                Cards with market data
+            </div>
+
         </div>
 
+
         <div class="stat">
-            <div class="stat-label">Last Update</div>
-            <div class="stat-value" id="lastUpdate">—</div>
-            <div class="stat-sub">PokiRadar data refresh</div>
+
+            <div class="stat-label">
+                Highest Current Price
+            </div>
+
+            <div
+                class="stat-value"
+                id="highestPrice"
+            >
+                —
+            </div>
+
+            <div class="stat-sub">
+                Displayed in SGD
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-label">
+                Last Update
+            </div>
+
+            <div
+                class="stat-value"
+                id="lastUpdate"
+            >
+                —
+            </div>
+
+            <div class="stat-sub">
+                PokiRadar data refresh
+            </div>
+
         </div>
 
     </section>
 
+
+    <!-- RADAR -->
+
     <section class="section">
 
         <div class="section-head">
+
             <div>
-                <h2>Radar Candidates</h2>
+                <h2>
+                    Radar Candidates
+                </h2>
             </div>
 
-            <div class="section-note">
-                Current market coverage
+            <div
+                class="section-note"
+                id="radarNote"
+            >
+                Current market data
             </div>
+
         </div>
 
-        <div id="radarGrid" class="radar-grid">
-            <div class="empty">
-                Connect your API key to load cards.
+
+        <div
+            id="radarGrid"
+            class="radar-grid"
+        >
+
+            <div class="empty loading">
+
+                Connecting to PokiRadar data...
+
             </div>
+
         </div>
 
     </section>
 
+
+    <!-- CATALOGUE -->
+
     <section class="section">
 
         <div class="section-head">
+
             <div>
-                <h2>Current Market Catalogue</h2>
+                <h2>
+                    Current Market Catalogue
+                </h2>
             </div>
 
-            <div class="section-note" id="resultCount">
+            <div
+                class="section-note"
+                id="resultCount"
+            >
                 0 cards
             </div>
+
         </div>
+
 
         <div class="table-wrap">
 
             <table>
 
                 <thead>
+
                     <tr>
-                        <th>Card</th>
-                        <th>Set</th>
-                        <th>Rarity</th>
-                        <th>SGD</th>
-                        <th>USD</th>
-                        <th>EUR</th>
-                        <th>JPY</th>
-                        <th>GBP</th>
+
+                        <th>
+                            Card
+                        </th>
+
+                        <th>
+                            Set
+                        </th>
+
+                        <th>
+                            Number
+                        </th>
+
+                        <th>
+                            Rarity
+                        </th>
+
+                        <th>
+                            SGD
+                        </th>
+
+                        <th>
+                            USD
+                        </th>
+
+                        <th>
+                            EUR
+                        </th>
+
+                        <th>
+                            JPY
+                        </th>
+
+                        <th>
+                            GBP
+                        </th>
+
                     </tr>
+
                 </thead>
+
 
                 <tbody id="catalogueBody">
 
                     <tr>
-                        <td colspan="8">
+
+                        <td colspan="9">
+
                             <div class="empty">
-                                No card data loaded yet.
+
+                                Waiting for market data...
+
                             </div>
+
                         </td>
+
                     </tr>
 
                 </tbody>
@@ -676,42 +886,46 @@ footer{
 
     </section>
 
+
+    <!-- DATA CONNECTION -->
+
     <section class="section">
 
         <div class="section-head">
+
             <div>
-                <h2>API Connection</h2>
+                <h2>
+                    Data Connection
+                </h2>
             </div>
+
         </div>
 
-        <div class="api-panel">
 
-            <h3>Pokémon TCG API</h3>
+        <div class="connection-panel">
+
+            <h3>
+                PokiRadar Market Data
+            </h3>
 
             <p>
-                This V3.1 browser build uses a public browser key.
-                Do not paste a <strong>ptcg_live_</strong> secret key here.
+                PokiRadar keeps the Pokémon TCG API secret key
+                outside the public website. The website receives
+                prepared card data from the secure data service.
             </p>
 
-            <div class="api-row">
 
-                <input
-                    id="apiKey"
-                    class="api-input"
-                    type="password"
-                    placeholder="ptcg_pub_..."
-                    autocomplete="off"
-                >
+            <div
+                id="connectionStatus"
+                class="connection-status"
+            >
 
-                <button class="btn primary" id="saveKey">
-                    Save & Connect
-                </button>
+                <span class="dot"></span>
 
-            </div>
+                <span id="connectionStatusText">
+                    Waiting for secure data service...
+                </span>
 
-            <div class="api-warning">
-                Your key is stored locally in this browser only.
-                Never commit an API secret into GitHub.
             </div>
 
         </div>
@@ -720,143 +934,287 @@ footer{
 
 </main>
 
+
 <footer>
+
     <div class="container">
 
-        <strong>PokiRadar V3.1</strong><br>
+        <strong>
+            PokiRadar
+        </strong>
 
-        Real card identity + artwork + current market data +
-        multi-currency display.
+        <br>
+
+        Pokémon TCG market intelligence with verified card
+        identity, artwork and multi-currency market data.
 
         <br><br>
 
-        SGD values are converted estimates when SGD is not
-        supplied directly by the market source.
+        SGD is the primary display currency.
+        Where the source does not provide an SGD value directly,
+        PokiRadar labels the value as converted.
 
         <br><br>
 
-        Movement, historical charts, momentum and divergence
-        calculations are intentionally reserved for later versions.
+        Historical movement, momentum, divergence and market
+        intelligence signals will be built on top of this
+        verified card-data foundation.
 
     </div>
+
 </footer>
+
 
 <script>
 
 /* ============================================================
-   POKIRADAR V3.1
-   ============================================================ */
+   POKIRADAR
+   ============================================================
 
-const API = "https://api.pokemontcgapi.com/v1";
+   FRONTEND DATA CONTRACT
 
-const STORAGE_KEY = "pokiradar_public_api_key";
+   The secure backend should expose:
+
+       /api/cards
+
+   returning either:
+
+       {
+           "data": [...]
+       }
+
+   or:
+
+       [...]
+   
+   Every card should retain its ORIGINAL API ID.
+
+   Example:
+
+       {
+           "id": "sv08-123",
+           "name": "Pikachu ex",
+           "number": "123",
+           "rarity": "Illustration Rare",
+
+           "set": {
+               "name": "Surging Sparks"
+           },
+
+           "images": {
+               "small": "...",
+               "large": "..."
+           },
+
+           "prices": [...]
+       }
+
+   IMPORTANT:
+
+   The frontend NEVER matches images by Pokémon name.
+
+   The image belongs to the exact card object / ID.
+
+============================================================ */
+
+
+/* ============================================================
+   CONFIG
+============================================================ */
+
+const DATA_ENDPOINT = "/api/cards";
+
+const FX_ENDPOINT =
+    "https://api.frankfurter.app/latest?from=USD&to=SGD,EUR,JPY,GBP";
+
+
+/* ============================================================
+   STATE
+============================================================ */
 
 let cards = [];
+
 let activeFilter = "all";
 
-/*
-    FX fallback.
+let fxRates = {
 
-    These are only used if the live FX request fails.
-    They are NOT used to pretend the API supplied an SGD price.
-*/
-const fallbackUSDTo = {
-    SGD: 1.30,
-    EUR: 0.85,
-    JPY: 147,
-    GBP: 0.74
+    USD:1,
+
+    SGD:1.30,
+
+    EUR:0.85,
+
+    JPY:147,
+
+    GBP:0.74
+
 };
 
 
 /* ============================================================
    ELEMENTS
-   ============================================================ */
+============================================================ */
 
-const apiKeyInput = document.getElementById("apiKey");
-const saveKeyBtn = document.getElementById("saveKey");
-const refreshBtn = document.getElementById("refreshBtn");
-const searchInput = document.getElementById("search");
+const statusEl =
+    document.getElementById("status");
 
-const statusEl = document.getElementById("status");
-const statusText = document.getElementById("statusText");
+const statusText =
+    document.getElementById("statusText");
 
-const trackedCount = document.getElementById("trackedCount");
-const coveredCount = document.getElementById("coveredCount");
-const highestPrice = document.getElementById("highestPrice");
-const lastUpdate = document.getElementById("lastUpdate");
+const connectionStatus =
+    document.getElementById("connectionStatus");
 
-const radarGrid = document.getElementById("radarGrid");
-const catalogueBody = document.getElementById("catalogueBody");
-const resultCount = document.getElementById("resultCount");
+const connectionStatusText =
+    document.getElementById("connectionStatusText");
+
+const searchInput =
+    document.getElementById("search");
+
+const refreshBtn =
+    document.getElementById("refreshBtn");
+
+const trackedCount =
+    document.getElementById("trackedCount");
+
+const coveredCount =
+    document.getElementById("coveredCount");
+
+const highestPrice =
+    document.getElementById("highestPrice");
+
+const lastUpdate =
+    document.getElementById("lastUpdate");
+
+const radarGrid =
+    document.getElementById("radarGrid");
+
+const catalogueBody =
+    document.getElementById("catalogueBody");
+
+const resultCount =
+    document.getElementById("resultCount");
 
 
 /* ============================================================
-   API KEY
-   ============================================================ */
+   STATUS
+============================================================ */
 
-function getApiKey(){
+function setStatus(
+    text,
+    type = "normal"
+){
 
-    return localStorage.getItem(STORAGE_KEY) || "";
+    statusText.textContent =
+        text;
 
-}
-
-
-function setStatus(text, connected = false){
-
-    statusText.textContent = text;
-
-    statusEl.classList.toggle(
+    statusEl.classList.remove(
         "connected",
-        connected
+        "error"
     );
 
+    if(type === "connected"){
+
+        statusEl.classList.add(
+            "connected"
+        );
+
+    }
+
+    if(type === "error"){
+
+        statusEl.classList.add(
+            "error"
+        );
+
+    }
+
+}
+
+
+function setConnectionStatus(
+    text,
+    type = "normal"
+){
+
+    connectionStatusText.textContent =
+        text;
+
+    connectionStatus.classList.remove(
+        "connected",
+        "error"
+    );
+
+    if(type === "connected"){
+
+        connectionStatus.classList.add(
+            "connected"
+        );
+
+    }
+
+    if(type === "error"){
+
+        connectionStatus.classList.add(
+            "error"
+        );
+
+    }
+
 }
 
 
 /* ============================================================
-   CURRENCY
-   ============================================================ */
-
-let fxRates = {
-    USD:1,
-    SGD:fallbackUSDTo.SGD,
-    EUR:fallbackUSDTo.EUR,
-    JPY:fallbackUSDTo.JPY,
-    GBP:fallbackUSDTo.GBP
-};
-
-
-/*
-    Pull current conversion rates from USD.
-
-    This is ONLY used for currencies that aren't present
-    in the actual market observation.
-
-    The API's native price rows remain untouched.
-*/
+   FX
+============================================================ */
 
 async function loadFX(){
 
     try{
 
-        const response = await fetch(
-            "https://api.frankfurter.app/latest?from=USD&to=SGD,EUR,JPY,GBP"
-        );
+        const response =
+            await fetch(
+                FX_ENDPOINT,
+                {
+                    cache:"no-store"
+                }
+            );
 
         if(!response.ok){
-            throw new Error("FX request failed");
+
+            throw new Error(
+                "FX service unavailable"
+            );
+
         }
 
-        const data = await response.json();
+        const data =
+            await response.json();
 
-        if(data && data.rates){
+        if(
+            data &&
+            data.rates
+        ){
 
             fxRates = {
+
                 USD:1,
-                SGD:Number(data.rates.SGD) || fallbackUSDTo.SGD,
-                EUR:Number(data.rates.EUR) || fallbackUSDTo.EUR,
-                JPY:Number(data.rates.JPY) || fallbackUSDTo.JPY,
-                GBP:Number(data.rates.GBP) || fallbackUSDTo.GBP
+
+                SGD:
+                    Number(data.rates.SGD)
+                    || fxRates.SGD,
+
+                EUR:
+                    Number(data.rates.EUR)
+                    || fxRates.EUR,
+
+                JPY:
+                    Number(data.rates.JPY)
+                    || fxRates.JPY,
+
+                GBP:
+                    Number(data.rates.GBP)
+                    || fxRates.GBP
+
             };
 
         }
@@ -864,7 +1222,7 @@ async function loadFX(){
     }catch(error){
 
         console.warn(
-            "Live FX unavailable. Using fallback rates.",
+            "Using fallback FX rates.",
             error
         );
 
@@ -874,14 +1232,19 @@ async function loadFX(){
 
 
 /* ============================================================
-   PRICE HELPERS
-   ============================================================ */
+   NUMBER / CURRENCY
+============================================================ */
 
-function cleanNumber(value){
+function cleanNumber(
+    value
+){
 
-    const n = Number(value);
+    const n =
+        Number(value);
 
-    return Number.isFinite(n) ? n : null;
+    return Number.isFinite(n)
+        ? n
+        : null;
 
 }
 
@@ -891,322 +1254,158 @@ function formatCurrency(
     currency
 ){
 
-    const number = cleanNumber(value);
+    const number =
+        cleanNumber(value);
 
     if(number === null){
+
         return "—";
-    }
-
-    try{
-
-        return new Intl.NumberFormat(
-            "en-SG",
-            {
-                style:"currency",
-                currency,
-                maximumFractionDigits:
-                    currency === "JPY" ? 0 : 2
-            }
-        ).format(number);
-
-    }catch{
-
-        return `${currency} ${number.toFixed(2)}`;
 
     }
 
-}
-
-
-/*
-    Get the most useful current market observation.
-
-    Priority:
-
-    1. PTCG_INDEX
-    2. MARKET
-    3. LOW
-    4. TREND
-    5. AVG_1D
-    6. first valid row
-
-    We deliberately DO NOT combine unrelated observations.
-*/
-
-function getBestPrice(card){
-
-    if(!Array.isArray(card.prices)){
-        return null;
-    }
-
-    const usable = card.prices
-        .filter(p =>
-            cleanNumber(p.amount) !== null &&
-            p.currency
-        );
-
-    if(!usable.length){
-        return null;
-    }
-
-    const priority = [
-
-        p =>
-            p.source === "PTCG_INDEX" &&
-            p.variant === "INDEX",
-
-        p =>
-            p.variant === "MARKET",
-
-        p =>
-            p.variant === "LOW",
-
-        p =>
-            p.variant === "TREND",
-
-        p =>
-            p.variant === "AVG_1D"
-
-    ];
-
-    for(const test of priority){
-
-        const found = usable.find(test);
-
-        if(found){
-            return found;
+    return new Intl.NumberFormat(
+        "en-SG",
+        {
+            style:"currency",
+            currency:currency,
+            maximumFractionDigits:
+                currency === "JPY"
+                    ? 0
+                    : 2
         }
-
-    }
-
-    return usable[0];
-
-}
-
-
-/*
-    Find native price in requested currency.
-
-    We prefer the same variant/basis as the selected
-    primary observation where possible.
-*/
-
-function getNativePrice(
-    card,
-    currency
-){
-
-    if(!Array.isArray(card.prices)){
-        return null;
-    }
-
-    const rows = card.prices.filter(
-        p =>
-            p.currency === currency &&
-            cleanNumber(p.amount) !== null
-    );
-
-    if(!rows.length){
-        return null;
-    }
-
-    const preferred = [
-
-        p =>
-            p.source === "PTCG_INDEX" &&
-            p.variant === "INDEX",
-
-        p => p.variant === "MARKET",
-
-        p => p.variant === "LOW",
-
-        p => p.variant === "TREND",
-
-        p => p.variant === "AVG_1D"
-
-    ];
-
-    for(const test of preferred){
-
-        const found = rows.find(test);
-
-        if(found){
-            return found;
-        }
-
-    }
-
-    return rows[0];
-
-}
-
-
-/*
-    Convert a native price into another currency.
-
-    If the API already supplies that currency,
-    we never convert it.
-*/
-
-function getDisplayPrice(
-    card,
-    currency
-){
-
-    const native = getNativePrice(
-        card,
-        currency
-    );
-
-    if(native){
-
-        return {
-            amount:Number(native.amount),
-            currency,
-            converted:false,
-            source:native.source,
-            asOf:native.as_of || null,
-            provenance:native.provenance || ""
-        };
-
-    }
-
-    const primary = getBestPrice(card);
-
-    if(!primary){
-        return null;
-    }
-
-    const primaryAmount =
-        cleanNumber(primary.amount);
-
-    if(primaryAmount === null){
-        return null;
-    }
-
-    const primaryCurrency =
-        primary.currency;
-
-    /*
-        Convert through USD.
-
-        USD -> target
-        EUR -> USD -> target
-        GBP -> USD -> target
-        JPY -> USD -> target
-    */
-
-    let usdValue;
-
-    if(primaryCurrency === "USD"){
-
-        usdValue = primaryAmount;
-
-    }else if(
-        fxRates[primaryCurrency] &&
-        fxRates[primaryCurrency] !== 0
-    ){
-
-        usdValue =
-            primaryAmount /
-            fxRates[primaryCurrency];
-
-    }else{
-
-        return null;
-
-    }
-
-    const converted =
-        usdValue *
-        (fxRates[currency] || 1);
-
-    return {
-
-        amount:converted,
-        currency,
-        converted:true,
-        source:primary.source || "",
-        asOf:primary.as_of || null,
-        provenance:primary.provenance || ""
-
-    };
+    ).format(number);
 
 }
 
 
 /* ============================================================
    CARD IDENTITY
-   ============================================================ */
+============================================================ */
 
-function getSetName(card){
+function getSetName(
+    card
+){
 
-    return card.set?.name ||
-           card.set_name ||
-           "Unknown Set";
-
-}
-
-
-function getCardNumber(card){
-
-    return card.number ||
-           card.card_number ||
-           "—";
+    return (
+        card.set?.name ||
+        card.set_name ||
+        "Unknown Set"
+    );
 
 }
 
 
-function getRarity(card){
+function getCardNumber(
+    card
+){
 
-    return card.rarity ||
-           "Rarity unavailable";
+    return (
+        card.number ||
+        card.card_number ||
+        "—"
+    );
 
 }
 
 
-function getRegion(card){
+function getRarity(
+    card
+){
 
-    return card.set?.region ||
-           card.region ||
-           "—";
+    return (
+        card.rarity ||
+        "Rarity unavailable"
+    );
 
 }
 
 
 /*
-    Exact image matching.
+    EXACT IMAGE MATCHING
 
-    The image comes from THIS card's image relation.
-    We never search Google, never search by name,
-    and never construct an image URL from the Pokémon name.
+    This is deliberately based on the image attached to
+    the exact card record.
+
+    We DO NOT:
+
+    - search by Pokémon name
+    - use Google images
+    - construct image URLs
+    - match only by set name
+    - match only by number
+
+    Therefore:
+
+        sv08-123
+              ↓
+        THAT exact card
+              ↓
+        THAT exact image
 */
 
-function getCardImage(card){
+function getCardImage(
+    card
+){
 
     if(
-        Array.isArray(card.images) &&
-        card.images.length
+        card.images &&
+        typeof card.images === "object"
     ){
 
-        const front =
+        if(
+            typeof card.images.large === "string" &&
+            card.images.large
+        ){
+
+            return card.images.large;
+
+        }
+
+        if(
+            typeof card.images.small === "string" &&
+            card.images.small
+        ){
+
+            return card.images.small;
+
+        }
+
+    }
+
+
+    if(
+        Array.isArray(card.images)
+    ){
+
+        const large =
             card.images.find(
                 image =>
-                    image.face === "FRONT" &&
-                    image.size === "NORMAL"
+                    image &&
+                    image.url &&
+                    (
+                        image.size === "LARGE" ||
+                        image.type === "large"
+                    )
             );
 
-        if(front?.url){
-            return front.url;
+        if(large){
+
+            return large.url;
+
         }
+
 
         const first =
             card.images.find(
-                image => image?.url
+                image =>
+                    image &&
+                    image.url
             );
 
-        if(first?.url){
+        if(first){
+
             return first.url;
+
         }
 
     }
@@ -1217,163 +1416,409 @@ function getCardImage(card){
 
 
 /* ============================================================
-   API FETCH
-   ============================================================ */
+   PRICE SELECTION
+============================================================ */
 
-async function apiFetch(
-    path
+/*
+    Select the strongest current price record.
+
+    We don't calculate movement here.
+
+    Historical movement belongs to the future
+    snapshot/movement engine.
+*/
+
+function getBestPrice(
+    card
 ){
 
-    const key = getApiKey();
+    if(
+        !Array.isArray(card.prices)
+    ){
 
-    if(!key){
-        throw new Error(
-            "NO_API_KEY"
-        );
-    }
-
-    /*
-        Prevent accidentally sending the leaked/server key
-        from the previous setup.
-    */
-
-    if(key.startsWith("ptcg_live_")){
-
-        throw new Error(
-            "SECRET_KEY_BROWSER"
-        );
+        return null;
 
     }
 
-    const response = await fetch(
-        API + path,
-        {
-            headers:{
-                "X-Api-Key":key
-            }
+    const usable =
+        card.prices.filter(
+            price =>
+                cleanNumber(price.amount) !== null &&
+                price.currency
+        );
+
+    if(!usable.length){
+
+        return null;
+
+    }
+
+
+    const preferred = [
+
+        price =>
+            price.source === "PTCG_INDEX" &&
+            price.variant === "INDEX",
+
+        price =>
+            price.variant === "MARKET",
+
+        price =>
+            price.variant === "LOW",
+
+        price =>
+            price.variant === "TREND",
+
+        price =>
+            price.variant === "AVG_1D"
+
+    ];
+
+
+    for(
+        const test of preferred
+    ){
+
+        const found =
+            usable.find(test);
+
+        if(found){
+
+            return found;
+
         }
-    );
-
-    let body = null;
-
-    try{
-        body = await response.json();
-    }catch{
-        body = null;
-    }
-
-    if(!response.ok){
-
-        const message =
-            body?.error?.message ||
-            body?.error?.code ||
-            `HTTP ${response.status}`;
-
-        throw new Error(message);
 
     }
 
-    return body;
+
+    return usable[0];
 
 }
 
 
 /* ============================================================
-   LOAD CARDS
-   ============================================================ */
+   NATIVE PRICE
+============================================================ */
+
+function getNativePrice(
+    card,
+    currency
+){
+
+    if(
+        !Array.isArray(card.prices)
+    ){
+
+        return null;
+
+    }
+
+    const rows =
+        card.prices.filter(
+            price =>
+                price.currency === currency &&
+                cleanNumber(price.amount) !== null
+        );
+
+    if(!rows.length){
+
+        return null;
+
+    }
+
+
+    const preferred = [
+
+        price =>
+            price.source === "PTCG_INDEX" &&
+            price.variant === "INDEX",
+
+        price =>
+            price.variant === "MARKET",
+
+        price =>
+            price.variant === "LOW",
+
+        price =>
+            price.variant === "TREND",
+
+        price =>
+            price.variant === "AVG_1D"
+
+    ];
+
+
+    for(
+        const test of preferred
+    ){
+
+        const found =
+            rows.find(test);
+
+        if(found){
+
+            return found;
+
+        }
+
+    }
+
+
+    return rows[0];
+
+}
+
+
+/* ============================================================
+   DISPLAY PRICE
+============================================================ */
+
+function getDisplayPrice(
+    card,
+    currency
+){
+
+    /*
+        If API already has the requested currency,
+        use it directly.
+    */
+
+    const native =
+        getNativePrice(
+            card,
+            currency
+        );
+
+
+    if(native){
+
+        return {
+
+            amount:
+                Number(native.amount),
+
+            currency:
+
+                currency,
+
+            converted:
+                false,
+
+            source:
+                native.source || "",
+
+            asOf:
+                native.as_of || null
+
+        };
+
+    }
+
+
+    /*
+        Otherwise convert from the best available
+        native market value.
+
+        This is especially important for SGD.
+    */
+
+    const primary =
+        getBestPrice(card);
+
+
+    if(!primary){
+
+        return null;
+
+    }
+
+
+    const amount =
+        cleanNumber(
+            primary.amount
+        );
+
+
+    if(amount === null){
+
+        return null;
+
+    }
+
+
+    const sourceCurrency =
+        primary.currency;
+
+
+    if(
+        !fxRates[sourceCurrency]
+    ){
+
+        return null;
+
+    }
+
+
+    const usdValue =
+        sourceCurrency === "USD"
+
+            ? amount
+
+            : amount /
+              fxRates[sourceCurrency];
+
+
+    const converted =
+        usdValue *
+        (
+            fxRates[currency] || 1
+        );
+
+
+    return {
+
+        amount:
+            converted,
+
+        currency:
+            currency,
+
+        converted:
+            true,
+
+        source:
+            primary.source || "",
+
+        asOf:
+            primary.as_of || null
+
+    };
+
+}
+
+
+/* ============================================================
+   FETCH DATA
+============================================================ */
 
 async function loadCards(){
 
-    const key = getApiKey();
-
-    if(!key){
-
-        setStatus(
-            "API key required",
-            false
-        );
-
-        radarGrid.innerHTML = `
-            <div class="empty">
-                Enter your <strong>ptcg_pub_...</strong>
-                browser key below to load real card data.
-            </div>
-        `;
-
-        return;
-
-    }
-
-    if(key.startsWith("ptcg_live_")){
-
-        setStatus(
-            "Secret key blocked",
-            false
-        );
-
-        radarGrid.innerHTML = `
-            <div class="empty">
-                This is a server-side <strong>ptcg_live_</strong>
-                key. Do not put it in this page.
-                <br><br>
-                Use a <strong>ptcg_pub_...</strong> browser key
-                for V3.1.
-            </div>
-        `;
-
-        return;
-
-    }
-
     setStatus(
-        "Loading cards...",
-        false
+        "Loading data..."
     );
 
+    setConnectionStatus(
+        "Connecting to secure data service..."
+    );
+
+
     radarGrid.innerHTML = `
+
         <div class="empty loading">
-            Loading real Pokémon TCG card data...
+
+            Loading PokiRadar market data...
+
         </div>
+
     `;
+
 
     try{
 
         await loadFX();
 
-        /*
-            Keep the catalogue request reasonably small.
 
-            Images + prices are deliberately requested together
-            so every returned card owns its own image and prices.
-        */
-
-        const data =
-            await apiFetch(
-                "/cards" +
-                "?limit=100" +
-                "&include=prices,images,set" +
-                "&orderBy=-index_eur"
+        const response =
+            await fetch(
+                DATA_ENDPOINT,
+                {
+                    cache:"no-store",
+                    headers:{
+                        "Accept":
+                            "application/json"
+                    }
+                }
             );
 
-        cards =
-            Array.isArray(data?.data)
-                ? data.data
-                : [];
 
-        if(!cards.length){
+        if(!response.ok){
 
             throw new Error(
-                "No cards were returned."
+                `Data service returned HTTP ${response.status}`
             );
 
         }
 
+
+        const payload =
+            await response.json();
+
+
+        /*
+            Support either:
+
+                { data:[...] }
+
+            or:
+
+                [...]
+
+        */
+
+        if(
+            Array.isArray(payload)
+        ){
+
+            cards =
+                payload;
+
+        }else if(
+            Array.isArray(payload.data)
+        ){
+
+            cards =
+                payload.data;
+
+        }else{
+
+            throw new Error(
+                "Invalid card data format."
+            );
+
+        }
+
+
+        /*
+            Keep only actual card records
+            with an ID.
+
+            This prevents accidental image/data
+            mismatching caused by malformed rows.
+        */
+
+        cards =
+            cards.filter(
+                card =>
+                    card &&
+                    typeof card.id === "string" &&
+                    card.id.trim()
+            );
+
+
         render();
+
 
         setStatus(
             "Connected",
-            true
+            "connected"
         );
+
+
+        setConnectionStatus(
+            `${cards.length.toLocaleString()} cards loaded`,
+            "connected"
+        );
+
 
         lastUpdate.textContent =
             new Date().toLocaleTimeString(
@@ -1384,21 +1829,68 @@ async function loadCards(){
                 }
             );
 
+
     }catch(error){
 
-        console.error(error);
-
-        setStatus(
-            "Connection error",
-            false
+        console.error(
+            "PokiRadar data error:",
+            error
         );
 
+
+        setStatus(
+            "Data connection error",
+            "error"
+        );
+
+
+        setConnectionStatus(
+            error.message,
+            "error"
+        );
+
+
         radarGrid.innerHTML = `
+
             <div class="empty">
-                <strong>Could not load PokiRadar data.</strong>
+
+                <strong>
+                    PokiRadar data is not connected yet.
+                </strong>
+
                 <br><br>
-                ${escapeHTML(error.message)}
+
+                The frontend is ready, but the secure
+                <strong>/api/cards</strong> data endpoint
+                still needs to be connected.
+
+                <br><br>
+
+                This keeps your
+                <strong>ptcg_live_</strong>
+                API secret out of the public GitHub Pages site.
+
             </div>
+
+        `;
+
+
+        catalogueBody.innerHTML = `
+
+            <tr>
+
+                <td colspan="9">
+
+                    <div class="empty">
+
+                        Waiting for secure market data...
+
+                    </div>
+
+                </td>
+
+            </tr>
+
         `;
 
     }
@@ -1407,8 +1899,8 @@ async function loadCards(){
 
 
 /* ============================================================
-   RENDER
-   ============================================================ */
+   FILTERING
+============================================================ */
 
 function getFilteredCards(){
 
@@ -1417,116 +1909,155 @@ function getFilteredCards(){
             .trim()
             .toLowerCase();
 
-    let result = cards;
+
+    let result =
+        cards;
+
 
     if(query){
 
         result =
-            result.filter(card => {
-
-                const searchable = [
-
-                    card.id,
-
-                    card.name,
-
-                    getSetName(card),
-
-                    getCardNumber(card),
-
-                    getRarity(card),
-
-                    getRegion(card)
-
-                ]
-                .join(" ")
-                .toLowerCase();
-
-                return searchable.includes(query);
-
-            });
-
-    }
-
-    if(activeFilter === "market"){
-
-        result =
             result.filter(
-                card => getBestPrice(card)
+                card => {
+
+                    const searchable = [
+
+                        card.id,
+
+                        card.name,
+
+                        getSetName(card),
+
+                        getCardNumber(card),
+
+                        getRarity(card)
+
+                    ]
+                    .join(" ")
+                    .toLowerCase();
+
+
+                    return searchable.includes(
+                        query
+                    );
+
+                }
             );
 
     }
 
-    if(activeFilter === "priced"){
+
+    if(
+        activeFilter === "market"
+    ){
 
         result =
             result.filter(
                 card =>
-                    Array.isArray(card.prices) &&
-                    card.prices.length
+                    getBestPrice(card)
             );
 
     }
+
+
+    if(
+        activeFilter === "priced"
+    ){
+
+        result =
+            result.filter(
+                card =>
+                    Array.isArray(
+                        card.prices
+                    ) &&
+                    card.prices.length > 0
+            );
+
+    }
+
 
     return result;
 
 }
 
 
+/* ============================================================
+   MAIN RENDER
+============================================================ */
+
 function render(){
 
     const filtered =
         getFilteredCards();
 
+
     trackedCount.textContent =
         cards.length.toLocaleString();
 
+
     const covered =
         cards.filter(
-            card => getBestPrice(card)
+            card =>
+                getBestPrice(card)
         ).length;
+
 
     coveredCount.textContent =
         covered.toLocaleString();
 
-    let highest = null;
 
-    cards.forEach(card => {
+    let highest =
+        null;
 
-        const price =
-            getDisplayPrice(
-                card,
-                "SGD"
-            );
 
-        if(
-            price &&
-            (
-                highest === null ||
-                price.amount > highest.amount
-            )
-        ){
+    cards.forEach(
+        card => {
 
-            highest = price;
+            const price =
+                getDisplayPrice(
+                    card,
+                    "SGD"
+                );
+
+
+            if(
+                price &&
+                (
+                    highest === null ||
+                    price.amount >
+                    highest.amount
+                )
+            ){
+
+                highest =
+                    price;
+
+            }
 
         }
+    );
 
-    });
 
     highestPrice.textContent =
         highest
             ? formatCurrency(
                 highest.amount,
                 "SGD"
-              )
+            )
             : "—";
+
 
     resultCount.textContent =
         `${filtered.length.toLocaleString()} cards`;
 
+
     renderRadar(
-        filtered.slice(0,8)
+        filtered.slice(
+            0,
+            8
+        )
     );
+
 
     renderTable(
         filtered
@@ -1536,134 +2067,210 @@ function render(){
 
 
 /* ============================================================
-   RADAR CARDS
-   ============================================================ */
+   RADAR
+============================================================ */
 
-function renderRadar(list){
+function renderRadar(
+    list
+){
 
     if(!list.length){
 
         radarGrid.innerHTML = `
+
             <div class="empty">
-                No cards match the current search.
+
+                No cards match your search.
+
             </div>
+
         `;
 
         return;
 
     }
 
+
     radarGrid.innerHTML =
-        list.map(card => {
+        list.map(
+            card => {
 
-            const image =
-                getCardImage(card);
+                const image =
+                    getCardImage(card);
 
-            const sgd =
-                getDisplayPrice(
-                    card,
-                    "SGD"
-                );
 
-            const usd =
-                getDisplayPrice(
-                    card,
-                    "USD"
-                );
+                const sgd =
+                    getDisplayPrice(
+                        card,
+                        "SGD"
+                    );
 
-            return `
-                <article class="card">
 
-                    <div class="card-image">
+                const usd =
+                    getDisplayPrice(
+                        card,
+                        "USD"
+                    );
 
-                        ${
-                            image
-                            ?
-                            `
-                            <img
-                                src="${escapeAttribute(image)}"
-                                alt="${escapeAttribute(card.name || "Pokémon card")}"
-                                loading="lazy"
-                            >
-                            `
-                            :
-                            `
-                            <div class="empty">
-                                Image unavailable
-                            </div>
-                            `
-                        }
 
-                    </div>
+                return `
 
-                    <div class="card-body">
+                    <article class="card">
 
-                        <div class="card-name">
-                            ${escapeHTML(card.name || "Unknown Card")}
-                        </div>
+                        <div class="card-image">
 
-                        <div class="card-meta">
-                            ${escapeHTML(getSetName(card))}
-                            · #${escapeHTML(getCardNumber(card))}
-                            <br>
-                            ${escapeHTML(getRarity(card))}
-                            · ${escapeHTML(getRegion(card))}
-                            <br>
-                            ID: ${escapeHTML(card.id || "—")}
-                        </div>
+                            ${
+                                image
 
-                        <div class="card-prices">
+                                ?
 
-                            <div class="price-box">
+                                `
 
-                                <div class="price-label">
-                                    SGD
+                                <img
+                                    src="${escapeAttribute(image)}"
+                                    alt="${escapeAttribute(card.name || "Pokémon card")}"
+                                    loading="lazy"
+                                >
+
+                                `
+
+                                :
+
+                                `
+
+                                <div class="empty">
+
+                                    Image unavailable
+
                                 </div>
 
-                                <div class="price-value primary">
-                                    ${
-                                        sgd
-                                        ?
-                                        formatCurrency(
-                                            sgd.amount,
-                                            "SGD"
-                                        )
-                                        :
-                                        "—"
-                                    }
-                                </div>
+                                `
 
-                            </div>
-
-                            <div class="price-box">
-
-                                <div class="price-label">
-                                    USD
-                                </div>
-
-                                <div class="price-value">
-                                    ${
-                                        usd
-                                        ?
-                                        formatCurrency(
-                                            usd.amount,
-                                            "USD"
-                                        )
-                                        :
-                                        "—"
-                                    }
-                                </div>
-
-                            </div>
+                            }
 
                         </div>
 
-                    </div>
 
-                </article>
-            `;
+                        <div class="card-body">
 
-        })
+                            <div class="card-name">
+
+                                ${
+                                    escapeHTML(
+                                        card.name ||
+                                        "Unknown Card"
+                                    )
+                                }
+
+                            </div>
+
+
+                            <div class="card-meta">
+
+                                ${
+                                    escapeHTML(
+                                        getSetName(card)
+                                    )
+                                }
+
+                                · #
+
+                                ${
+                                    escapeHTML(
+                                        getCardNumber(card)
+                                    )
+                                }
+
+                                <br>
+
+                                ${
+                                    escapeHTML(
+                                        getRarity(card)
+                                    )
+                                }
+
+                            </div>
+
+
+                            <div class="card-id">
+
+                                ID:
+                                ${
+                                    escapeHTML(
+                                        card.id
+                                    )
+                                }
+
+                            </div>
+
+
+                            <div class="card-prices">
+
+                                <div class="price-box">
+
+                                    <div class="price-label">
+                                        SGD
+                                    </div>
+
+                                    <div class="price-value primary">
+
+                                        ${
+                                            sgd
+
+                                            ?
+
+                                            formatCurrency(
+                                                sgd.amount,
+                                                "SGD"
+                                            )
+
+                                            :
+
+                                            "—"
+                                        }
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="price-box">
+
+                                    <div class="price-label">
+                                        USD
+                                    </div>
+
+                                    <div class="price-value">
+
+                                        ${
+                                            usd
+
+                                            ?
+
+                                            formatCurrency(
+                                                usd.amount,
+                                                "USD"
+                                            )
+
+                                            :
+
+                                            "—"
+                                        }
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </article>
+
+                `;
+
+            }
+        )
         .join("");
 
 }
@@ -1671,154 +2278,270 @@ function renderRadar(list){
 
 /* ============================================================
    TABLE
-   ============================================================ */
+============================================================ */
 
-function renderTable(list){
+function renderTable(
+    list
+){
 
     if(!list.length){
 
         catalogueBody.innerHTML = `
+
             <tr>
-                <td colspan="8">
+
+                <td colspan="9">
+
                     <div class="empty">
+
                         No matching cards.
+
                     </div>
+
                 </td>
+
             </tr>
+
         `;
 
         return;
 
     }
 
+
     catalogueBody.innerHTML =
-        list.map(card => {
+        list.map(
+            card => {
 
-            const image =
-                getCardImage(card);
+                const image =
+                    getCardImage(card);
 
-            const sgd =
-                getDisplayPrice(
-                    card,
-                    "SGD"
-                );
 
-            const usd =
-                getDisplayPrice(
-                    card,
-                    "USD"
-                );
+                const sgd =
+                    getDisplayPrice(
+                        card,
+                        "SGD"
+                    );
 
-            const eur =
-                getDisplayPrice(
-                    card,
-                    "EUR"
-                );
 
-            const jpy =
-                getDisplayPrice(
-                    card,
-                    "JPY"
-                );
+                const usd =
+                    getDisplayPrice(
+                        card,
+                        "USD"
+                    );
 
-            const gbp =
-                getDisplayPrice(
-                    card,
-                    "GBP"
-                );
 
-            return `
-                <tr>
+                const eur =
+                    getDisplayPrice(
+                        card,
+                        "EUR"
+                    );
 
-                    <td>
 
-                        <div class="table-card">
+                const jpy =
+                    getDisplayPrice(
+                        card,
+                        "JPY"
+                    );
 
-                            ${
-                                image
-                                ?
-                                `
-                                <img
-                                    src="${escapeAttribute(image)}"
-                                    alt="${escapeAttribute(card.name || "Card")}"
-                                    loading="lazy"
-                                >
-                                `
-                                :
-                                `
-                                <div
-                                    style="
-                                        width:42px;
-                                        height:59px;
-                                        border-radius:5px;
-                                        background:#080d14;
-                                    "
-                                ></div>
-                                `
-                            }
 
-                            <div>
+                const gbp =
+                    getDisplayPrice(
+                        card,
+                        "GBP"
+                    );
 
-                                <div class="table-name">
-                                    ${escapeHTML(card.name || "Unknown")}
-                                </div>
 
-                                <div class="table-meta">
-                                    #${escapeHTML(getCardNumber(card))}
-                                    · ${escapeHTML(card.id || "—")}
+                return `
+
+                    <tr>
+
+                        <td>
+
+                            <div class="table-card">
+
+                                ${
+                                    image
+
+                                    ?
+
+                                    `
+
+                                    <img
+                                        src="${escapeAttribute(image)}"
+                                        alt="${escapeAttribute(card.name || "Card")}"
+                                        loading="lazy"
+                                    >
+
+                                    `
+
+                                    :
+
+                                    `
+
+                                    <div
+                                        style="
+                                            width:42px;
+                                            height:59px;
+                                            border-radius:5px;
+                                            background:#080d14;
+                                        "
+                                    ></div>
+
+                                    `
+                                }
+
+
+                                <div>
+
+                                    <div class="table-name">
+
+                                        ${
+                                            escapeHTML(
+                                                card.name ||
+                                                "Unknown"
+                                            )
+                                        }
+
+                                    </div>
+
+
+                                    <div class="table-meta">
+
+                                        ID:
+                                        ${
+                                            escapeHTML(
+                                                card.id
+                                            )
+                                        }
+
+                                    </div>
+
                                 </div>
 
                             </div>
 
-                        </div>
+                        </td>
 
-                    </td>
 
-                    <td>
-                        ${escapeHTML(getSetName(card))}
-                    </td>
+                        <td>
 
-                    <td>
-                        ${escapeHTML(getRarity(card))}
-                    </td>
+                            ${
+                                escapeHTML(
+                                    getSetName(card)
+                                )
+                            }
 
-                    <td>
-                        ${priceCell(sgd,"SGD")}
-                    </td>
+                        </td>
 
-                    <td>
-                        ${priceCell(usd,"USD")}
-                    </td>
 
-                    <td>
-                        ${priceCell(eur,"EUR")}
-                    </td>
+                        <td>
 
-                    <td>
-                        ${priceCell(jpy,"JPY")}
-                    </td>
+                            ${
+                                escapeHTML(
+                                    getCardNumber(card)
+                                )
+                            }
 
-                    <td>
-                        ${priceCell(gbp,"GBP")}
-                    </td>
+                        </td>
 
-                </tr>
-            `;
 
-        })
+                        <td>
+
+                            ${
+                                escapeHTML(
+                                    getRarity(card)
+                                )
+                            }
+
+                        </td>
+
+
+                        <td>
+
+                            ${
+                                renderPrice(
+                                    sgd,
+                                    "SGD"
+                                )
+                            }
+
+                        </td>
+
+
+                        <td>
+
+                            ${
+                                renderPrice(
+                                    usd,
+                                    "USD"
+                                )
+                            }
+
+                        </td>
+
+
+                        <td>
+
+                            ${
+                                renderPrice(
+                                    eur,
+                                    "EUR"
+                                )
+                            }
+
+                        </td>
+
+
+                        <td>
+
+                            ${
+                                renderPrice(
+                                    jpy,
+                                    "JPY"
+                                )
+                            }
+
+                        </td>
+
+
+                        <td>
+
+                            ${
+                                renderPrice(
+                                    gbp,
+                                    "GBP"
+                                )
+                            }
+
+                        </td>
+
+                    </tr>
+
+                `;
+
+            }
+        )
         .join("");
 
 }
 
 
-function priceCell(
+/* ============================================================
+   PRICE CELL
+============================================================ */
+
+function renderPrice(
     price,
     currency
 ){
 
     if(!price){
+
         return "—";
+
     }
+
 
     const formatted =
         formatCurrency(
@@ -1826,24 +2549,27 @@ function priceCell(
             currency
         );
 
+
     if(price.converted){
 
         return `
+
             <div>
+
                 ${formatted}
-                <div
-                    style="
-                        color:var(--muted);
-                        font-size:9px;
-                        margin-top:2px;
-                    "
-                >
+
+                <div class="converted">
+
                     converted
+
                 </div>
+
             </div>
+
         `;
 
     }
+
 
     return formatted;
 
@@ -1851,71 +2577,54 @@ function priceCell(
 
 
 /* ============================================================
-   SECURITY / HTML ESCAPING
-   ============================================================ */
+   ESCAPING
+============================================================ */
 
-function escapeHTML(value){
+function escapeHTML(
+    value
+){
 
-    return String(value ?? "")
-        .replace(/&/g,"&amp;")
-        .replace(/</g,"&lt;")
-        .replace(/>/g,"&gt;")
-        .replace(/"/g,"&quot;")
-        .replace(/'/g,"&#039;");
+    return String(
+        value ?? ""
+    )
+    .replace(
+        /&/g,
+        "&amp;"
+    )
+    .replace(
+        /</g,
+        "&lt;"
+    )
+    .replace(
+        />/g,
+        "&gt;"
+    )
+    .replace(
+        /"/g,
+        "&quot;"
+    )
+    .replace(
+        /'/g,
+        "&#039;"
+    );
 
 }
 
 
-function escapeAttribute(value){
+function escapeAttribute(
+    value
+){
 
-    return escapeHTML(value);
+    return escapeHTML(
+        value
+    );
 
 }
 
 
 /* ============================================================
    EVENTS
-   ============================================================ */
-
-saveKeyBtn.addEventListener(
-    "click",
-    async () => {
-
-        const key =
-            apiKeyInput.value.trim();
-
-        if(!key){
-
-            alert(
-                "Please enter your ptcg_pub_ browser key."
-            );
-
-            return;
-
-        }
-
-        if(key.startsWith("ptcg_live_")){
-
-            alert(
-                "Do not put a ptcg_live_ secret key into PokiRadar. Use a ptcg_pub_ browser key for this version."
-            );
-
-            return;
-
-        }
-
-        localStorage.setItem(
-            STORAGE_KEY,
-            key
-        );
-
-        apiKeyInput.value = "";
-
-        await loadCards();
-
-    }
-);
-
+============================================================ */
 
 refreshBtn.addEventListener(
     "click",
@@ -1931,58 +2640,48 @@ searchInput.addEventListener(
 
 document
     .querySelectorAll(".filter")
-    .forEach(button => {
+    .forEach(
+        button => {
 
-        button.addEventListener(
-            "click",
-            () => {
+            button.addEventListener(
+                "click",
+                () => {
 
-                document
-                    .querySelectorAll(".filter")
-                    .forEach(
-                        b =>
-                            b.classList.remove(
-                                "active"
-                            )
+                    document
+                        .querySelectorAll(
+                            ".filter"
+                        )
+                        .forEach(
+                            item =>
+                                item.classList.remove(
+                                    "active"
+                                )
+                        );
+
+
+                    button.classList.add(
+                        "active"
                     );
 
-                button.classList.add(
-                    "active"
-                );
 
-                activeFilter =
-                    button.dataset.filter;
+                    activeFilter =
+                        button.dataset.filter;
 
-                render();
 
-            }
-        );
+                    render();
 
-    });
+                }
+            );
+
+        }
+    );
 
 
 /* ============================================================
-   INITIALISE
-   ============================================================ */
+   START
+============================================================ */
 
-const existingKey =
-    getApiKey();
-
-if(existingKey){
-
-    apiKeyInput.placeholder =
-        "Browser key saved — click Refresh Data";
-
-    loadCards();
-
-}else{
-
-    setStatus(
-        "API key required",
-        false
-    );
-
-}
+loadCards();
 
 </script>
 
