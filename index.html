@@ -3,707 +3,706 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#050608">
-<title>PokiRadar — Pokémon TCG Market Intelligence</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PokiRadar</title>
 
 <style>
-:root{
-  --bg:#050608;
-  --panel:#0b0e13;
-  --panel2:#10141b;
-  --border:rgba(255,255,255,.08);
-  --text:#f4f6f8;
-  --muted:#8e98a7;
-  --green:#5ee6a8;
-  --red:#ff6f7d;
-  --yellow:#ffd66b;
-  --blue:#79a9ff;
-  --shadow:0 20px 60px rgba(0,0,0,.38)
+* {
+  box-sizing: border-box;
 }
 
-*{box-sizing:border-box}
-
-html,body{
-  margin:0;
-  min-height:100%;
-  background:var(--bg);
-  color:var(--text);
-  font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif
+:root {
+  --bg: #07090d;
+  --panel: #0d1118;
+  --panel-2: #111722;
+  --border: rgba(255,255,255,.08);
+  --text: #f5f7fb;
+  --muted: #8d98aa;
+  --accent: #7c8cff;
+  --green: #42d392;
+  --red: #ff6b7a;
+  --shadow: 0 20px 60px rgba(0,0,0,.35);
 }
 
-body{overflow-x:hidden}
-
-.app{
-  width:min(1500px,100%);
-  margin:auto;
-  padding:28px
-}
-
-header{
-  display:flex;
-  justify-content:space-between;
-  align-items:flex-start;
-  gap:20px;
-  margin-bottom:30px
-}
-
-.brand h1{
-  margin:0;
-  font-size:34px;
-  line-height:1;
-  letter-spacing:-1.4px
-}
-
-.brand p{
-  margin:9px 0 0;
-  color:var(--muted);
-  font-size:14px
-}
-
-.status{
-  display:flex;
-  align-items:center;
-  gap:9px;
-  padding:9px 13px;
-  border:1px solid var(--border);
-  border-radius:999px;
-  background:rgba(255,255,255,.025);
-  color:var(--muted);
-  font-size:12px;
-  white-space:nowrap
-}
-
-.status-dot{
-  width:7px;
-  height:7px;
-  border-radius:50%;
-  background:var(--yellow)
-}
-
-.status.live .status-dot{
-  background:var(--green);
-  box-shadow:0 0 12px rgba(94,230,168,.55)
-}
-
-.status.error .status-dot{
-  background:var(--red);
-  box-shadow:0 0 12px rgba(255,111,125,.55)
-}
-
-.hero{
-  padding:30px;
-  border:1px solid var(--border);
-  border-radius:24px;
+body {
+  margin: 0;
   background:
-    radial-gradient(circle at 90% 20%,rgba(105,135,255,.13),transparent 35%),
-    linear-gradient(135deg,rgba(255,255,255,.035),rgba(255,255,255,.015));
-  box-shadow:var(--shadow);
-  margin-bottom:22px
+    radial-gradient(circle at 15% 0%, rgba(124,140,255,.10), transparent 35%),
+    radial-gradient(circle at 90% 20%, rgba(66,211,146,.06), transparent 30%),
+    var(--bg);
+  color: var(--text);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
-.hero h2{
-  margin:0;
-  font-size:clamp(25px,4vw,42px);
-  line-height:1.05;
-  letter-spacing:-1.8px;
-  max-width:780px
+button,
+input,
+select {
+  font: inherit;
 }
 
-.hero p{
-  margin:13px 0 0;
-  color:var(--muted);
-  max-width:720px;
-  line-height:1.6
+button {
+  cursor: pointer;
 }
 
-.controls{
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-  margin-top:25px
+.container {
+  width: min(1400px, calc(100% - 32px));
+  margin: 0 auto;
 }
 
-.search{
-  flex:1 1 300px;
-  min-width:220px
+header {
+  padding: 28px 0 12px;
 }
 
-input,select,button{
-  font:inherit
+.header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
 }
 
-input,select{
-  width:100%;
-  border:1px solid var(--border);
-  background:#080b10;
-  color:var(--text);
-  padding:12px 14px;
-  border-radius:13px;
-  outline:none
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
-input:focus,select:focus{
-  border-color:rgba(121,169,255,.55)
+.brand h1 {
+  margin: 0;
+  font-size: 25px;
+  letter-spacing: -.5px;
 }
 
-button{
-  border:1px solid var(--border);
-  background:#11161e;
-  color:var(--text);
-  padding:11px 15px;
-  border-radius:12px;
-  cursor:pointer;
-  transition:.18s ease
+.status {
+  padding: 7px 11px;
+  border: 1px solid rgba(66,211,146,.25);
+  border-radius: 999px;
+  color: var(--green);
+  background: rgba(66,211,146,.06);
+  font-size: 12px;
+  font-weight: 700;
 }
 
-button:hover{
-  background:#171d27;
-  border-color:rgba(255,255,255,.16)
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
 }
 
-button.primary{
-  background:#f4f6f8;
-  color:#050608;
-  border-color:#f4f6f8;
-  font-weight:700
+select,
+.search-input {
+  color: var(--text);
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 11px;
+  outline: none;
 }
 
-.filters{
-  display:flex;
-  gap:8px;
-  flex-wrap:wrap
+select {
+  padding: 11px 13px;
 }
 
-.filter.active{
-  background:#f4f6f8;
-  color:#050608
+.search-row {
+  display: flex;
+  gap: 10px;
+  margin-top: 22px;
 }
 
-.currency-control{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  padding:5px 6px 5px 11px;
-  border:1px solid var(--border);
-  border-radius:13px;
-  background:#080b10;
-  min-width:145px
+.search-input {
+  flex: 1;
+  min-width: 0;
+  padding: 14px 16px;
 }
 
-.currency-control span{
-  color:var(--muted);
-  font-size:11px;
-  white-space:nowrap
+.search-input:focus,
+select:focus {
+  border-color: rgba(124,140,255,.5);
 }
 
-.currency-control select{
-  width:auto;
-  border:0;
-  background:transparent;
-  padding:6px 7px;
-  min-width:72px;
-  font-weight:700
+.btn {
+  border: 1px solid var(--border);
+  background: var(--panel);
+  color: var(--text);
+  padding: 11px 15px;
+  border-radius: 11px;
+  transition: .18s ease;
 }
 
-.stats{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:12px;
-  margin:22px 0
+.btn:hover {
+  border-color: rgba(124,140,255,.4);
+  transform: translateY(-1px);
 }
 
-.stat{
-  padding:19px;
-  border:1px solid var(--border);
-  border-radius:18px;
-  background:var(--panel)
+.btn.primary {
+  background: rgba(124,140,255,.14);
+  border-color: rgba(124,140,255,.35);
 }
 
-.stat-label{
-  color:var(--muted);
-  font-size:12px;
-  text-transform:uppercase;
-  letter-spacing:.8px
+.hero {
+  padding: 52px 0 30px;
 }
 
-.stat-value{
-  margin-top:8px;
-  font-size:27px;
-  font-weight:750;
-  letter-spacing:-.7px
+.hero h2 {
+  max-width: 800px;
+  margin: 0;
+  font-size: clamp(36px, 6vw, 72px);
+  line-height: .98;
+  letter-spacing: -3px;
 }
 
-.stat-note{
-  margin-top:5px;
-  color:var(--muted);
-  font-size:11px
+.hero p {
+  max-width: 720px;
+  color: var(--muted);
+  font-size: 17px;
+  line-height: 1.6;
+  margin: 22px 0 0;
 }
 
-.section{
-  margin-top:24px
+.filters {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 8px 0 24px;
 }
 
-.section-head{
-  display:flex;
-  align-items:flex-end;
-  justify-content:space-between;
-  gap:15px;
-  margin-bottom:13px
+.filter {
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--muted);
+  padding: 9px 13px;
+  border-radius: 999px;
 }
 
-.section-head h3{
-  margin:0;
-  font-size:18px
+.filter.active {
+  color: var(--text);
+  background: rgba(124,140,255,.13);
+  border-color: rgba(124,140,255,.35);
 }
 
-.section-head span{
-  color:var(--muted);
-  font-size:12px
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin: 20px 0 35px;
 }
 
-.grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:13px
+.stat {
+  background: linear-gradient(145deg, rgba(255,255,255,.035), rgba(255,255,255,.015));
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: var(--shadow);
 }
 
-.card{
-  border:1px solid var(--border);
-  background:var(--panel);
-  border-radius:18px;
-  padding:18px;
-  min-width:0
+.stat-label {
+  color: var(--muted);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: .12em;
 }
 
-.card-image{
-  width:100%;
-  height:310px;
-  object-fit:contain;
-  border-radius:12px;
-  background:#080b10;
-  margin:14px 0 2px;
-  display:block
+.stat-value {
+  margin-top: 8px;
+  font-size: 28px;
+  font-weight: 800;
 }
 
-.card-name{
-  font-size:16px;
-  font-weight:750
+.section {
+  margin: 42px 0;
 }
 
-.card-set{
-  margin-top:4px;
-  color:var(--muted);
-  font-size:12px
+.section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 20px;
+  margin-bottom: 18px;
 }
 
-.badges{
-  display:flex;
-  flex-wrap:wrap;
-  gap:6px;
-  margin-top:13px
+.section h3 {
+  margin: 0;
+  font-size: 22px;
 }
 
-.badge{
-  border-radius:999px;
-  padding:5px 8px;
-  font-size:10px;
-  font-weight:700;
-  border:1px solid var(--border);
-  color:var(--muted)
+.section-sub {
+  color: var(--muted);
+  font-size: 13px;
+  margin-top: 5px;
 }
 
-.badge.green{
-  color:var(--green);
-  background:rgba(94,230,168,.07)
+.radar-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px;
 }
 
-.badge.red{
-  color:var(--red);
-  background:rgba(255,111,125,.07)
+.card {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(150deg, #111722, #0b0e14);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  box-shadow: var(--shadow);
 }
 
-.badge.yellow{
-  color:var(--yellow);
-  background:rgba(255,214,107,.07)
+.card-image {
+  width: 100%;
+  aspect-ratio: 0.72;
+  object-fit: contain;
+  display: block;
+  background: #090c11;
 }
 
-.price-row{
-  display:flex;
-  align-items:flex-end;
-  justify-content:space-between;
-  gap:10px;
-  margin-top:20px
+.card-body {
+  padding: 15px;
 }
 
-.price{
-  font-size:25px;
-  font-weight:800
+.card-name {
+  font-weight: 800;
+  font-size: 15px;
+  line-height: 1.25;
 }
 
-.change{
-  font-size:14px;
-  font-weight:750
+.card-set {
+  color: var(--muted);
+  font-size: 12px;
+  margin-top: 5px;
 }
 
-.positive{color:var(--green)}
-.negative{color:var(--red)}
-.neutral{color:var(--muted)}
-
-.meta{
-  display:flex;
-  justify-content:space-between;
-  gap:10px;
-  color:var(--muted);
-  font-size:11px;
-  margin-top:12px
+.card-meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: center;
+  margin-top: 13px;
 }
 
-.table-wrap{
-  overflow:auto;
-  border:1px solid var(--border);
-  border-radius:18px;
-  background:var(--panel)
+.card-price {
+  font-size: 18px;
+  font-weight: 800;
 }
 
-table{
-  width:100%;
-  border-collapse:collapse;
-  min-width:760px
+.card-number {
+  color: var(--muted);
+  font-size: 11px;
 }
 
-th,td{
-  padding:14px 16px;
-  border-bottom:1px solid rgba(255,255,255,.055);
-  text-align:left;
-  font-size:12px
+.badge {
+  display: inline-block;
+  margin-top: 9px;
+  font-size: 10px;
+  padding: 5px 7px;
+  border-radius: 999px;
+  background: rgba(124,140,255,.09);
+  color: #aeb7ff;
 }
 
-th{
-  color:var(--muted);
-  font-size:10px;
-  text-transform:uppercase;
-  letter-spacing:.7px
+.table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--panel);
 }
 
-tr:last-child td{
-  border-bottom:0
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 700px;
 }
 
-td strong{
-  font-size:13px
+th,
+td {
+  padding: 14px 16px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
 }
 
-.info{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:13px
+th {
+  color: var(--muted);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: .1em;
 }
 
-.info-card{
-  padding:18px;
-  border:1px solid var(--border);
-  border-radius:18px;
-  background:var(--panel)
+td {
+  font-size: 14px;
 }
 
-.info-type{
-  color:var(--blue);
-  font-size:10px;
-  font-weight:800;
-  text-transform:uppercase;
-  letter-spacing:.7px
+tr:last-child td {
+  border-bottom: 0;
 }
 
-.info-title{
-  margin-top:9px;
-  font-weight:700
+.market-card {
+  display: grid;
+  grid-template-columns: 80px 1fr auto;
+  align-items: center;
+  gap: 15px;
 }
 
-.info-body{
-  margin-top:6px;
-  color:var(--muted);
-  font-size:12px;
-  line-height:1.5
+.market-thumb {
+  width: 80px;
+  height: 105px;
+  object-fit: contain;
+  border-radius: 8px;
+  background: #090c11;
 }
 
-.empty{
-  padding:42px 20px;
-  text-align:center;
-  color:var(--muted);
-  border:1px dashed var(--border);
-  border-radius:18px
+.market-name {
+  font-weight: 750;
 }
 
-.error-box{
-  display:none;
-  margin-bottom:20px;
-  padding:16px;
-  border:1px solid rgba(255,111,125,.25);
-  border-radius:16px;
-  background:rgba(255,111,125,.06)
+.market-details {
+  color: var(--muted);
+  font-size: 12px;
+  margin-top: 5px;
 }
 
-.error-box.show{
-  display:block
+.empty {
+  padding: 45px 20px;
+  text-align: center;
+  color: var(--muted);
+  border: 1px dashed var(--border);
+  border-radius: 16px;
 }
 
-.error-title{
-  font-weight:750;
-  color:var(--red)
+.loading {
+  padding: 35px;
+  text-align: center;
+  color: var(--muted);
 }
 
-.error-message{
-  color:var(--muted);
-  margin-top:5px;
-  font-size:12px;
-  line-height:1.5
+footer {
+  color: var(--muted);
+  font-size: 12px;
+  padding: 50px 0 70px;
+  text-align: center;
 }
 
-.pagination{
-  display:flex;
-  justify-content:center;
-  margin-top:14px
+.error {
+  margin: 15px 0;
+  padding: 14px;
+  border: 1px solid rgba(255,107,122,.25);
+  background: rgba(255,107,122,.06);
+  color: #ff9ba5;
+  border-radius: 12px;
+  display: none;
 }
 
-footer{
-  padding:30px 0 10px;
-  color:#657080;
-  font-size:11px;
-  line-height:1.6
+@media (max-width: 1050px) {
+  .radar-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
-@media(max-width:1000px){
-  .grid{grid-template-columns:repeat(2,1fr)}
-  .stats{grid-template-columns:repeat(2,1fr)}
-  .info{grid-template-columns:1fr}
+@media (max-width: 760px) {
+  .container {
+    width: min(100% - 20px, 1400px);
+  }
+
+  .header-row {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .controls {
+    width: 100%;
+  }
+
+  .controls select,
+  .controls button {
+    flex: 1;
+  }
+
+  .search-row {
+    flex-direction: column;
+  }
+
+  .stats {
+    grid-template-columns: 1fr;
+  }
+
+  .radar-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .hero {
+    padding-top: 35px;
+  }
+
+  .hero h2 {
+    letter-spacing: -2px;
+  }
 }
 
-@media(max-width:650px){
-  .app{padding:17px}
-  .brand h1{font-size:28px}
-  .hero{padding:22px;border-radius:20px}
-  .stats{grid-template-columns:1fr 1fr}
-  .grid{grid-template-columns:1fr}
-}
+@media (max-width: 480px) {
+  .radar-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
 
-@media(max-width:420px){
-  .stats{grid-template-columns:1fr}
+  .card-body {
+    padding: 11px;
+  }
+
+  .card-name {
+    font-size: 13px;
+  }
+
+  .card-price {
+    font-size: 15px;
+  }
 }
 </style>
 </head>
 
 <body>
 
-<div class="app">
-
 <header>
-  <div class="brand">
-    <h1>PokiRadar</h1>
-    <p>Pokémon TCG Market Intelligence</p>
-  </div>
+  <div class="container">
 
-  <div class="status" id="status">
-    <span class="status-dot"></span>
-    <span id="statusText">Connecting</span>
+    <div class="header-row">
+
+      <div class="brand">
+        <h1>PokiRadar</h1>
+        <div class="status" id="statusPill">CONNECTING</div>
+      </div>
+
+      <div class="controls">
+
+        <select id="currencySelect" aria-label="Currency">
+          <option value="EUR">EUR €</option>
+          <option value="SGD">SGD S$</option>
+          <option value="USD">USD $</option>
+          <option value="JPY">JPY ¥</option>
+          <option value="GBP">GBP £</option>
+        </select>
+
+        <button class="btn primary" id="refreshBtn">
+          Refresh
+        </button>
+
+      </div>
+
+    </div>
+
+    <div class="search-row">
+
+      <input
+        id="searchInput"
+        class="search-input"
+        type="search"
+        placeholder="Search Pokémon, set or card number..."
+        autocomplete="off"
+      >
+
+    </div>
+
   </div>
 </header>
 
-<div class="error-box" id="errorBox">
-  <div class="error-title">Live data issue</div>
-  <div class="error-message" id="errorMessage"></div>
-</div>
 
-<section class="hero">
+<main class="container">
 
-  <h2>Find what is changing before simply watching prices.</h2>
+  <section class="hero">
 
-  <p>
-    Live Pokémon TCG card data, exact card identities,
-    real card artwork and market pricing through your
-    protected Cloudflare Worker.
-  </p>
+    <h2>
+      Find what is changing before simply watching prices.
+    </h2>
 
-  <div class="controls">
+    <p>
+      PokiRadar tracks real Pokémon TCG catalogue data,
+      market values and card imagery from the connected API.
+    </p>
 
-    <div class="search">
-      <input
-        id="search"
-        type="search"
-        autocomplete="off"
-        placeholder="Search Pokémon, card, set, number or rarity…"
-      >
-    </div>
+  </section>
 
-    <div class="filters">
 
-      <button class="filter active" data-filter="all">
-        All
-      </button>
+  <div class="filters">
 
-      <button class="filter" data-filter="momentum">
-        Momentum
-      </button>
+    <button class="filter active" data-filter="all">
+      All
+    </button>
 
-      <button class="filter" data-filter="divergence">
-        Divergence
-      </button>
+    <button class="filter" data-filter="momentum">
+      Momentum
+    </button>
 
-      <button class="filter" data-filter="drops">
-        Drops
-      </button>
+    <button class="filter" data-filter="divergence">
+      Divergence
+    </button>
 
-    </div>
-
-    <div class="currency-control">
-
-      <span>Currency</span>
-
-      <select id="currency">
-        <option value="SGD">SGD</option>
-        <option value="USD">USD</option>
-        <option value="EUR">EUR</option>
-        <option value="JPY">JPY</option>
-        <option value="GBP">GBP</option>
-      </select>
-
-    </div>
-
-    <button class="primary" id="refresh">
-      Refresh data
+    <button class="filter" data-filter="drops">
+      Drops
     </button>
 
   </div>
 
-</section>
 
-<section class="stats">
+  <div id="errorBox" class="error"></div>
 
-  <div class="stat">
-    <div class="stat-label">Cards Loaded</div>
-    <div class="stat-value" id="statCards">—</div>
-    <div class="stat-note">Live API dataset</div>
-  </div>
 
-  <div class="stat">
-    <div class="stat-label">Market Covered</div>
-    <div class="stat-value" id="statMarket">—</div>
-    <div class="stat-note">Cards with market price</div>
-  </div>
+  <section class="stats">
 
-  <div class="stat">
-    <div class="stat-label">Highest Current Price</div>
-    <div class="stat-value" id="statHighest">—</div>
-    <div class="stat-note">Selected currency</div>
-  </div>
+    <div class="stat">
+      <div class="stat-label">Cards Loaded</div>
+      <div class="stat-value" id="cardsLoaded">0</div>
+    </div>
 
-  <div class="stat">
-    <div class="stat-label">Last Update</div>
-    <div class="stat-value" id="statAge">—</div>
-    <div class="stat-note">Newest available price</div>
-  </div>
+    <div class="stat">
+      <div class="stat-label">Market Covered</div>
+      <div class="stat-value" id="marketCovered">—</div>
+    </div>
 
-</section>
+    <div class="stat">
+      <div class="stat-label">Highest Current Price</div>
+      <div class="stat-value" id="highestPrice">—</div>
+    </div>
 
-<section class="section">
+  </section>
 
-  <div class="section-head">
-    <h3>🔥 Radar Candidates</h3>
-    <span id="candidateCount">—</span>
-  </div>
 
-  <div class="grid" id="candidates"></div>
+  <section class="section">
 
-</section>
+    <div class="section-head">
 
-<section class="section">
+      <div>
+        <h3>Radar Candidates</h3>
+        <div class="section-sub">
+          Real cards currently available from the API catalogue
+        </div>
+      </div>
 
-  <div class="section-head">
-    <h3>📈 Current Market Catalogue</h3>
-    <span>Exact API card records</span>
-  </div>
+    </div>
 
-  <div class="table-wrap">
+    <div id="radarGrid" class="radar-grid">
+      <div class="loading">
+        Loading cards...
+      </div>
+    </div>
 
-    <table>
+  </section>
 
-      <thead>
-        <tr>
-          <th>Card</th>
-          <th>Set</th>
-          <th>Market</th>
-          <th>1d</th>
-          <th>7d</th>
-          <th>30d</th>
-          <th>Signal</th>
-        </tr>
-      </thead>
 
-      <tbody id="movers"></tbody>
+  <section class="section">
 
-    </table>
+    <div class="section-head">
 
-  </div>
+      <div>
+        <h3>Current Market Catalogue</h3>
+        <div class="section-sub">
+          Exact API card IDs, images and current index values
+        </div>
+      </div>
 
-  <div class="pagination">
-    <button id="loadMore" style="display:none">
-      Load more cards
-    </button>
-  </div>
+      <button class="btn" id="loadMoreBtn" style="display:none;">
+        Load More
+      </button>
 
-</section>
+    </div>
 
-<section class="section">
+    <div id="catalogue" class="table-wrap">
 
-  <div class="section-head">
-    <h3>📰 Market Information</h3>
-    <span>Live API context</span>
-  </div>
+      <table>
 
-  <div class="info" id="info"></div>
+        <thead>
+          <tr>
+            <th>Card</th>
+            <th>Set</th>
+            <th>Number</th>
+            <th>Region</th>
+            <th>Current Price</th>
+          </tr>
+        </thead>
 
-</section>
+        <tbody id="catalogueBody"></tbody>
 
-<section class="section">
+      </table>
 
-  <div class="section-head">
-    <h3>🇯🇵 Japan → Global</h3>
-    <span>Comparable observations</span>
-  </div>
+    </div>
 
-  <div class="table-wrap">
+  </section>
 
-    <table>
 
-      <thead>
-        <tr>
-          <th>Card</th>
-          <th>Japanese</th>
-          <th>Global</th>
-          <th>Difference</th>
-          <th>Source</th>
-        </tr>
-      </thead>
+  <section class="section">
 
-      <tbody id="divergence"></tbody>
+    <div class="section-head">
 
-    </table>
+      <div>
+        <h3>Market Information</h3>
+        <div class="section-sub">
+          Data currently available from the connected card database
+        </div>
+      </div>
 
-  </div>
+    </div>
 
-</section>
+    <div class="table-wrap">
+
+      <table>
+
+        <thead>
+          <tr>
+            <th>Card</th>
+            <th>Last Price Update</th>
+            <th>API ID</th>
+            <th>Current Value</th>
+          </tr>
+        </thead>
+
+        <tbody id="marketInfoBody"></tbody>
+
+      </table>
+
+    </div>
+
+  </section>
+
+
+  <section class="section">
+
+    <div class="section-head">
+
+      <div>
+        <h3>Japan → Global</h3>
+        <div class="section-sub">
+          Regional information supplied by the API
+        </div>
+      </div>
+
+    </div>
+
+    <div class="table-wrap">
+
+      <table>
+
+        <thead>
+          <tr>
+            <th>Card</th>
+            <th>Region</th>
+            <th>Set</th>
+            <th>Current Value</th>
+          </tr>
+        </thead>
+
+        <tbody id="japanBody"></tbody>
+
+      </table>
+
+    </div>
+
+  </section>
+
+</main>
+
 
 <footer>
-  PokiRadar · Live Pokémon TCG market data<br>
-  Currency conversion is for display only.
+  PokiRadar · Pokémon TCG Market Intelligence
 </footer>
 
-</div>
 
 <script>
-
 /* =========================================================
-   CLOUDFLARE WORKER
+   POKIRADAR API
    ========================================================= */
 
 const PROXY_BASE =
@@ -714,820 +713,630 @@ const PROXY_BASE =
    STATE
    ========================================================= */
 
-const state = {
+let cards = [];
+let nextUrl = null;
+let loading = false;
 
-  cards: [],
+let currentFilter = "all";
 
-  filtered: [],
+let currency =
+  localStorage.getItem("pokiradar_currency") || "EUR";
 
-  next: null,
 
-  loading: false,
+/*
+  Approximate conversion rates from EUR.
 
-  filter: "all",
-
-  currency:
-    localStorage.getItem(
-      "pokiradar_currency"
-    ) || "SGD"
-
+  These are display conversions only.
+  The underlying API value remains EUR.
+*/
+const FX = {
+  EUR: 1,
+  SGD: 1.50,
+  USD: 1.17,
+  JPY: 172,
+  GBP: 0.87
 };
 
 
 /* =========================================================
-   CURRENCY
+   ELEMENTS
    ========================================================= */
 
-const FX_FROM_EUR = {
+const statusPill =
+  document.getElementById("statusPill");
 
-  EUR:1,
+const currencySelect =
+  document.getElementById("currencySelect");
 
-  SGD:1.49,
+const refreshBtn =
+  document.getElementById("refreshBtn");
 
-  USD:1.17,
+const searchInput =
+  document.getElementById("searchInput");
 
-  JPY:183,
+const loadMoreBtn =
+  document.getElementById("loadMoreBtn");
 
-  GBP:.87
+const radarGrid =
+  document.getElementById("radarGrid");
 
-};
+const catalogueBody =
+  document.getElementById("catalogueBody");
 
+const marketInfoBody =
+  document.getElementById("marketInfoBody");
 
-const CURRENCY_META = {
+const japanBody =
+  document.getElementById("japanBody");
 
-  SGD:{
-    symbol:"S$"
-  },
+const cardsLoaded =
+  document.getElementById("cardsLoaded");
 
-  USD:{
-    symbol:"$"
-  },
+const marketCovered =
+  document.getElementById("marketCovered");
 
-  EUR:{
-    symbol:"€"
-  },
+const highestPrice =
+  document.getElementById("highestPrice");
 
-  JPY:{
-    symbol:"¥"
-  },
-
-  GBP:{
-    symbol:"£"
-  }
-
-};
-
-
-function formatMoney(
-  amount,
-  sourceCurrency="EUR"
-){
-
-  const n =
-    Number(amount);
-
-  if(!Number.isFinite(n))
-    return "—";
+const errorBox =
+  document.getElementById("errorBox");
 
 
-  const from =
-    String(
-      sourceCurrency || "EUR"
-    ).toUpperCase();
-
-
-  const to =
-    state.currency;
-
-
-  let converted =
-    n;
-
-
-  if(from !== to){
-
-    if(from === "EUR"){
-
-      converted =
-        n *
-        FX_FROM_EUR[to];
-
-    }
-
-    else if(to === "EUR"){
-
-      converted =
-        n /
-        FX_FROM_EUR[from];
-
-    }
-
-    else{
-
-      converted =
-        (
-          n /
-          FX_FROM_EUR[from]
-        ) *
-        FX_FROM_EUR[to];
-
-    }
-
-  }
-
-
-  const decimals =
-    to === "JPY"
-      ? 0
-      : 2;
-
-
-  return (
-
-    CURRENCY_META[to].symbol +
-
-    converted.toLocaleString(
-      undefined,
-      {
-        minimumFractionDigits:decimals,
-        maximumFractionDigits:decimals
-      }
-    )
-
-  );
-
-}
+currencySelect.value = currency;
 
 
 /* =========================================================
-   HELPERS
+   IMAGE FIX
+   =========================================================
+
+   ACTUAL API STRUCTURE:
+
+   images: [
+     {
+       face: "FRONT",
+       size: "NORMAL",
+       url: "https://..."
+     }
+   ]
+
+   This is the exact structure from your API response.
    ========================================================= */
 
-function $(id){
+function getCardImage(card) {
 
-  return document.getElementById(id);
+  if (
+    Array.isArray(card.images) &&
+    card.images.length
+  ) {
 
-}
+    const front =
+      card.images.find(
+        img =>
+          img &&
+          img.face === "FRONT" &&
+          img.url
+      );
 
-
-function escapeHTML(value){
-
-  return String(value ?? "")
-
-    .replaceAll("&","&amp;")
-
-    .replaceAll("<","&lt;")
-
-    .replaceAll(">","&gt;")
-
-    .replaceAll('"',"&quot;")
-
-    .replaceAll("'","&#039;");
-
-}
-
-
-function setStatus(
-  text,
-  type=""
-){
-
-  $("statusText").textContent =
-    text;
-
-  $("status").className =
-    "status " + type;
-
-}
-
-
-function showError(message){
-
-  $("errorMessage").textContent =
-    message;
-
-  $("errorBox")
-    .classList
-    .add("show");
-
-  setStatus(
-    "API error",
-    "error"
-  );
-
-}
-
-
-function clearError(){
-
-  $("errorBox")
-    .classList
-    .remove("show");
-
-}
-
-
-function percent(value){
-
-  const n =
-    Number(value);
-
-  if(!Number.isFinite(n))
-    return "—";
-
-  return (
-    n > 0 ? "+" : ""
-  ) +
-  n.toFixed(2) +
-  "%";
-
-}
-
-
-function changeClass(value){
-
-  const n =
-    Number(value);
-
-  if(n > 0)
-    return "positive";
-
-  if(n < 0)
-    return "negative";
-
-  return "neutral";
-
-}
-
-
-/* =========================================================
-   EXACT IMAGE EXTRACTION
-   ========================================================= */
-
-function getCardImage(card){
-
-  /*
-     Official API structure:
-
-     card.images.small
-     card.images.large
-
-     Also support alternative
-     shapes just in case the Worker
-     returns a slightly different object.
-  */
-
-  if(
-    card?.images &&
-    typeof card.images === "object"
-  ){
-
-    if(
-      typeof card.images.large === "string"
-    ){
-
-      return card.images.large;
-
+    if (front) {
+      return front.url;
     }
 
-    if(
-      typeof card.images.small === "string"
-    ){
+    const first =
+      card.images.find(
+        img =>
+          img &&
+          img.url
+      );
 
-      return card.images.small;
-
+    if (first) {
+      return first.url;
     }
-
   }
-
-
-  if(
-    typeof card.image === "string"
-  ){
-
-    return card.image;
-
-  }
-
-
-  if(
-    typeof card.imageUrl === "string"
-  ){
-
-    return card.imageUrl;
-
-  }
-
-
-  if(
-    typeof card.imageUrlHiRes === "string"
-  ){
-
-    return card.imageUrlHiRes;
-
-  }
-
 
   return "";
-
 }
 
 
 /* =========================================================
-   REAL MARKET PRICE EXTRACTION
+   PRICE FIX
+   =========================================================
+
+   ACTUAL API STRUCTURE:
+
+   "index_eur": 97.9
+
    ========================================================= */
 
-function getMarketPrice(card){
+function getCardPrice(card) {
 
-  /*
-     PRIORITY 1
-     Existing index fields supplied
-     by the API.
-  */
-
-  const indexCandidates = [
-
-    {
-      value:card.index_eur,
-      currency:"EUR"
-    },
-
-    {
-      value:card.indexEur,
-      currency:"EUR"
-    },
-
-    {
-      value:card.index_usd,
-      currency:"USD"
-    },
-
-    {
-      value:card.indexUsd,
-      currency:"USD"
-    },
-
-    {
-      value:card.index?.eur,
-      currency:"EUR"
-    },
-
-    {
-      value:card.index?.usd,
-      currency:"USD"
-    }
-
-  ];
-
-
-  for(
-    const candidate of indexCandidates
-  ){
-
-    if(
-      Number.isFinite(
-        Number(candidate.value)
-      ) &&
-      Number(candidate.value) > 0
-    ){
-
-      return {
-
-        amount:
-          Number(candidate.value),
-
-        currency:
-          candidate.currency,
-
-        source:
-          "API Index",
-
-        updatedAt:
-          card.updatedAt ||
-          card.updated_at ||
-          null
-
-      };
-
-    }
-
+  if (
+    typeof card.index_eur === "number" &&
+    Number.isFinite(card.index_eur)
+  ) {
+    return card.index_eur;
   }
-
-
-  /*
-     PRIORITY 2
-     TCGPlayer.
-
-     The API documentation states
-     TCGPlayer prices are USD and
-     market is the market value.
-  */
-
-  const tcg =
-    card.tcgplayer;
-
-
-  if(
-    tcg?.prices &&
-    typeof tcg.prices === "object"
-  ){
-
-    const variants =
-      Object.values(
-        tcg.prices
-      );
-
-
-    const marketVariant =
-      variants.find(
-        p =>
-          Number.isFinite(
-            Number(p?.market)
-          ) &&
-          Number(p.market) > 0
-      );
-
-
-    if(marketVariant){
-
-      return {
-
-        amount:
-          Number(
-            marketVariant.market
-          ),
-
-        currency:"USD",
-
-        source:"TCGPlayer Market",
-
-        updatedAt:
-          tcg.updatedAt ||
-          null
-
-      };
-
-    }
-
-  }
-
-
-  /*
-     PRIORITY 3
-     Cardmarket.
-
-     Cardmarket prices are EUR.
-  */
-
-  const cm =
-    card.cardmarket;
-
-
-  if(
-    cm?.prices &&
-    typeof cm.prices === "object"
-  ){
-
-    const p =
-      cm.prices;
-
-
-    const value =
-
-      Number.isFinite(
-        Number(p.trendPrice)
-      )
-
-        ?
-
-      Number(p.trendPrice)
-
-        :
-
-      Number.isFinite(
-        Number(p.averageSellPrice)
-      )
-
-        ?
-
-      Number(
-        p.averageSellPrice
-      )
-
-        :
-
-      Number.isFinite(
-        Number(p.avg7)
-      )
-
-        ?
-
-      Number(p.avg7)
-
-        :
-
-      null;
-
-
-    if(
-      Number.isFinite(value) &&
-      value > 0
-    ){
-
-      return {
-
-        amount:value,
-
-        currency:"EUR",
-
-        source:"Cardmarket",
-
-        updatedAt:
-          cm.updatedAt ||
-          null
-
-      };
-
-    }
-
-  }
-
-
-  /*
-     PRIORITY 4
-     Generic nested structures.
-  */
-
-  if(
-    card.prices &&
-    typeof card.prices === "object"
-  ){
-
-    const found =
-      findNestedMarket(
-        card.prices
-      );
-
-
-    if(found)
-      return found;
-
-  }
-
 
   return null;
-
 }
 
 
 /* =========================================================
-   GENERIC MARKET FINDER
+   NORMALIZE API CARD
    ========================================================= */
 
-function findNestedMarket(
-  object,
-  depth=0
-){
-
-  if(
-    !object ||
-    typeof object !== "object" ||
-    depth > 5
-  ){
-
-    return null;
-
-  }
-
-
-  if(
-    Number.isFinite(
-      Number(object.market)
-    ) &&
-    Number(object.market) > 0
-  ){
-
-    return {
-
-      amount:
-        Number(object.market),
-
-      currency:
-        String(
-          object.currency ||
-          "USD"
-        ).toUpperCase(),
-
-      source:
-        object.source ||
-        "Market",
-
-      updatedAt:
-        object.updatedAt ||
-        object.updated_at ||
-        null
-
-    };
-
-  }
-
-
-  if(
-    Number.isFinite(
-      Number(object.amount)
-    ) &&
-    Number(object.amount) > 0
-  ){
-
-    return {
-
-      amount:
-        Number(object.amount),
-
-      currency:
-        String(
-          object.currency ||
-          "USD"
-        ).toUpperCase(),
-
-      source:
-        object.source ||
-        "Market",
-
-      updatedAt:
-        object.updatedAt ||
-        object.updated_at ||
-        null
-
-    };
-
-  }
-
-
-  for(
-    const value of Object.values(object)
-  ){
-
-    if(
-      value &&
-      typeof value === "object"
-    ){
-
-      const result =
-        findNestedMarket(
-          value,
-          depth + 1
-        );
-
-
-      if(result)
-        return result;
-
-    }
-
-  }
-
-
-  return null;
-
-}
-
-
-/* =========================================================
-   NORMALIZE CARD
-   ========================================================= */
-
-function normalizeCard(card){
-
-  const price =
-    getMarketPrice(card);
-
+function normalizeCard(card) {
 
   return {
-
-    raw:card,
 
     id:
       card.id || "",
 
     name:
-      card.name ||
-      "Unknown card",
-
-    set:
-      card.set?.name ||
-      card.setName ||
-      "Unknown set",
+      card.name || "Unknown Card",
 
     number:
-      card.number ||
-      "",
+      card.number || "",
 
     rarity:
-      card.rarity ||
+      card.rarity || "",
+
+    set:
+      card.set_name ||
+      card.set?.name ||
+      "Unknown Set",
+
+    setCode:
+      card.set_code ||
+      card.set?.code ||
+      "",
+
+    region:
+      card.print_region ||
+      card.set?.region ||
+      "",
+
+    releaseDate:
+      card.release_date ||
+      card.set?.release_date ||
       "",
 
     image:
       getCardImage(card),
 
-    market:
-      price?.amount ?? null,
+    priceEUR:
+      getCardPrice(card),
 
-    currency:
-      price?.currency ||
-      "EUR",
+    lastPriceAt:
+      card.last_price_at || null,
 
-    source:
-      price?.source ||
-      "No market price",
+    tcgplayerId:
+      card.tcgplayer_id || null,
 
-    updatedAt:
-      price?.updatedAt ||
-      null
+    cardmarketId:
+      card.cardmarket_id || null,
 
+    raw:
+      card
   };
-
 }
 
 
 /* =========================================================
-   TREND EXTRACTION
+   FORMAT MONEY
    ========================================================= */
 
-function getTrend(
-  card,
-  days
-){
+function formatMoney(eurValue) {
 
-  const possible = [
+  if (
+    eurValue === null ||
+    eurValue === undefined ||
+    !Number.isFinite(Number(eurValue))
+  ) {
+    return "—";
+  }
 
-    card[
-      "change_" +
-      days +
-      "d"
-    ],
+  const value =
+    Number(eurValue) *
+    (FX[currency] || 1);
 
-    card[
-      "change" +
-      days +
-      "d"
-    ],
+  const symbols = {
+    EUR: "€",
+    SGD: "S$",
+    USD: "$",
+    JPY: "¥",
+    GBP: "£"
+  };
 
-    card.trends?.[
-      days +
-      "d"
-    ],
+  const decimals =
+    currency === "JPY" ? 0 : 2;
 
-    card.trends?.[
-      days
-    ]
-
-  ];
-
-
-  for(
-    const value of possible
-  ){
-
-    if(
-      Number.isFinite(
-        Number(value)
-      )
-    ){
-
-      return Number(value);
-
-    }
-
-
-    if(
-      value &&
-      typeof value === "object"
-    ){
-
-      const nested =
-        value.percent_change ??
-        value.percentChange ??
-        value.change;
-
-
-      if(
-        Number.isFinite(
-          Number(nested)
-        )
-      ){
-
-        return Number(nested);
-
+  return (
+    symbols[currency] +
+    value.toLocaleString(
+      undefined,
+      {
+        minimumFractionDigits: decimals,
+        maximumFractionDigits: decimals
       }
+    )
+  );
+}
 
+
+/* =========================================================
+   DATE
+   ========================================================= */
+
+function formatDate(value) {
+
+  if (!value) {
+    return "—";
+  }
+
+  const date =
+    new Date(value);
+
+  if (Number.isNaN(date.getTime())) {
+    return "—";
+  }
+
+  return date.toLocaleString();
+}
+
+
+/* =========================================================
+   ESCAPE HTML
+   ========================================================= */
+
+function escapeHTML(value) {
+
+  return String(value ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
+
+/* =========================================================
+   API REQUEST
+   ========================================================= */
+
+async function fetchCards(url = null) {
+
+  if (loading) {
+    return;
+  }
+
+  loading = true;
+
+  setStatus("LOADING", false);
+
+  try {
+
+    let requestUrl;
+
+    if (url) {
+
+      /*
+        The API gives us the official next URL.
+
+        We only send that URL through the Worker.
+        The Worker validates that the destination is
+        api.pokemontcgapi.com.
+      */
+
+      requestUrl =
+        PROXY_BASE +
+        "/api/cards?next=" +
+        encodeURIComponent(url);
+
+    } else {
+
+      const params =
+        new URLSearchParams();
+
+      params.set("limit", "250");
+
+      params.set(
+        "include",
+        "index,images,set"
+      );
+
+      requestUrl =
+        PROXY_BASE +
+        "/api/cards?" +
+        params.toString();
     }
 
+
+    const response =
+      await fetch(requestUrl, {
+        method: "GET",
+        cache: "no-store"
+      });
+
+
+    if (!response.ok) {
+
+      throw new Error(
+        "API returned HTTP " +
+        response.status
+      );
+    }
+
+
+    const result =
+      await response.json();
+
+
+    if (!result || !Array.isArray(result.data)) {
+
+      throw new Error(
+        "Unexpected API response."
+      );
+    }
+
+
+    const normalized =
+      result.data.map(normalizeCard);
+
+
+    /*
+      Prevent accidental duplicate cards
+      when pagination is used.
+    */
+
+    const existing =
+      new Set(
+        cards.map(card => card.id)
+      );
+
+
+    for (const card of normalized) {
+
+      if (
+        card.id &&
+        !existing.has(card.id)
+      ) {
+
+        cards.push(card);
+        existing.add(card.id);
+      }
+    }
+
+
+    /*
+      API gives:
+
+      links.next
+
+      This is the real pagination cursor.
+    */
+
+    nextUrl =
+      result.links?.next || null;
+
+
+    render();
+
+
+    if (nextUrl) {
+
+      loadMoreBtn.style.display =
+        "inline-block";
+
+    } else {
+
+      loadMoreBtn.style.display =
+        "none";
+    }
+
+
+    setStatus("API ONLINE", true);
+
+  } catch (error) {
+
+    console.error(error);
+
+    showError(
+      "Unable to load the PokiRadar database: " +
+      error.message
+    );
+
+    setStatus("API ERROR", false);
+
+  } finally {
+
+    loading = false;
+  }
+}
+
+
+/* =========================================================
+   STATUS
+   ========================================================= */
+
+function setStatus(text, online) {
+
+  statusPill.textContent =
+    text;
+
+  statusPill.style.color =
+    online
+      ? "var(--green)"
+      : "var(--red)";
+
+  statusPill.style.borderColor =
+    online
+      ? "rgba(66,211,146,.25)"
+      : "rgba(255,107,122,.25)";
+}
+
+
+/* =========================================================
+   ERROR
+   ========================================================= */
+
+function showError(message) {
+
+  errorBox.textContent =
+    message;
+
+  errorBox.style.display =
+    "block";
+}
+
+
+/* =========================================================
+   SEARCH
+   ========================================================= */
+
+function getFilteredCards() {
+
+  const query =
+    searchInput.value
+      .trim()
+      .toLowerCase();
+
+
+  let result =
+    [...cards];
+
+
+  if (query) {
+
+    result =
+      result.filter(card => {
+
+        return (
+
+          card.name
+            .toLowerCase()
+            .includes(query)
+
+          ||
+
+          card.set
+            .toLowerCase()
+            .includes(query)
+
+          ||
+
+          card.number
+            .toLowerCase()
+            .includes(query)
+
+          ||
+
+          card.id
+            .toLowerCase()
+            .includes(query)
+
+        );
+
+      });
   }
 
 
-  return null;
+  /*
+    No fake movement values.
 
+    Until historical snapshots exist,
+    movement filters remain informational
+    rather than inventing numbers.
+  */
+
+  return result;
+}
+
+
+/* =========================================================
+   RENDER EVERYTHING
+   ========================================================= */
+
+function render() {
+
+  const filtered =
+    getFilteredCards();
+
+
+  renderStats();
+
+
+  renderRadar(
+    filtered.slice(0, 12)
+  );
+
+
+  renderCatalogue(
+    filtered
+  );
+
+
+  renderMarketInfo(
+    filtered.slice(0, 50)
+  );
+
+
+  renderJapan(
+    filtered
+      .filter(card =>
+        card.region === "JP"
+      )
+      .slice(0, 50)
+  );
+}
+
+
+/* =========================================================
+   STATS
+   ========================================================= */
+
+function renderStats() {
+
+  cardsLoaded.textContent =
+    cards.length.toLocaleString();
+
+
+  const regions =
+    new Set(
+      cards
+        .map(card => card.region)
+        .filter(Boolean)
+    );
+
+
+  marketCovered.textContent =
+    regions.size
+      ? regions.size + " region" +
+        (regions.size === 1 ? "" : "s")
+      : "—";
+
+
+  const prices =
+    cards
+      .map(card => card.priceEUR)
+      .filter(
+        value =>
+          typeof value === "number" &&
+          Number.isFinite(value)
+      );
+
+
+  if (!prices.length) {
+
+    highestPrice.textContent =
+      "—";
+
+  } else {
+
+    highestPrice.textContent =
+      formatMoney(
+        Math.max(...prices)
+      );
+  }
 }
 
 
@@ -1535,1218 +1344,410 @@ function getTrend(
    RADAR
    ========================================================= */
 
-function getSignals(card){
+function renderRadar(list) {
 
-  const result = [];
+  if (!list.length) {
 
-
-  const d7 =
-    getTrend(
-      card.raw,
-      7
-    );
-
-
-  const d30 =
-    getTrend(
-      card.raw,
-      30
-    );
-
-
-  if(
-    Number.isFinite(d7) &&
-    d7 >= 8
-  ){
-
-    result.push({
-      type:"momentum",
-      label:"7d momentum",
-      cls:"green"
-    });
-
-  }
-
-
-  if(
-    Number.isFinite(d7) &&
-    d7 <= -8
-  ){
-
-    result.push({
-      type:"drops",
-      label:"7d drop",
-      cls:"red"
-    });
-
-  }
-
-
-  if(
-    Number.isFinite(d7) &&
-    Number.isFinite(d30) &&
-    Math.abs(d7 - d30 / 4) >= 5
-  ){
-
-    result.push({
-      type:"divergence",
-      label:"trend divergence",
-      cls:"yellow"
-    });
-
-  }
-
-
-  return result;
-
-}
-
-
-/* =========================================================
-   RENDER STATS
-   ========================================================= */
-
-function renderStats(cards){
-
-  $("statCards").textContent =
-    cards.length.toLocaleString();
-
-
-  const priced =
-    cards.filter(
-      c =>
-        Number.isFinite(
-          Number(c.market)
-        )
-    );
-
-
-  const marketPercent =
-    cards.length
-      ? Math.round(
-          priced.length /
-          cards.length *
-          100
-        )
-      : 0;
-
-
-  $("statMarket").textContent =
-    marketPercent + "%";
-
-
-  if(priced.length){
-
-    const highest =
-      priced.reduce(
-        (best,current)=>{
-
-          const bestEUR =
-            convertToEUR(
-              best.market,
-              best.currency
-            );
-
-          const currentEUR =
-            convertToEUR(
-              current.market,
-              current.currency
-            );
-
-
-          return currentEUR > bestEUR
-            ? current
-            : best;
-
-        }
-      );
-
-
-    $("statHighest").textContent =
-      formatMoney(
-        highest.market,
-        highest.currency
-      );
-
-  }
-  else{
-
-    $("statHighest").textContent =
-      "—";
-
-  }
-
-
-  const dates =
-    cards
-      .map(
-        c =>
-          c.updatedAt
-      )
-      .filter(Boolean)
-      .map(
-        x =>
-          new Date(
-            String(x).replaceAll("/","-")
-          )
-      )
-      .filter(
-        d =>
-          Number.isFinite(
-            d.getTime()
-          )
-      )
-      .sort(
-        (a,b)=>b-a
-      );
-
-
-  if(dates.length){
-
-    const ageHours =
-      Math.max(
-        0,
-        Math.floor(
-          (
-            Date.now() -
-            dates[0].getTime()
-          ) /
-          3600000
-        )
-      );
-
-
-    if(ageHours < 1){
-
-      $("statAge").textContent =
-        "Now";
-
-    }
-    else if(ageHours < 24){
-
-      $("statAge").textContent =
-        ageHours + "h";
-
-    }
-    else{
-
-      $("statAge").textContent =
-        Math.floor(
-          ageHours / 24
-        ) + "d";
-
-    }
-
-  }
-  else{
-
-    $("statAge").textContent =
-      "Live";
-
-  }
-
-}
-
-
-/* =========================================================
-   CONVERT TO EUR FOR COMPARISON
-   ========================================================= */
-
-function convertToEUR(
-  amount,
-  currency
-){
-
-  const n =
-    Number(amount);
-
-  if(!Number.isFinite(n))
-    return 0;
-
-
-  const c =
-    String(
-      currency || "EUR"
-    ).toUpperCase();
-
-
-  if(c === "EUR")
-    return n;
-
-
-  return (
-    n /
-    (
-      FX_FROM_EUR[c] ||
-      1
-    )
-  );
-
-}
-
-
-/* =========================================================
-   CARD IMAGE FALLBACK
-   ========================================================= */
-
-function cardImageHTML(card){
-
-  if(!card.image){
-
-    return `
-
-      <div
-        class="card-image"
-        style="
-          display:flex;
-          align-items:center;
-          justify-content:center;
-          color:#687385;
-          font-size:12px;
-        "
-      >
-
-        Image unavailable
-
-      </div>
-
-    `;
-
-  }
-
-
-  return `
-
-    <img
-
-      class="card-image"
-
-      src="${escapeHTML(card.image)}"
-
-      alt="${escapeHTML(card.name)}"
-
-      loading="lazy"
-
-      onerror="
-        this.onerror=null;
-        this.src='';
-        this.style.display='none';
-        this.insertAdjacentHTML(
-          'afterend',
-          '<div class=&quot;card-image&quot; style=&quot;display:flex;align-items:center;justify-content:center;color:#687385;font-size:12px;&quot;>Image unavailable</div>'
-        );
-      "
-
-    >
-
-  `;
-
-}
-
-
-/* =========================================================
-   CANDIDATES
-   ========================================================= */
-
-function renderCandidates(cards){
-
-  const root =
-    $("candidates");
-
-
-  const candidates =
-
-    cards
-
-      .map(
-        card => ({
-          card,
-          signals:
-            getSignals(card)
-        })
-      )
-
-      .filter(
-        x =>
-          x.signals.length
-      )
-
-      .slice(0,9);
-
-
-  $("candidateCount").textContent =
-    candidates.length +
-    " active signals";
-
-
-  if(!candidates.length){
-
-    root.innerHTML = `
-
-      <div
-        class="empty"
-        style="grid-column:1/-1"
-      >
-
-        No movement signals are
-        present in the current API
-        response.
-
-        <br><br>
-
-        PokiRadar will not invent
-        movement numbers.
-
-      </div>
-
-    `;
+    radarGrid.innerHTML =
+      `<div class="empty">
+        No cards found.
+      </div>`;
 
     return;
-
   }
 
 
-  root.innerHTML =
+  radarGrid.innerHTML =
+    list
+      .map(card => {
 
-    candidates
+        const image =
+          card.image;
 
-      .map(
-        ({card:c,signals}) => `
+        return `
 
           <article class="card">
 
-            <div class="card-name">
-              ${escapeHTML(c.name)}
-            </div>
-
-            <div class="card-set">
-              ${escapeHTML(c.set)}
-              ${c.number
-                ? " · " +
-                  escapeHTML(c.number)
-                : ""}
-            </div>
-
-            ${cardImageHTML(c)}
-
-            <div class="badges">
-
-              ${signals.map(
-                s => `
-
-                  <span
-                    class="badge ${s.cls}"
+            ${
+              image
+                ? `
+                  <img
+                    class="card-image"
+                    src="${escapeHTML(image)}"
+                    alt="${escapeHTML(card.name)}"
+                    loading="lazy"
+                    onerror="this.style.display='none'"
                   >
-                    ${escapeHTML(s.label)}
-                  </span>
-
                 `
-              ).join("")}
+                : `
+                  <div
+                    class="card-image"
+                    style="
+                      display:flex;
+                      align-items:center;
+                      justify-content:center;
+                      color:#687386;
+                      font-size:12px;
+                    "
+                  >
+                    No image
+                  </div>
+                `
+            }
 
-            </div>
+            <div class="card-body">
 
-            <div class="price-row">
-
-              <div class="price">
-                ${formatMoney(
-                  c.market,
-                  c.currency
-                )}
+              <div class="card-name">
+                ${escapeHTML(card.name)}
               </div>
 
-              <div
-                class="${changeClass(
-                  getTrend(c.raw,7)
-                )}"
-              >
-                ${percent(
-                  getTrend(c.raw,7)
-                )}
+              <div class="card-set">
+                ${escapeHTML(card.set)}
+              </div>
+
+              <div class="card-meta">
+
+                <div class="card-price">
+                  ${formatMoney(card.priceEUR)}
+                </div>
+
+                <div class="card-number">
+                  #${escapeHTML(card.number)}
+                </div>
+
+              </div>
+
+              <div class="badge">
+                ${escapeHTML(card.region || "—")}
+                ·
+                ${escapeHTML(card.id)}
               </div>
 
             </div>
 
           </article>
 
-        `
-      )
+        `;
 
+      })
       .join("");
-
 }
 
 
 /* =========================================================
-   MARKET TABLE
+   CATALOGUE
    ========================================================= */
 
-function renderMovers(cards){
+function renderCatalogue(list) {
 
-  const root =
-    $("movers");
+  if (!list.length) {
 
-
-  const rows =
-    [...cards]
-      .filter(
-        c =>
-          Number.isFinite(
-            Number(c.market)
-          )
-      )
-      .slice(0,50);
-
-
-  if(!rows.length){
-
-    root.innerHTML = `
-
-      <tr>
-        <td colspan="7">
-          No market prices returned.
-        </td>
-      </tr>
-
-    `;
-
-    return;
-
-  }
-
-
-  root.innerHTML =
-
-    rows.map(c=>{
-
-      const d1 =
-        getTrend(c.raw,1);
-
-      const d7 =
-        getTrend(c.raw,7);
-
-      const d30 =
-        getTrend(c.raw,30);
-
-
-      const signals =
-        getSignals(c);
-
-
-      return `
-
+    catalogueBody.innerHTML =
+      `
         <tr>
-
-          <td>
-
-            <strong>
-              ${escapeHTML(c.name)}
-            </strong>
-
-            <br>
-
-            <span
-              style="color:#687385"
-            >
-              ${escapeHTML(c.number)}
-            </span>
-
+          <td colspan="5">
+            <div class="empty">
+              No cards found.
+            </div>
           </td>
-
-          <td>
-            ${escapeHTML(c.set)}
-          </td>
-
-          <td>
-
-            <strong>
-              ${formatMoney(
-                c.market,
-                c.currency
-              )}
-            </strong>
-
-            <br>
-
-            <span
-              style="color:#687385;font-size:10px"
-            >
-              ${escapeHTML(c.source)}
-            </span>
-
-          </td>
-
-          <td class="${changeClass(d1)}">
-            ${percent(d1)}
-          </td>
-
-          <td class="${changeClass(d7)}">
-            ${percent(d7)}
-          </td>
-
-          <td class="${changeClass(d30)}">
-            ${percent(d30)}
-          </td>
-
-          <td>
-
-            ${
-              signals.length
-
-                ?
-
-              signals.map(
-                s => `
-
-                  <span
-                    class="badge ${s.cls}"
-                  >
-                    ${escapeHTML(
-                      s.label
-                    )}
-                  </span>
-
-                `
-              ).join(" ")
-
-                :
-
-              '<span class="neutral">—</span>'
-            }
-
-          </td>
-
         </tr>
-
       `;
 
-    }).join("");
-
-}
-
-
-/* =========================================================
-   INFO
-   ========================================================= */
-
-function renderInfo(cards){
-
-  const priced =
-    cards.filter(
-      c =>
-        Number.isFinite(
-          Number(c.market)
-        )
-    ).length;
-
-
-  $("info").innerHTML = `
-
-    <div class="info-card">
-
-      <div class="info-type">
-        DATABASE
-      </div>
-
-      <div class="info-title">
-        ${cards.length.toLocaleString()}
-        cards loaded
-      </div>
-
-      <div class="info-body">
-
-        Exact card IDs are preserved.
-        Images and prices are read from
-        the API card object rather than
-        matching by Pokémon name.
-
-      </div>
-
-    </div>
-
-
-    <div class="info-card">
-
-      <div class="info-type">
-        MARKET
-      </div>
-
-      <div class="info-title">
-        ${priced.toLocaleString()}
-        priced cards
-      </div>
-
-      <div class="info-body">
-
-        PokiRadar checks API index data,
-        TCGPlayer market data and
-        Cardmarket data when available.
-
-      </div>
-
-    </div>
-
-
-    <div class="info-card">
-
-      <div class="info-type">
-        CURRENCY
-      </div>
-
-      <div class="info-title">
-        ${state.currency}
-      </div>
-
-      <div class="info-body">
-
-        Changing currency updates every
-        displayed price without making
-        another API request.
-
-      </div>
-
-    </div>
-
-  `;
-
-}
-
-
-/* =========================================================
-   DIVERGENCE
-   ========================================================= */
-
-function renderDivergence(cards){
-
-  $("divergence").innerHTML = `
-
-    <tr>
-
-      <td colspan="5">
-
-        Japan/global comparable pricing
-        will appear when both market
-        observations are supplied by the
-        API response.
-
-      </td>
-
-    </tr>
-
-  `;
-
-}
-
-
-/* =========================================================
-   FILTER
-   ========================================================= */
-
-function applyFilters(){
-
-  const query =
-    $("search")
-      .value
-      .trim()
-      .toLowerCase();
-
-
-  state.filtered =
-    state.cards.filter(card=>{
-
-      const haystack = [
-
-        card.name,
-
-        card.set,
-
-        card.number,
-
-        card.rarity,
-
-        card.id
-
-      ]
-        .join(" ")
-        .toLowerCase();
-
-
-      if(
-        query &&
-        !haystack.includes(query)
-      ){
-
-        return false;
-
-      }
-
-
-      const signals =
-        getSignals(card);
-
-
-      if(
-        state.filter ===
-        "momentum"
-      ){
-
-        return signals.some(
-          s =>
-            s.type === "momentum"
-        );
-
-      }
-
-
-      if(
-        state.filter ===
-        "divergence"
-      ){
-
-        return signals.some(
-          s =>
-            s.type === "divergence"
-        );
-
-      }
-
-
-      if(
-        state.filter ===
-        "drops"
-      ){
-
-        return signals.some(
-          s =>
-            s.type === "drops"
-        );
-
-      }
-
-
-      return true;
-
-    });
-
-
-  renderCandidates(
-    state.filtered
-  );
-
-  renderMovers(
-    state.filtered
-  );
-
-  renderDivergence(
-    state.filtered
-  );
-
-}
-
-
-/* =========================================================
-   API
-   ========================================================= */
-
-function apiURL(){
-
-  const params =
-    new URLSearchParams();
-
-
-  params.set(
-    "limit",
-    "250"
-  );
-
-
-  /*
-     Keep these includes.
-
-     index  = market index information
-     images = exact card artwork
-     set    = exact set information
-  */
-
-  params.set(
-    "include",
-    "index,images,set"
-  );
-
-
-  return (
-    PROXY_BASE +
-    "/api/cards?" +
-    params.toString()
-  );
-
-}
-
-
-async function fetchJSON(url){
-
-  const response =
-    await fetch(
-      url,
-      {
-        method:"GET",
-        headers:{
-          Accept:"application/json"
-        },
-        cache:"no-store"
-      }
-    );
-
-
-  const text =
-    await response.text();
-
-
-  let data = null;
-
-
-  try{
-
-    data =
-      text
-        ? JSON.parse(text)
-        : null;
-
-  }
-  catch(_){
-
-    data = null;
-
-  }
-
-
-  if(!response.ok){
-
-    throw new Error(
-
-      data?.error?.message ||
-
-      data?.message ||
-
-      `API request failed: ${response.status}`
-
-    );
-
-  }
-
-
-  return data;
-
-}
-
-
-/* =========================================================
-   LOAD CARDS
-   ========================================================= */
-
-async function loadCards(){
-
-  if(state.loading)
     return;
-
-
-  state.loading = true;
-
-  clearError();
-
-  setStatus(
-    "Loading market data"
-  );
-
-
-  try{
-
-    const data =
-      await fetchJSON(
-        apiURL()
-      );
-
-
-    const raw =
-      Array.isArray(
-        data?.data
-      )
-        ? data.data
-        : [];
-
-
-    if(!raw.length){
-
-      throw new Error(
-        "The Worker returned zero cards."
-      );
-
-    }
-
-
-    state.cards =
-      raw.map(
-        normalizeCard
-      );
-
-
-    state.next =
-      data?.links?.next ||
-      null;
-
-
-    renderStats(
-      state.cards
-    );
-
-    renderInfo(
-      state.cards
-    );
-
-
-    applyFilters();
-
-
-    setStatus(
-
-      "Live · " +
-      state.cards.length.toLocaleString() +
-      " cards",
-
-      "live"
-
-    );
-
-
-    $("loadMore").style.display =
-      state.next
-        ? "block"
-        : "none";
-
-
-  }
-  catch(error){
-
-    console.error(
-      "PokiRadar API:",
-      error
-    );
-
-
-    showError(
-      error?.message ||
-      "Unable to load market data."
-    );
-
-  }
-  finally{
-
-    state.loading = false;
-
   }
 
+
+  catalogueBody.innerHTML =
+    list
+      .slice(0, 100)
+      .map(card => {
+
+        return `
+
+          <tr>
+
+            <td>
+              <div class="market-card">
+
+                ${
+                  card.image
+                    ? `
+                      <img
+                        class="market-thumb"
+                        src="${escapeHTML(card.image)}"
+                        alt="${escapeHTML(card.name)}"
+                        loading="lazy"
+                      >
+                    `
+                    : `
+                      <div class="market-thumb"></div>
+                    `
+                }
+
+                <div>
+
+                  <div class="market-name">
+                    ${escapeHTML(card.name)}
+                  </div>
+
+                  <div class="market-details">
+                    ID: ${escapeHTML(card.id)}
+                  </div>
+
+                </div>
+
+              </div>
+            </td>
+
+            <td>
+              ${escapeHTML(card.set)}
+            </td>
+
+            <td>
+              ${escapeHTML(card.number)}
+            </td>
+
+            <td>
+              ${escapeHTML(card.region || "—")}
+            </td>
+
+            <td>
+              <strong>
+                ${formatMoney(card.priceEUR)}
+              </strong>
+            </td>
+
+          </tr>
+
+        `;
+
+      })
+      .join("");
 }
+
+
+/* =========================================================
+   MARKET INFORMATION
+   ========================================================= */
+
+function renderMarketInfo(list) {
+
+  marketInfoBody.innerHTML =
+    list
+      .map(card => {
+
+        return `
+
+          <tr>
+
+            <td>
+              ${escapeHTML(card.name)}
+            </td>
+
+            <td>
+              ${escapeHTML(
+                formatDate(card.lastPriceAt)
+              )}
+            </td>
+
+            <td>
+              <code>
+                ${escapeHTML(card.id)}
+              </code>
+            </td>
+
+            <td>
+              ${formatMoney(card.priceEUR)}
+            </td>
+
+          </tr>
+
+        `;
+
+      })
+      .join("");
+}
+
+
+/* =========================================================
+   JAPAN
+   ========================================================= */
+
+function renderJapan(list) {
+
+  if (!list.length) {
+
+    japanBody.innerHTML =
+      `
+        <tr>
+          <td colspan="4">
+            No Japanese-region cards loaded.
+          </td>
+        </tr>
+      `;
+
+    return;
+  }
+
+
+  japanBody.innerHTML =
+    list
+      .map(card => {
+
+        return `
+
+          <tr>
+
+            <td>
+              ${escapeHTML(card.name)}
+            </td>
+
+            <td>
+              ${escapeHTML(card.region)}
+            </td>
+
+            <td>
+              ${escapeHTML(card.set)}
+            </td>
+
+            <td>
+              ${formatMoney(card.priceEUR)}
+            </td>
+
+          </tr>
+
+        `;
+
+      })
+      .join("");
+}
+
+
+/* =========================================================
+   SEARCH EVENTS
+   ========================================================= */
+
+searchInput.addEventListener(
+  "input",
+  render
+);
+
+
+/* =========================================================
+   CURRENCY
+   ========================================================= */
+
+currencySelect.addEventListener(
+  "change",
+  () => {
+
+    currency =
+      currencySelect.value;
+
+    localStorage.setItem(
+      "pokiradar_currency",
+      currency
+    );
+
+    render();
+  }
+);
+
+
+/* =========================================================
+   REFRESH
+   ========================================================= */
+
+refreshBtn.addEventListener(
+  "click",
+  async () => {
+
+    cards = [];
+    nextUrl = null;
+
+    radarGrid.innerHTML =
+      `<div class="loading">
+        Refreshing database...
+      </div>`;
+
+    catalogueBody.innerHTML = "";
+    marketInfoBody.innerHTML = "";
+    japanBody.innerHTML = "";
+
+    errorBox.style.display =
+      "none";
+
+    await fetchCards();
+  }
+);
 
 
 /* =========================================================
    LOAD MORE
    ========================================================= */
 
-async function loadMore(){
+loadMoreBtn.addEventListener(
+  "click",
+  async () => {
 
-  if(
-    state.loading ||
-    !state.next
-  ){
+    if (!nextUrl || loading) {
+      return;
+    }
 
-    return;
+    loadMoreBtn.disabled =
+      true;
 
+    loadMoreBtn.textContent =
+      "Loading...";
+
+    try {
+
+      await fetchCards(nextUrl);
+
+    } finally {
+
+      loadMoreBtn.disabled =
+        false;
+
+      loadMoreBtn.textContent =
+        "Load More";
+    }
   }
-
-
-  state.loading = true;
-
-  $("loadMore").textContent =
-    "Loading…";
-
-
-  try{
-
-    const nextURL =
-      PROXY_BASE +
-      "/api/cards?next=" +
-      encodeURIComponent(
-        state.next
-      );
-
-
-    const data =
-      await fetchJSON(
-        nextURL
-      );
-
-
-    const raw =
-      Array.isArray(
-        data?.data
-      )
-        ? data.data
-        : [];
-
-
-    const newCards =
-      raw.map(
-        normalizeCard
-      );
-
-
-    state.cards.push(
-      ...newCards
-    );
-
-
-    state.next =
-      data?.links?.next ||
-      null;
-
-
-    renderStats(
-      state.cards
-    );
-
-    renderInfo(
-      state.cards
-    );
-
-    applyFilters();
-
-
-    $("loadMore").style.display =
-      state.next
-        ? "block"
-        : "none";
-
-
-    setStatus(
-
-      "Live · " +
-      state.cards.length.toLocaleString() +
-      " cards",
-
-      "live"
-
-    );
-
-  }
-  catch(error){
-
-    showError(
-      error?.message ||
-      "Unable to load more cards."
-    );
-
-  }
-  finally{
-
-    state.loading = false;
-
-    $("loadMore").textContent =
-      "Load more cards";
-
-  }
-
-}
+);
 
 
 /* =========================================================
-   EVENTS
+   FILTER BUTTONS
    ========================================================= */
-
-$("search")
-  .addEventListener(
-    "input",
-    applyFilters
-  );
-
-
-$("refresh")
-  .addEventListener(
-    "click",
-    loadCards
-  );
-
-
-$("loadMore")
-  .addEventListener(
-    "click",
-    loadMore
-  );
-
-
-$("currency")
-  .addEventListener(
-    "change",
-    event=>{
-
-      state.currency =
-        event.target.value;
-
-
-      localStorage.setItem(
-        "pokiradar_currency",
-        state.currency
-      );
-
-
-      /*
-         Currency is purely local.
-         No API request.
-      */
-
-      renderStats(
-        state.cards
-      );
-
-      renderInfo(
-        state.cards
-      );
-
-      applyFilters();
-
-    }
-  );
-
 
 document
   .querySelectorAll(".filter")
-  .forEach(button=>{
+  .forEach(button => {
 
     button.addEventListener(
       "click",
-      ()=>{
+      () => {
 
         document
-          .querySelectorAll(
-            ".filter"
-          )
-          .forEach(
-            b =>
-              b.classList.remove(
-                "active"
-              )
+          .querySelectorAll(".filter")
+          .forEach(btn =>
+            btn.classList.remove("active")
           );
 
+        button.classList.add("active");
 
-        button.classList.add(
-          "active"
-        );
-
-
-        state.filter =
+        currentFilter =
           button.dataset.filter;
 
+        /*
+          Movement filters are intentionally
+          not generating fake data.
 
-        applyFilters();
+          Historical movement will be added once
+          PokiRadar has historical snapshots.
+        */
 
+        render();
       }
     );
 
@@ -2757,11 +1758,7 @@ document
    START
    ========================================================= */
 
-$("currency").value =
-  state.currency;
-
-
-loadCards();
+fetchCards();
 
 </script>
 
