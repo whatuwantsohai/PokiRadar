@@ -3,26 +3,27 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#08090c">
+<meta name="theme-color" content="#08090d">
 <title>PokiRadar</title>
 
 <style>
 :root{
-  --bg:#07080b;
-  --panel:#0e1015;
-  --panel2:#12151b;
-  --panel3:#171b22;
-  --line:rgba(255,255,255,.08);
-  --line2:rgba(255,255,255,.13);
-  --text:#f4f6f8;
-  --muted:#8f98a6;
-  --muted2:#697280;
-  --accent:#8df7b2;
-  --accent2:#67dfff;
-  --danger:#ff7e8b;
-  --warning:#ffd27a;
-  --shadow:0 24px 80px rgba(0,0,0,.45);
-  --radius:20px;
+  --bg:#08090d;
+  --panel:#101218;
+  --panel-2:#141720;
+  --panel-3:#181c26;
+  --border:rgba(255,255,255,.08);
+  --border-strong:rgba(255,255,255,.13);
+  --text:#f5f7fb;
+  --muted:#8e96a8;
+  --muted-2:#646c7c;
+  --accent:#8b7cff;
+  --accent-2:#b6adff;
+  --green:#63d99a;
+  --red:#ff6f7d;
+  --yellow:#f4ca67;
+  --shadow:0 24px 70px rgba(0,0,0,.38);
+  --radius:22px;
 }
 
 *{
@@ -30,7 +31,16 @@
 }
 
 html{
-  background:var(--bg);
+  scroll-behavior:smooth;
+}
+
+body{
+  margin:0;
+  min-height:100vh;
+  background:
+    radial-gradient(circle at 15% 0%, rgba(139,124,255,.12), transparent 28%),
+    radial-gradient(circle at 85% 8%, rgba(84,132,255,.08), transparent 25%),
+    var(--bg);
   color:var(--text);
   font-family:
     Inter,
@@ -40,20 +50,11 @@ html{
     BlinkMacSystemFont,
     "Segoe UI",
     sans-serif;
-}
-
-body{
-  margin:0;
-  min-height:100vh;
-  background:
-    radial-gradient(circle at 15% -5%,rgba(103,223,255,.09),transparent 32%),
-    radial-gradient(circle at 85% 0%,rgba(141,247,178,.07),transparent 30%),
-    linear-gradient(180deg,#07080b 0%,#090b0f 48%,#07080b 100%);
+  overflow-x:hidden;
 }
 
 button,
-input,
-select{
+input{
   font:inherit;
 }
 
@@ -62,406 +63,336 @@ button{
 }
 
 .app{
-  width:min(1500px,calc(100% - 32px));
+  width:min(1480px, calc(100% - 36px));
   margin:0 auto;
-  padding:28px 0 50px;
+  padding:28px 0 60px;
 }
 
-/* ================= HEADER ================= */
+/* HEADER */
 
 .header{
   display:flex;
   align-items:center;
   justify-content:space-between;
   gap:20px;
-  margin-bottom:28px;
+  margin-bottom:38px;
 }
 
 .brand{
   display:flex;
   align-items:center;
-  gap:14px;
+  gap:13px;
 }
 
 .brand-mark{
   width:42px;
   height:42px;
-  border-radius:13px;
+  border-radius:14px;
+  display:grid;
+  place-items:center;
   background:
-    radial-gradient(circle at 30% 25%,#fff 0 5%,transparent 6%),
-    linear-gradient(135deg,#8df7b2,#67dfff);
-  position:relative;
+    linear-gradient(145deg, rgba(139,124,255,.28), rgba(139,124,255,.06));
+  border:1px solid rgba(139,124,255,.25);
   box-shadow:
-    0 0 35px rgba(103,223,255,.14),
-    0 0 22px rgba(141,247,178,.10);
+    0 12px 32px rgba(0,0,0,.3),
+    inset 0 1px 0 rgba(255,255,255,.08);
+  font-size:21px;
 }
 
-.brand-mark:before{
-  content:"";
-  position:absolute;
-  inset:9px;
-  border-radius:50%;
-  background:#090b0f;
-}
-
-.brand-mark:after{
-  content:"";
-  position:absolute;
-  left:16px;
-  right:16px;
-  top:20px;
-  height:3px;
-  background:#090b0f;
-  z-index:2;
-}
-
-.brand-copy h1{
-  margin:0;
-  font-size:22px;
+.brand-name{
+  font-size:21px;
+  font-weight:750;
   letter-spacing:-.04em;
-}
-
-.brand-copy p{
-  margin:2px 0 0;
-  color:var(--muted);
-  font-size:12px;
-}
-
-.header-actions{
-  display:flex;
-  align-items:center;
-  gap:10px;
 }
 
 .status{
   display:flex;
   align-items:center;
   gap:8px;
-  border:1px solid var(--line);
-  background:rgba(255,255,255,.025);
-  border-radius:999px;
   padding:8px 12px;
-  font-size:12px;
+  border-radius:999px;
+  border:1px solid var(--border);
+  background:rgba(255,255,255,.025);
   color:var(--muted);
+  font-size:12px;
+  font-weight:650;
 }
 
 .status-dot{
   width:7px;
   height:7px;
   border-radius:50%;
-  background:var(--muted2);
+  background:var(--muted-2);
+  box-shadow:0 0 0 transparent;
 }
 
-.status.connected .status-dot{
-  background:var(--accent);
-  box-shadow:0 0 12px rgba(141,247,178,.7);
+.status.online .status-dot{
+  background:var(--green);
+  box-shadow:0 0 12px rgba(99,217,154,.7);
 }
 
 .status.error .status-dot{
-  background:var(--danger);
-  box-shadow:0 0 12px rgba(255,126,139,.6);
+  background:var(--red);
+  box-shadow:0 0 12px rgba(255,111,125,.55);
 }
 
-/* ================= HERO ================= */
+/* HERO */
 
 .hero{
-  position:relative;
-  overflow:hidden;
-  border:1px solid var(--line);
-  border-radius:28px;
-  background:
-    radial-gradient(circle at 78% 15%,rgba(103,223,255,.08),transparent 28%),
-    radial-gradient(circle at 10% 80%,rgba(141,247,178,.055),transparent 25%),
-    linear-gradient(145deg,rgba(255,255,255,.045),rgba(255,255,255,.018));
-  box-shadow:var(--shadow);
-  padding:38px;
-  margin-bottom:18px;
-}
-
-.hero:after{
-  content:"";
-  position:absolute;
-  width:420px;
-  height:420px;
-  right:-160px;
-  bottom:-220px;
-  border-radius:50%;
-  border:1px solid rgba(103,223,255,.08);
-  box-shadow:
-    0 0 0 55px rgba(103,223,255,.025),
-    0 0 0 110px rgba(103,223,255,.012);
-  pointer-events:none;
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  align-items:end;
+  gap:30px;
+  margin-bottom:30px;
 }
 
 .eyebrow{
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-  color:var(--accent);
-  font-size:11px;
-  font-weight:700;
+  color:var(--accent-2);
+  font-size:12px;
+  font-weight:750;
   text-transform:uppercase;
-  letter-spacing:.13em;
-  margin-bottom:13px;
+  letter-spacing:.14em;
+  margin-bottom:12px;
 }
 
-.eyebrow span{
-  width:6px;
-  height:6px;
-  border-radius:50%;
-  background:currentColor;
-  box-shadow:0 0 12px currentColor;
-}
-
-.hero h2{
+h1{
   margin:0;
   max-width:850px;
-  font-size:clamp(34px,5vw,68px);
+  font-size:clamp(38px, 5vw, 72px);
   line-height:.98;
   letter-spacing:-.065em;
   font-weight:800;
 }
 
-.hero h2 em{
-  color:var(--accent);
-  font-style:normal;
-}
-
 .hero-copy{
-  max-width:760px;
+  max-width:700px;
+  margin-top:20px;
   color:var(--muted);
+  font-size:16px;
   line-height:1.65;
-  margin:18px 0 0;
-  font-size:14px;
 }
 
-/* ================ CONNECTION ================ */
-
-.connection-panel{
-  border:1px solid var(--line);
-  border-radius:20px;
-  background:rgba(255,255,255,.025);
-  padding:18px;
-  margin-bottom:18px;
-}
-
-.connection-row{
+.hero-side{
   display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:15px;
+  justify-content:flex-end;
 }
 
-.connection-title{
-  font-size:14px;
-  font-weight:750;
-}
+/* CONTROLS */
 
-.connection-sub{
-  color:var(--muted);
-  font-size:11px;
-  margin-top:4px;
-}
-
-.connection-state{
-  color:var(--muted);
-  font-size:12px;
-  white-space:nowrap;
-}
-
-.connection-state.good{
-  color:var(--accent);
-}
-
-.connection-state.bad{
-  color:var(--danger);
-}
-
-/* ================= TOOLBAR ================= */
-
-.toolbar{
-  display:flex;
-  gap:10px;
-  align-items:center;
-  justify-content:space-between;
-  margin-bottom:10px;
+.controls{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  gap:12px;
+  margin-bottom:14px;
 }
 
 .search-wrap{
   position:relative;
-  flex:1;
-}
-
-.search{
-  width:100%;
-  height:48px;
-  border:1px solid var(--line);
-  border-radius:14px;
-  background:rgba(255,255,255,.035);
-  color:var(--text);
-  padding:0 15px 0 44px;
-  outline:none;
-}
-
-.search:focus{
-  border-color:rgba(103,223,255,.35);
-  box-shadow:0 0 0 3px rgba(103,223,255,.06);
 }
 
 .search-icon{
   position:absolute;
-  left:15px;
+  left:17px;
   top:50%;
   transform:translateY(-50%);
-  color:var(--muted);
+  color:var(--muted-2);
+  pointer-events:none;
+  font-size:16px;
+}
+
+.search{
+  width:100%;
+  height:54px;
+  border-radius:16px;
+  border:1px solid var(--border);
+  background:rgba(255,255,255,.035);
+  color:var(--text);
+  padding:0 18px 0 47px;
+  outline:none;
+  transition:
+    border-color .2s ease,
+    background .2s ease,
+    box-shadow .2s ease;
+}
+
+.search::placeholder{
+  color:var(--muted-2);
+}
+
+.search:focus{
+  border-color:rgba(139,124,255,.48);
+  background:rgba(255,255,255,.05);
+  box-shadow:0 0 0 4px rgba(139,124,255,.08);
+}
+
+.refresh-btn{
+  height:54px;
+  padding:0 20px;
+  border-radius:16px;
+  border:1px solid var(--border-strong);
+  background:rgba(255,255,255,.045);
+  color:var(--text);
+  font-weight:700;
+  transition:
+    transform .18s ease,
+    background .18s ease,
+    border-color .18s ease;
+}
+
+.refresh-btn:hover{
+  background:rgba(255,255,255,.075);
+  border-color:rgba(255,255,255,.18);
+  transform:translateY(-1px);
+}
+
+.refresh-btn:active{
+  transform:translateY(0);
+}
+
+.refresh-btn.loading{
+  opacity:.65;
   pointer-events:none;
 }
 
-.secondary{
-  height:40px;
-  border:1px solid var(--line2);
-  border-radius:11px;
-  padding:0 14px;
-  background:rgba(255,255,255,.035);
-  color:var(--text);
-}
-
-.secondary:hover{
-  background:rgba(255,255,255,.07);
-}
-
-/* ================= FILTERS ================= */
+/* FILTERS */
 
 .filters{
   display:flex;
-  gap:7px;
+  gap:8px;
   flex-wrap:wrap;
-  margin-bottom:18px;
+  margin-bottom:26px;
 }
 
 .filter{
-  height:40px;
-  border:1px solid var(--line);
-  border-radius:999px;
+  border:1px solid var(--border);
   background:rgba(255,255,255,.025);
   color:var(--muted);
-  padding:0 14px;
+  border-radius:999px;
+  padding:9px 14px;
+  font-size:12px;
+  font-weight:700;
+  transition:
+    background .18s ease,
+    border-color .18s ease,
+    color .18s ease;
+}
+
+.filter:hover{
+  color:var(--text);
+  background:rgba(255,255,255,.05);
 }
 
 .filter.active{
-  color:#07100c;
-  background:var(--accent);
-  border-color:var(--accent);
-  font-weight:750;
+  color:var(--text);
+  border-color:rgba(139,124,255,.42);
+  background:rgba(139,124,255,.13);
 }
 
-/* ================= STATS ================= */
+/* STATS */
 
 .stats{
   display:grid;
   grid-template-columns:repeat(4,1fr);
   gap:12px;
-  margin-bottom:18px;
+  margin-bottom:30px;
 }
 
 .stat{
-  border:1px solid var(--line);
-  border-radius:18px;
-  padding:19px;
-  background:rgba(255,255,255,.025);
-  min-height:115px;
+  min-width:0;
+  padding:20px;
+  border:1px solid var(--border);
+  border-radius:20px;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255,255,255,.045),
+      rgba(255,255,255,.018)
+    );
+  box-shadow:0 16px 45px rgba(0,0,0,.18);
 }
 
 .stat-label{
   color:var(--muted);
-  font-size:11px;
-  text-transform:uppercase;
-  letter-spacing:.1em;
+  font-size:12px;
+  font-weight:650;
+  margin-bottom:9px;
 }
 
 .stat-value{
-  margin-top:12px;
   font-size:27px;
-  font-weight:800;
+  font-weight:780;
   letter-spacing:-.045em;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
 }
 
-.stat-note{
-  margin-top:4px;
-  color:var(--muted2);
+.stat-sub{
+  color:var(--muted-2);
   font-size:11px;
+  margin-top:6px;
 }
 
-/* ================= SECTIONS ================= */
+/* SECTION */
 
 .section{
-  margin-top:18px;
+  margin-top:34px;
 }
 
-.section-head{
+.section-header{
   display:flex;
   align-items:end;
   justify-content:space-between;
-  gap:15px;
-  margin-bottom:12px;
+  gap:16px;
+  margin-bottom:15px;
 }
 
 .section-title{
   margin:0;
-  font-size:18px;
+  font-size:20px;
   letter-spacing:-.035em;
 }
 
-.section-sub{
+.section-description{
   color:var(--muted);
   font-size:12px;
-  margin-top:4px;
 }
 
-/* ================= RADAR ================= */
+/* RADAR */
 
 .radar-grid{
   display:grid;
   grid-template-columns:repeat(4,1fr);
-  gap:12px;
+  gap:14px;
 }
 
 .radar-card{
+  min-width:0;
   position:relative;
   overflow:hidden;
-  min-height:315px;
-  border:1px solid var(--line);
   border-radius:20px;
+  border:1px solid var(--border);
   background:
-    linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.018));
-  cursor:pointer;
+    radial-gradient(circle at 50% 0%, rgba(139,124,255,.12), transparent 55%),
+    var(--panel);
   transition:
     transform .2s ease,
     border-color .2s ease,
-    background .2s ease;
+    box-shadow .2s ease;
 }
 
 .radar-card:hover{
   transform:translateY(-3px);
-  border-color:rgba(141,247,178,.23);
-  background:linear-gradient(180deg,rgba(255,255,255,.065),rgba(255,255,255,.025));
+  border-color:rgba(255,255,255,.14);
+  box-shadow:var(--shadow);
 }
 
 .radar-image{
-  height:190px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:18px;
-  background:
-    radial-gradient(circle at 50% 50%,rgba(255,255,255,.09),transparent 62%);
-}
-
-.radar-image img{
-  max-width:100%;
-  max-height:175px;
-  object-fit:contain;
-  filter:drop-shadow(0 16px 22px rgba(0,0,0,.45));
+  width:100%;
+  aspect-ratio:3/4;
+  object-fit:cover;
+  display:block;
+  background:#0b0d12;
 }
 
 .radar-info{
@@ -469,91 +400,89 @@ button{
 }
 
 .radar-name{
+  font-size:14px;
   font-weight:750;
+  line-height:1.25;
   white-space:nowrap;
   overflow:hidden;
   text-overflow:ellipsis;
 }
 
 .radar-set{
+  margin-top:5px;
   color:var(--muted);
   font-size:11px;
-  margin-top:4px;
   white-space:nowrap;
   overflow:hidden;
   text-overflow:ellipsis;
 }
 
-.radar-bottom{
-  display:flex;
-  align-items:end;
-  justify-content:space-between;
-  gap:10px;
-  margin-top:13px;
-}
-
 .radar-price{
-  font-size:20px;
-  font-weight:800;
+  display:flex;
+  justify-content:space-between;
+  align-items:end;
+  gap:10px;
+  margin-top:14px;
 }
 
-.radar-price small{
-  display:block;
-  color:var(--muted2);
+.price-main{
+  font-size:18px;
+  font-weight:780;
+  letter-spacing:-.035em;
+}
+
+.price-label{
+  color:var(--muted-2);
   font-size:10px;
-  font-weight:500;
   margin-top:2px;
 }
 
-.radar-tag{
-  border:1px solid rgba(141,247,178,.17);
-  color:var(--accent);
+.signal{
+  color:var(--accent-2);
+  font-size:10px;
+  font-weight:750;
+  padding:6px 8px;
   border-radius:999px;
-  padding:5px 8px;
-  font-size:9px;
-  text-transform:uppercase;
-  letter-spacing:.08em;
+  background:rgba(139,124,255,.1);
+  border:1px solid rgba(139,124,255,.16);
 }
 
-/* ================= TABLE ================= */
+/* TABLE */
 
-.table-shell{
-  border:1px solid var(--line);
-  border-radius:20px;
+.table-wrap{
   overflow:hidden;
-  background:rgba(255,255,255,.018);
+  border-radius:20px;
+  border:1px solid var(--border);
+  background:var(--panel);
 }
 
 .table-scroll{
-  overflow:auto;
+  overflow-x:auto;
 }
 
 table{
   width:100%;
   border-collapse:collapse;
-  min-width:940px;
-}
-
-thead{
-  background:rgba(255,255,255,.025);
+  min-width:780px;
 }
 
 th{
   text-align:left;
-  padding:13px 15px;
-  color:var(--muted2);
+  color:var(--muted-2);
   font-size:10px;
+  font-weight:750;
   text-transform:uppercase;
   letter-spacing:.09em;
-  font-weight:700;
+  padding:14px 16px;
+  border-bottom:1px solid var(--border);
   white-space:nowrap;
 }
 
 td{
-  padding:12px 15px;
-  border-top:1px solid var(--line);
+  padding:13px 16px;
+  border-bottom:1px solid rgba(255,255,255,.045);
   font-size:12px;
-  white-space:nowrap;
+  color:#dfe3eb;
 }
 
 tbody tr{
@@ -562,85 +491,147 @@ tbody tr{
 }
 
 tbody tr:hover{
-  background:rgba(255,255,255,.035);
+  background:rgba(255,255,255,.025);
+}
+
+tbody tr:last-child td{
+  border-bottom:0;
 }
 
 .card-cell{
   display:flex;
   align-items:center;
-  gap:11px;
-  min-width:260px;
+  gap:12px;
+  min-width:230px;
 }
 
 .thumb{
-  width:43px;
-  height:58px;
-  flex:none;
+  width:38px;
+  height:52px;
   border-radius:7px;
-  background:#151820;
-  object-fit:contain;
+  object-fit:cover;
+  background:#0b0d12;
+  flex:none;
 }
 
 .card-name{
+  min-width:0;
+}
+
+.card-name-main{
+  font-weight:700;
+  color:var(--text);
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  max-width:260px;
+}
+
+.card-name-sub{
+  color:var(--muted-2);
+  font-size:10px;
+  margin-top:4px;
+}
+
+.market-covered{
+  color:var(--green);
   font-weight:700;
 }
 
-.card-meta{
-  color:var(--muted);
-  font-size:10px;
-  margin-top:3px;
+.no-market{
+  color:var(--muted-2);
 }
-
-.price{
-  font-variant-numeric:tabular-nums;
-}
-
-.price.primary-price{
-  color:var(--accent);
-  font-weight:800;
-}
-
-/* ================= LOADING ================= */
-
-.loading{
-  padding:55px 20px;
-  text-align:center;
-  color:var(--muted);
-}
-
-.spinner{
-  width:26px;
-  height:26px;
-  border-radius:50%;
-  border:2px solid rgba(255,255,255,.1);
-  border-top-color:var(--accent);
-  animation:spin .8s linear infinite;
-  margin:0 auto 13px;
-}
-
-@keyframes spin{
-  to{transform:rotate(360deg)}
-}
-
-.empty{
-  padding:50px 20px;
-  text-align:center;
-  color:var(--muted);
-}
-
-/* ================= LOAD MORE ================= */
 
 .load-more-wrap{
   display:flex;
   justify-content:center;
-  padding:20px 0 5px;
+  padding-top:18px;
 }
 
 .load-more{
-  min-width:150px;
+  padding:11px 18px;
+  border-radius:13px;
+  border:1px solid var(--border);
+  background:rgba(255,255,255,.035);
+  color:var(--text);
+  font-size:12px;
+  font-weight:700;
 }
 
-/* ================= MODAL ================= */
+.load-more:hover{
+  background:rgba(255,255,255,.06);
+}
+
+.load-more:disabled{
+  opacity:.4;
+  cursor:not-allowed;
+}
+
+/* EMPTY / LOADING */
+
+.empty{
+  padding:50px 20px;
+  text-align:center;
+  border:1px dashed var(--border);
+  border-radius:20px;
+  color:var(--muted);
+}
+
+.empty-title{
+  color:var(--text);
+  font-weight:750;
+  margin-bottom:7px;
+}
+
+.empty-text{
+  font-size:12px;
+}
+
+.skeleton{
+  position:relative;
+  overflow:hidden;
+  background:rgba(255,255,255,.035);
+}
+
+.skeleton::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  transform:translateX(-100%);
+  background:linear-gradient(
+    90deg,
+    transparent,
+    rgba(255,255,255,.06),
+    transparent
+  );
+  animation:shimmer 1.4s infinite;
+}
+
+@keyframes shimmer{
+  to{
+    transform:translateX(100%);
+  }
+}
+
+/* ERROR */
+
+.error-box{
+  display:none;
+  margin-bottom:22px;
+  padding:15px 17px;
+  border-radius:16px;
+  border:1px solid rgba(255,111,125,.22);
+  background:rgba(255,111,125,.06);
+  color:#ffb0b8;
+  font-size:12px;
+  line-height:1.55;
+}
+
+.error-box.visible{
+  display:block;
+}
+
+/* MODAL */
 
 .modal{
   position:fixed;
@@ -651,7 +642,7 @@ tbody tr:hover{
   justify-content:center;
   padding:20px;
   background:rgba(0,0,0,.72);
-  backdrop-filter:blur(16px);
+  backdrop-filter:blur(14px);
 }
 
 .modal.open{
@@ -659,313 +650,248 @@ tbody tr:hover{
 }
 
 .modal-card{
-  width:min(920px,100%);
-  max-height:90vh;
+  width:min(850px,100%);
+  max-height:min(820px,92vh);
   overflow:auto;
-  border:1px solid var(--line2);
-  border-radius:25px;
+  border:1px solid var(--border-strong);
+  border-radius:26px;
   background:
-    radial-gradient(circle at 80% 0%,rgba(103,223,255,.06),transparent 30%),
-    #0c0e13;
-  box-shadow:0 40px 120px rgba(0,0,0,.65);
+    radial-gradient(circle at 15% 0%, rgba(139,124,255,.12), transparent 38%),
+    #0d0f14;
+  box-shadow:0 35px 100px rgba(0,0,0,.6);
 }
 
-.modal-top{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:15px 18px;
-  border-bottom:1px solid var(--line);
-}
-
-.modal-label{
-  color:var(--muted);
-  font-size:11px;
-  text-transform:uppercase;
-  letter-spacing:.1em;
-}
-
-.close{
-  width:36px;
-  height:36px;
+.modal-close{
+  position:absolute;
+  top:16px;
+  right:16px;
+  width:38px;
+  height:38px;
   border-radius:50%;
-  border:1px solid var(--line);
-  background:rgba(255,255,255,.035);
+  border:1px solid var(--border);
+  background:rgba(0,0,0,.35);
   color:var(--text);
+  font-size:20px;
+  z-index:2;
 }
 
-.modal-body{
+.modal-content{
+  position:relative;
   display:grid;
-  grid-template-columns:280px 1fr;
-  gap:28px;
-  padding:28px;
+  grid-template-columns:280px minmax(0,1fr);
+  gap:30px;
+  padding:30px;
 }
 
 .modal-image{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  min-height:360px;
-  border:1px solid var(--line);
-  border-radius:18px;
-  background:
-    radial-gradient(circle,rgba(255,255,255,.07),transparent 68%);
-}
-
-.modal-image img{
-  max-width:100%;
-  max-height:390px;
-  object-fit:contain;
-  filter:drop-shadow(0 20px 35px rgba(0,0,0,.5));
+  width:100%;
+  border-radius:15px;
+  display:block;
+  background:#08090d;
+  box-shadow:0 20px 50px rgba(0,0,0,.35);
 }
 
 .modal-title{
-  margin:0;
-  font-size:34px;
+  margin:8px 0 8px;
+  font-size:31px;
   line-height:1.05;
   letter-spacing:-.05em;
 }
 
-.modal-sub{
-  margin-top:7px;
+.modal-meta{
   color:var(--muted);
   font-size:13px;
+  line-height:1.65;
 }
 
-.detail-grid{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:10px;
-  margin-top:22px;
-}
-
-.detail{
-  border:1px solid var(--line);
-  border-radius:14px;
-  padding:13px;
-  background:rgba(255,255,255,.02);
-}
-
-.detail-label{
-  color:var(--muted2);
-  font-size:9px;
-  text-transform:uppercase;
-  letter-spacing:.09em;
-}
-
-.detail-value{
-  margin-top:5px;
-  font-size:14px;
-  font-weight:700;
+.modal-id{
+  display:inline-flex;
+  margin-top:15px;
+  padding:7px 9px;
+  border-radius:8px;
+  background:rgba(255,255,255,.04);
+  border:1px solid var(--border);
+  color:var(--muted);
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+  font-size:10px;
 }
 
 .modal-price{
-  margin-top:20px;
+  margin-top:24px;
   padding:17px;
-  border:1px solid rgba(141,247,178,.13);
-  border-radius:16px;
-  background:rgba(141,247,178,.035);
+  border-radius:17px;
+  border:1px solid var(--border);
+  background:rgba(255,255,255,.025);
 }
 
 .modal-price-label{
   color:var(--muted);
-  font-size:10px;
-  text-transform:uppercase;
-  letter-spacing:.1em;
+  font-size:11px;
 }
 
 .modal-price-value{
   margin-top:5px;
-  font-size:32px;
-  font-weight:850;
-  color:var(--accent);
-  letter-spacing:-.05em;
+  font-size:27px;
+  font-weight:800;
+  letter-spacing:-.045em;
+}
+
+.currency-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:8px;
+  margin-top:10px;
+}
+
+.currency{
+  padding:10px;
+  border-radius:12px;
+  border:1px solid var(--border);
+  background:rgba(255,255,255,.02);
+}
+
+.currency-code{
+  color:var(--muted-2);
+  font-size:9px;
+  font-weight:750;
+}
+
+.currency-value{
+  margin-top:4px;
+  font-size:12px;
+  font-weight:700;
 }
 
 .modal-note{
-  margin-top:8px;
-  color:var(--muted2);
+  margin-top:14px;
+  color:var(--muted-2);
   font-size:10px;
   line-height:1.5;
 }
 
-/* ================= FOOTER ================= */
+/* FOOTER */
 
 .footer{
-  margin-top:30px;
-  border-top:1px solid var(--line);
-  padding-top:18px;
-  display:flex;
-  justify-content:space-between;
-  gap:15px;
-  color:var(--muted2);
+  margin-top:55px;
+  padding-top:20px;
+  border-top:1px solid var(--border);
+  color:var(--muted-2);
   font-size:10px;
+  line-height:1.6;
 }
 
-/* ================= TOAST ================= */
-
-.toast{
-  position:fixed;
-  left:50%;
-  bottom:22px;
-  z-index:200;
-  transform:translate(-50%,20px);
-  opacity:0;
-  pointer-events:none;
-  padding:11px 15px;
-  border:1px solid var(--line2);
-  border-radius:999px;
-  background:#11141a;
-  color:var(--text);
-  font-size:12px;
-  box-shadow:0 15px 45px rgba(0,0,0,.45);
-  transition:.25s ease;
+.footer strong{
+  color:var(--muted);
 }
 
-.toast.show{
-  opacity:1;
-  transform:translate(-50%,0);
-}
-
-/* ================= RESPONSIVE ================= */
+/* RESPONSIVE */
 
 @media(max-width:1100px){
-
   .radar-grid{
-    grid-template-columns:repeat(2,1fr);
+    grid-template-columns:repeat(3,1fr);
   }
 
   .stats{
     grid-template-columns:repeat(2,1fr);
   }
-
 }
 
 @media(max-width:760px){
-
   .app{
-    width:min(100% - 20px,1500px);
-    padding-top:15px;
+    width:min(100% - 22px, 1480px);
+    padding-top:18px;
   }
 
   .header{
-    align-items:flex-start;
-  }
-
-  .status{
-    display:none;
+    margin-bottom:28px;
   }
 
   .hero{
-    padding:25px 20px;
-    border-radius:21px;
+    grid-template-columns:1fr;
   }
 
-  .hero h2{
-    font-size:38px;
+  .hero-side{
+    justify-content:flex-start;
   }
 
-  .toolbar{
-    flex-direction:column;
-    align-items:stretch;
+  h1{
+    font-size:42px;
   }
 
-  .filters{
-    overflow:auto;
-    flex-wrap:nowrap;
-    padding-bottom:2px;
-  }
-
-  .filter{
-    flex:none;
-  }
-
-  .stats{
-    grid-template-columns:1fr 1fr;
-  }
-
-  .stat{
-    min-height:105px;
-    padding:15px;
-  }
-
-  .stat-value{
-    font-size:22px;
+  .controls{
+    grid-template-columns:1fr;
   }
 
   .radar-grid{
-    grid-template-columns:1fr 1fr;
+    grid-template-columns:repeat(2,1fr);
+    gap:10px;
   }
 
-  .radar-card{
-    min-height:280px;
+  .stats{
+    gap:9px;
   }
 
-  .radar-image{
-    height:155px;
+  .stat{
+    padding:16px;
   }
 
-  .radar-image img{
-    max-height:145px;
+  .stat-value{
+    font-size:21px;
   }
 
-  .connection-row{
-    align-items:flex-start;
-    flex-direction:column;
-  }
-
-  .modal-body{
+  .modal-content{
     grid-template-columns:1fr;
+    gap:20px;
+    padding:22px;
   }
 
   .modal-image{
-    min-height:280px;
+    width:min(260px,100%);
+    margin:0 auto;
   }
 
+  .currency-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
 }
 
-@media(max-width:480px){
+@media(max-width:460px){
+  .brand-name{
+    font-size:18px;
+  }
 
-  .brand-copy p{
-    display:none;
+  .status{
+    font-size:10px;
+    padding:7px 9px;
+  }
+
+  h1{
+    font-size:36px;
+  }
+
+  .hero-copy{
+    font-size:14px;
   }
 
   .radar-grid{
-    grid-template-columns:1fr;
+    grid-template-columns:1fr 1fr;
   }
 
-  .radar-card{
-    min-height:300px;
+  .radar-info{
+    padding:11px;
   }
 
-  .radar-image{
-    height:190px;
+  .radar-name{
+    font-size:12px;
   }
 
-  .stats{
-    gap:8px;
+  .price-main{
+    font-size:15px;
   }
 
-  .stat{
-    padding:13px;
+  .signal{
+    display:none;
   }
-
-  .stat-value{
-    font-size:19px;
-  }
-
-  .modal{
-    padding:8px;
-  }
-
-  .modal-card{
-    border-radius:19px;
-  }
-
-  .modal-body{
-    padding:20px;
-  }
-
 }
 </style>
 </head>
@@ -975,102 +901,54 @@ tbody tr:hover{
 <div class="app">
 
   <header class="header">
-
     <div class="brand">
-
-      <div class="brand-mark"></div>
-
-      <div class="brand-copy">
-        <h1>PokiRadar</h1>
-        <p>Pokémon TCG Market Intelligence</p>
-      </div>
-
+      <div class="brand-mark">◈</div>
+      <div class="brand-name">PokiRadar</div>
     </div>
 
-    <div class="header-actions">
-
-      <div id="connectionStatus" class="status">
-
-        <span class="status-dot"></span>
-
-        <span id="connectionText">
-          Connecting…
-        </span>
-
-      </div>
-
+    <div class="status" id="connectionStatus">
+      <span class="status-dot"></span>
+      <span id="connectionText">Connecting...</span>
     </div>
-
   </header>
 
   <section class="hero">
 
-    <div class="eyebrow">
-      <span></span>
-      Live market intelligence
-    </div>
+    <div>
+      <div class="eyebrow">Pokémon TCG Market Intelligence</div>
 
-    <h2>
-      Find what is changing before
-      <em>simply watching prices.</em>
-    </h2>
+      <h1>
+        Find what is changing before simply watching prices.
+      </h1>
 
-    <p class="hero-copy">
-      PokiRadar connects to live Pokémon TCG market data,
-      identifies real card records by exact API identity,
-      and gives you a clean market-intelligence view
-      without fabricated movement numbers.
-    </p>
-
-  </section>
-
-  <section class="connection-panel">
-
-    <div class="connection-row">
-
-      <div>
-
-        <div class="connection-title">
-          Live API connection
-        </div>
-
-        <div class="connection-sub">
-          Your secret API key is handled by the secure PokiRadar proxy.
-          It is never placed in this webpage.
-        </div>
-
+      <div class="hero-copy">
+        Explore real Pokémon TCG cards, exact card identities,
+        market coverage and current market index data.
+        PokiRadar is built to become a market-intelligence layer
+        rather than simply another price catalogue.
       </div>
-
-      <div
-        id="proxyStatus"
-        class="connection-state"
-      >
-        Checking…
-      </div>
-
     </div>
 
   </section>
 
-  <section class="toolbar">
+  <section class="controls">
 
     <div class="search-wrap">
-
       <span class="search-icon">⌕</span>
 
       <input
         id="searchInput"
         class="search"
         type="search"
-        placeholder="Search Pokémon, card, set, rarity or number..."
+        placeholder="Search Pokémon, set or card number..."
         autocomplete="off"
       >
-
     </div>
 
     <button
       id="refreshBtn"
-      class="secondary"
+      class="refresh-btn"
+      type="button"
     >
       Refresh
     </button>
@@ -1082,13 +960,15 @@ tbody tr:hover{
     <button
       class="filter active"
       data-filter="all"
+      type="button"
     >
       All
     </button>
 
     <button
       class="filter"
-      data-filter="priced"
+      data-filter="market"
+      type="button"
     >
       Market Covered
     </button>
@@ -1096,6 +976,7 @@ tbody tr:hover{
     <button
       class="filter"
       data-filter="high"
+      type="button"
     >
       High Value
     </button>
@@ -1103,175 +984,131 @@ tbody tr:hover{
     <button
       class="filter"
       data-filter="recent"
+      type="button"
     >
       Recently Priced
     </button>
 
   </div>
 
+  <div
+    id="errorBox"
+    class="error-box"
+  ></div>
+
   <section class="stats">
 
     <div class="stat">
-
-      <div class="stat-label">
-        Cards Loaded
-      </div>
-
-      <div id="cardsLoaded" class="stat-value">
+      <div class="stat-label">Cards Loaded</div>
+      <div
+        id="trackedCount"
+        class="stat-value"
+      >
         —
       </div>
-
-      <div class="stat-note">
-        Current live API result
+      <div class="stat-sub">
+        From Pokémon TCG API
       </div>
-
     </div>
 
     <div class="stat">
-
-      <div class="stat-label">
-        Market Covered
-      </div>
-
-      <div id="marketCovered" class="stat-value">
+      <div class="stat-label">Market Covered</div>
+      <div
+        id="marketCount"
+        class="stat-value"
+      >
         —
       </div>
-
-      <div class="stat-note">
-        Cards with current index
+      <div class="stat-sub">
+        Cards with current market index
       </div>
-
     </div>
 
     <div class="stat">
-
-      <div class="stat-label">
-        Highest Current Price
-      </div>
-
-      <div id="highestPrice" class="stat-value">
+      <div class="stat-label">Highest Current Price</div>
+      <div
+        id="highestPrice"
+        class="stat-value"
+      >
         —
       </div>
-
-      <div class="stat-note">
-        Converted market index
+      <div class="stat-sub">
+        EUR market index
       </div>
-
     </div>
 
     <div class="stat">
-
-      <div class="stat-label">
-        Last Update
-      </div>
-
-      <div id="lastUpdate" class="stat-value">
+      <div class="stat-label">Last Update</div>
+      <div
+        id="lastUpdate"
+        class="stat-value"
+      >
         —
       </div>
-
-      <div class="stat-note">
-        Live API request
+      <div class="stat-sub">
+        PokiRadar session
       </div>
-
     </div>
 
   </section>
 
   <section class="section">
 
-    <div class="section-head">
+    <div class="section-header">
 
       <div>
-
         <h2 class="section-title">
           Radar Candidates
         </h2>
 
-        <div class="section-sub">
-          High-value cards detected in the current live catalogue.
+        <div class="section-description">
+          Current cards surfaced from the live catalogue.
         </div>
-
       </div>
 
     </div>
 
-    <div id="radarGrid" class="radar-grid">
-
-      <div class="loading">
-        <div class="spinner"></div>
-        Connecting to PokiRadar…
-      </div>
-
-    </div>
+    <div
+      id="radarGrid"
+      class="radar-grid"
+    ></div>
 
   </section>
 
   <section class="section">
 
-    <div class="section-head">
+    <div class="section-header">
 
       <div>
-
         <h2 class="section-title">
           Current Market Catalogue
         </h2>
 
-        <div class="section-sub">
-          Exact API card records with exact card images.
+        <div class="section-description">
+          Exact card identities matched to exact API card records.
         </div>
-
       </div>
-
-      <button
-        id="loadMoreBtn"
-        class="secondary"
-      >
-        Load More
-      </button>
 
     </div>
 
-    <div class="table-shell">
+    <div class="table-wrap">
 
       <div class="table-scroll">
 
         <table>
 
           <thead>
-
             <tr>
               <th>Card</th>
               <th>Set</th>
               <th>Number</th>
               <th>Rarity</th>
-              <th>SGD</th>
-              <th>USD</th>
-              <th>EUR</th>
-              <th>JPY</th>
-              <th>GBP</th>
+              <th>Market Index</th>
+              <th>Status</th>
             </tr>
-
           </thead>
 
-          <tbody id="catalogueBody">
-
-            <tr>
-
-              <td colspan="9">
-
-                <div class="loading">
-
-                  <div class="spinner"></div>
-
-                  Waiting for live data…
-
-                </div>
-
-              </td>
-
-            </tr>
-
-          </tbody>
+          <tbody id="cardsTable"></tbody>
 
         </table>
 
@@ -1279,333 +1116,577 @@ tbody tr:hover{
 
     </div>
 
-  </section>
-
-  <footer class="footer">
-
-    <div>
-      PokiRadar · Pokémon TCG Market Intelligence
-    </div>
-
-    <div>
-      Live API · Exact card identity · No fabricated movement
-    </div>
-
-  </footer>
-
-</div>
-
-<div id="modal" class="modal">
-
-  <div class="modal-card">
-
-    <div class="modal-top">
-
-      <div class="modal-label">
-        Card Intelligence
-      </div>
+    <div class="load-more-wrap">
 
       <button
-        id="closeModal"
-        class="close"
+        id="loadMoreBtn"
+        class="load-more"
+        type="button"
       >
-        ×
+        Load More
       </button>
 
     </div>
 
-    <div
-      id="modalBody"
-      class="modal-body"
-    ></div>
+  </section>
+
+  <footer class="footer">
+    <strong>PokiRadar</strong> uses live Pokémon TCG API catalogue
+    and current market-index data. Multi-currency values shown by
+    PokiRadar are converted display values based on the EUR index;
+    they are not native quotations in each currency.
+  </footer>
+
+</div>
+
+<!-- MODAL -->
+
+<div
+  id="modal"
+  class="modal"
+  role="dialog"
+  aria-modal="true"
+  aria-hidden="true"
+>
+
+  <div class="modal-card">
+
+    <button
+      id="modalClose"
+      class="modal-close"
+      type="button"
+      aria-label="Close"
+    >
+      ×
+    </button>
+
+    <div class="modal-content">
+
+      <div>
+        <img
+          id="modalImage"
+          class="modal-image"
+          src=""
+          alt=""
+        >
+      </div>
+
+      <div>
+
+        <div
+          id="modalSet"
+          class="eyebrow"
+        >
+          Pokémon TCG
+        </div>
+
+        <h2
+          id="modalTitle"
+          class="modal-title"
+        >
+          —
+        </h2>
+
+        <div
+          id="modalMeta"
+          class="modal-meta"
+        >
+          —
+        </div>
+
+        <div
+          id="modalId"
+          class="modal-id"
+        >
+          —
+        </div>
+
+        <div class="modal-price">
+
+          <div class="modal-price-label">
+            Current Market Index
+          </div>
+
+          <div
+            id="modalPrice"
+            class="modal-price-value"
+          >
+            —
+          </div>
+
+          <div
+            id="currencyGrid"
+            class="currency-grid"
+          ></div>
+
+          <div class="modal-note">
+            Converted values are display conversions from the
+            EUR market index. They should not be interpreted as
+            native market quotations for those currencies.
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
 
   </div>
 
 </div>
 
-<div
-  id="toast"
-  class="toast"
-></div>
-
 <script>
-
 /*
 =========================================================
-POKIRADAR
-FRONTEND
+PokiRadar
+Live API frontend
 =========================================================
 
 IMPORTANT:
 
-The browser NEVER receives the ptcg_live_ key.
+Replace this URL with your actual Cloudflare Worker URL.
 
-All API requests go through:
+Example:
 
-/api/cards
+const PROXY_BASE =
+  "https://pokiradar-api.xxxxx.workers.dev";
 
-The proxy then talks to the Pokémon TCG API.
+DO NOT put your ptcg_live_ API key in this file.
 =========================================================
 */
 
-const PROXY_BASE = "/api";
+const PROXY_BASE =
+  "https://pokiradar-api.teddytoh0824.workers.dev/";
 
-const FX = {
-  EUR:1,
-  SGD:1.49,
-  USD:1.17,
-  JPY:183,
-  GBP:.87
+
+/*
+=========================================================
+CONFIG
+=========================================================
+*/
+
+const API_LIMIT = 100;
+
+const CURRENCY_RATES = {
+  EUR: 1,
+  SGD: 1.49,
+  USD: 1.17,
+  JPY: 183,
+  GBP: 0.87
 };
 
-const state = {
-  cards:[],
-  nextUrl:null,
-  loading:false,
-  filter:"all",
-  search:"",
-  connected:false,
-  lastUpdated:null
-};
 
-const $ = id => document.getElementById(id);
+/*
+=========================================================
+STATE
+=========================================================
+*/
+
+let cards = [];
+let nextCursor = null;
+let currentFilter = "all";
+let currentSearch = "";
+let loading = false;
+
+
+/*
+=========================================================
+DOM
+=========================================================
+*/
 
 const connectionStatus =
-  $("connectionStatus");
+  document.getElementById("connectionStatus");
 
 const connectionText =
-  $("connectionText");
+  document.getElementById("connectionText");
 
-const proxyStatus =
-  $("proxyStatus");
+const errorBox =
+  document.getElementById("errorBox");
 
 const searchInput =
-  $("searchInput");
+  document.getElementById("searchInput");
 
 const refreshBtn =
-  $("refreshBtn");
+  document.getElementById("refreshBtn");
 
 const loadMoreBtn =
-  $("loadMoreBtn");
+  document.getElementById("loadMoreBtn");
 
-const cardsLoaded =
-  $("cardsLoaded");
-
-const marketCovered =
-  $("marketCovered");
-
-const highestPrice =
-  $("highestPrice");
-
-const lastUpdate =
-  $("lastUpdate");
+const cardsTable =
+  document.getElementById("cardsTable");
 
 const radarGrid =
-  $("radarGrid");
+  document.getElementById("radarGrid");
 
-const catalogueBody =
-  $("catalogueBody");
+const trackedCount =
+  document.getElementById("trackedCount");
+
+const marketCount =
+  document.getElementById("marketCount");
+
+const highestPrice =
+  document.getElementById("highestPrice");
+
+const lastUpdate =
+  document.getElementById("lastUpdate");
 
 const modal =
-  $("modal");
+  document.getElementById("modal");
 
-const modalBody =
-  $("modalBody");
+const modalClose =
+  document.getElementById("modalClose");
 
-const closeModal =
-  $("closeModal");
+const modalImage =
+  document.getElementById("modalImage");
 
-const toast =
-  $("toast");
+const modalTitle =
+  document.getElementById("modalTitle");
 
-/* =====================================================
+const modalSet =
+  document.getElementById("modalSet");
+
+const modalMeta =
+  document.getElementById("modalMeta");
+
+const modalId =
+  document.getElementById("modalId");
+
+const modalPrice =
+  document.getElementById("modalPrice");
+
+const currencyGrid =
+  document.getElementById("currencyGrid");
+
+
+/*
+=========================================================
 HELPERS
-===================================================== */
+=========================================================
+*/
 
-function escapeHtml(value){
+function escapeHTML(value) {
 
-  return String(value ?? "")
-    .replaceAll("&","&amp;")
-    .replaceAll("<","&lt;")
-    .replaceAll(">","&gt;")
-    .replaceAll('"',"&quot;")
-    .replaceAll("'","&#039;");
-
-}
-
-function showToast(message){
-
-  toast.textContent = message;
-
-  toast.classList.add("show");
-
-  clearTimeout(showToast.timer);
-
-  showToast.timer =
-    setTimeout(()=>{
-      toast.classList.remove("show");
-    },2500);
-
-}
-
-function setConnection(ok,message){
-
-  connectionStatus.classList.remove(
-    "connected",
-    "error"
-  );
-
-  if(ok){
-    connectionStatus.classList.add(
-      "connected"
-    );
-  }else{
-    connectionStatus.classList.add(
-      "error"
-    );
-  }
-
-  connectionText.textContent =
-    message;
-
-}
-
-function getImage(card){
-
-  if(!card){
+  if (value === null || value === undefined) {
     return "";
   }
 
-  if(card.images){
-
-    if(typeof card.images === "object"){
-
-      return (
-        card.images.large ||
-        card.images.small ||
-        card.images.large_url ||
-        card.images.small_url ||
-        ""
-      );
-
-    }
-
-  }
-
-  return "";
-
+  return String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
 }
 
-function getPrice(card){
 
-  const value =
-    Number(card?.index_eur);
+function setConnection(state, text) {
 
-  if(
-    !Number.isFinite(value) ||
-    value <= 0
-  ){
-    return null;
-  }
-
-  return value;
-
-}
-
-function convert(value,currency){
-
-  if(
-    value === null ||
-    value === undefined
-  ){
-    return null;
-  }
-
-  return Number(value) * FX[currency];
-
-}
-
-function money(value,currency){
-
-  if(
-    value === null ||
-    value === undefined ||
-    !Number.isFinite(Number(value))
-  ){
-    return "—";
-  }
-
-  const symbols = {
-    SGD:"S$",
-    USD:"$",
-    EUR:"€",
-    JPY:"¥",
-    GBP:"£"
-  };
-
-  const decimals =
-    currency === "JPY" ? 0 : 2;
-
-  return (
-    symbols[currency] +
-    Number(value).toLocaleString(
-      undefined,
-      {
-        minimumFractionDigits:decimals,
-        maximumFractionDigits:decimals
-      }
-    )
+  connectionStatus.classList.remove(
+    "online",
+    "error"
   );
 
+  if (state === "online") {
+    connectionStatus.classList.add("online");
+  }
+
+  if (state === "error") {
+    connectionStatus.classList.add("error");
+  }
+
+  connectionText.textContent = text;
 }
 
-function relativeTime(value){
 
-  if(!value){
+function showError(message) {
+
+  errorBox.textContent = message;
+  errorBox.classList.add("visible");
+}
+
+
+function clearError() {
+
+  errorBox.textContent = "";
+  errorBox.classList.remove("visible");
+}
+
+
+function formatEUR(value) {
+
+  if (
+    value === null ||
+    value === undefined ||
+    Number.isNaN(Number(value))
+  ) {
     return "—";
   }
 
-  const date =
-    new Date(value);
+  return new Intl.NumberFormat(
+    "en-IE",
+    {
+      style:"currency",
+      currency:"EUR",
+      maximumFractionDigits:2
+    }
+  ).format(Number(value));
+}
 
-  if(Number.isNaN(date.getTime())){
+
+function formatCurrency(
+  value,
+  currency
+) {
+
+  if (
+    value === null ||
+    value === undefined ||
+    Number.isNaN(Number(value))
+  ) {
     return "—";
   }
 
-  const minutes =
-    Math.floor(
-      (Date.now() - date.getTime()) /
-      60000
+  return new Intl.NumberFormat(
+    currency === "JPY"
+      ? "ja-JP"
+      : "en-US",
+    {
+      style:"currency",
+      currency,
+      maximumFractionDigits:
+        currency === "JPY" ? 0 : 2
+    }
+  ).format(Number(value));
+}
+
+
+function getIndex(card) {
+
+  const value =
+    card?.index_eur ??
+    card?.index?.eur ??
+    card?.index?.EUR ??
+    card?.market?.index_eur ??
+    null;
+
+  if (
+    value === null ||
+    value === undefined ||
+    value === ""
+  ) {
+    return null;
+  }
+
+  const number = Number(value);
+
+  return Number.isFinite(number)
+    ? number
+    : null;
+}
+
+
+function getImage(card) {
+
+  /*
+   * Support image relations returned as an object.
+   */
+
+  if (
+    card?.images &&
+    !Array.isArray(card.images)
+  ) {
+
+    return (
+      card.images.url_large ||
+      card.images.url_small ||
+      card.images.large ||
+      card.images.small ||
+      card.images.url ||
+      ""
+    );
+  }
+
+
+  /*
+   * Support image relations returned as an array.
+   */
+
+  if (Array.isArray(card?.images)) {
+
+    const image =
+      card.images.find(
+        item =>
+          item?.type === "FRONT" ||
+          item?.type === "front" ||
+          item?.type === "NORMAL" ||
+          item?.type === "normal"
+      ) ||
+      card.images[0];
+
+    if (image) {
+
+      return (
+        image.url_large ||
+        image.url_small ||
+        image.large ||
+        image.small ||
+        image.url ||
+        ""
+      );
+    }
+  }
+
+
+  /*
+   * Some API responses may expose image
+   * fields directly.
+   */
+
+  return (
+    card?.image_url ||
+    card?.image ||
+    ""
+  );
+}
+
+
+function getSetName(card) {
+
+  return (
+    card?.set_name ||
+    card?.set?.name ||
+    card?.set?.title ||
+    "Unknown Set"
+  );
+}
+
+
+function getSetCode(card) {
+
+  return (
+    card?.set_code ||
+    card?.set?.code ||
+    card?.set?.id ||
+    ""
+  );
+}
+
+
+function getArtist(card) {
+
+  return (
+    card?.artist_name ||
+    card?.artist ||
+    ""
+  );
+}
+
+
+function getReleaseDate(card) {
+
+  return (
+    card?.release_date ||
+    card?.set?.release_date ||
+    ""
+  );
+}
+
+
+function getNumber(card) {
+
+  return (
+    card?.number ||
+    card?.card_number ||
+    "—"
+  );
+}
+
+
+function getRarity(card) {
+
+  return (
+    card?.rarity ||
+    "—"
+  );
+}
+
+
+function getCardName(card) {
+
+  return (
+    card?.name ||
+    "Unknown Card"
+  );
+}
+
+
+/*
+=========================================================
+API
+=========================================================
+*/
+
+async function fetchCards({
+  search = "",
+  next = null
+} = {}) {
+
+  let url;
+
+  if (next) {
+
+    url =
+      `${PROXY_BASE}/api/cards?next=` +
+      encodeURIComponent(next);
+
+  } else {
+
+    const params =
+      new URLSearchParams();
+
+    params.set(
+      "limit",
+      String(API_LIMIT)
     );
 
-  if(minutes < 1){
-    return "Now";
+    params.set(
+      "include",
+      "index,images,set"
+    );
+
+    params.set(
+      "orderBy",
+      "-index_eur"
+    );
+
+    /*
+     * Search syntax.
+     */
+
+    if (search.trim()) {
+
+      const query =
+        search.trim()
+          .replaceAll(
+            '"',
+            '\\"'
+          );
+
+      params.set(
+        "q",
+        `name:*${query}* OR set.name:*${query}* OR number:${query} OR rarity:*${query}*`
+      );
+    }
+
+    url =
+      `${PROXY_BASE}/api/cards?${params.toString()}`;
   }
 
-  if(minutes < 60){
-    return `${minutes}m ago`;
-  }
-
-  const hours =
-    Math.floor(minutes / 60);
-
-  if(hours < 24){
-    return `${hours}h ago`;
-  }
-
-  return `${Math.floor(hours / 24)}d ago`;
-
-}
-
-/* =====================================================
-API
-===================================================== */
-
-async function apiRequest(path){
 
   const response =
     await fetch(
-      `${PROXY_BASE}${path}`,
+      url,
       {
         method:"GET",
         headers:{
@@ -1615,1085 +1696,1030 @@ async function apiRequest(path){
       }
     );
 
-  let data = null;
 
-  try{
+  let data;
+
+  try {
     data = await response.json();
-  }catch(_){}
+  } catch {
+    throw new Error(
+      `Worker returned an invalid response (${response.status}).`
+    );
+  }
 
-  if(!response.ok){
+
+  if (!response.ok) {
 
     const message =
       data?.error?.message ||
-      data?.error ||
-      `HTTP ${response.status}`;
+      data?.message ||
+      `API request failed (${response.status}).`;
 
     throw new Error(message);
-
   }
+
 
   return data;
-
 }
 
-/* =====================================================
-BUILD QUERY
-===================================================== */
 
-function buildCardsPath(){
+/*
+=========================================================
+LOAD DATA
+=========================================================
+*/
 
-  const params =
-    new URLSearchParams();
+async function loadInitial() {
 
-  params.set("limit","100");
-
-  params.set(
-    "include",
-    "index,images"
-  );
-
-  params.set(
-    "orderBy",
-    "-index_eur"
-  );
-
-  if(state.search){
-
-    const query =
-      state.search
-        .replaceAll('"',"")
-        .trim();
-
-    if(query){
-
-      params.set(
-        "q",
-        `name:*${query}* OR set.name:*${query}* OR number:${query} OR rarity:*${query}*`
-      );
-
-    }
-
-  }
-
-  return `/cards?${params.toString()}`;
-
-}
-
-/* =====================================================
-LOAD
-===================================================== */
-
-async function loadInitial(){
-
-  state.loading = true;
-
-  renderLoading();
-
-  proxyStatus.textContent =
-    "Connecting…";
-
-  proxyStatus.className =
-    "connection-state";
-
-  setConnection(
-    false,
-    "Connecting…"
-  );
-
-  try{
-
-    const payload =
-      await apiRequest(
-        buildCardsPath()
-      );
-
-    state.cards =
-      Array.isArray(payload.data)
-        ? payload.data
-        : [];
-
-    state.nextUrl =
-      payload.links?.next ||
-      null;
-
-    state.lastUpdated =
-      new Date();
-
-    state.connected =
-      true;
-
-    proxyStatus.textContent =
-      "Live API connected";
-
-    proxyStatus.className =
-      "connection-state good";
-
-    setConnection(
-      true,
-      "Live API"
-    );
-
-    renderAll();
-
-  }catch(error){
-
-    console.error(error);
-
-    state.cards = [];
-    state.nextUrl = null;
-    state.connected = false;
-
-    proxyStatus.textContent =
-      error.message ||
-      "Connection failed";
-
-    proxyStatus.className =
-      "connection-state bad";
-
-    setConnection(
-      false,
-      "Connection failed"
-    );
-
-    renderError(
-      error.message
-    );
-
-  }finally{
-
-    state.loading = false;
-
-  }
-
-}
-
-/* =====================================================
-LOAD MORE
-===================================================== */
-
-async function loadMore(){
-
-  if(
-    state.loading ||
-    !state.nextUrl
-  ){
+  if (loading) {
     return;
   }
 
-  state.loading = true;
+  loading = true;
 
-  loadMoreBtn.disabled = true;
+  clearError();
 
-  loadMoreBtn.textContent =
-    "Loading…";
+  refreshBtn.classList.add("loading");
+  refreshBtn.textContent = "Loading...";
 
-  try{
+  setConnection(
+    "",
+    "Connecting..."
+  );
 
-    /*
-      The backend accepts the API's
-      next cursor URL as ?next=...
-    */
+  try {
 
-    const next =
-      encodeURIComponent(
-        state.nextUrl
-      );
+    cards = [];
+    nextCursor = null;
 
-    const payload =
-      await apiRequest(
-        `/cards?next=${next}`
-      );
+    renderLoading();
 
-    const newCards =
-      Array.isArray(payload.data)
-        ? payload.data
+    const data =
+      await fetchCards({
+        search:currentSearch
+      });
+
+
+    const incoming =
+      Array.isArray(data?.data)
+        ? data.data
         : [];
 
-    const existing =
-      new Set(
-        state.cards.map(
-          card => card.id
-        )
-      );
 
-    for(
-      const card of newCards
-    ){
+    cards = incoming;
 
-      if(!existing.has(card.id)){
-        state.cards.push(card);
-      }
-
-    }
-
-    state.nextUrl =
-      payload.links?.next ||
+    nextCursor =
+      data?.links?.next ||
       null;
 
-    renderAll();
 
-    showToast(
-      `${newCards.length} cards loaded`
+    setConnection(
+      "online",
+      "Live API connected"
     );
 
-  }catch(error){
+
+    updateStats();
+    renderRadar();
+    renderTable();
+
+
+    lastUpdate.textContent =
+      new Date().toLocaleTimeString(
+        [],
+        {
+          hour:"2-digit",
+          minute:"2-digit"
+        }
+      );
+
+
+    updateLoadMore();
+
+
+  } catch (error) {
 
     console.error(error);
 
-    showToast(
-      error.message ||
-      "Unable to load more cards."
+    setConnection(
+      "error",
+      "Connection failed"
     );
 
-  }finally{
 
-    state.loading = false;
+    showError(
+      `PokiRadar could not connect to the live API. ${error.message}`
+    );
 
-    loadMoreBtn.disabled =
-      !state.nextUrl;
 
-    loadMoreBtn.textContent =
-      state.nextUrl
-        ? "Load More"
-        : "All Loaded";
+    renderEmpty(
+      "Connection failed",
+      "Check your Cloudflare Worker URL, Worker deployment and PTCG_API_KEY secret."
+    );
 
+
+  } finally {
+
+    loading = false;
+
+    refreshBtn.classList.remove(
+      "loading"
+    );
+
+    refreshBtn.textContent =
+      "Refresh";
   }
-
 }
 
-/* =====================================================
-FILTER
-===================================================== */
 
-function getFilteredCards(){
+async function loadMore() {
 
-  let cards =
-    [...state.cards];
-
-  if(
-    state.filter === "priced"
-  ){
-
-    cards =
-      cards.filter(
-        card =>
-          getPrice(card) !== null
-      );
-
+  if (
+    loading ||
+    !nextCursor
+  ) {
+    return;
   }
 
-  if(
-    state.filter === "high"
-  ){
+  loading = true;
 
-    cards =
-      cards.filter(
-        card =>
-          (getPrice(card) || 0) >= 50
-      );
+  loadMoreBtn.disabled = true;
+  loadMoreBtn.textContent = "Loading...";
 
-  }
+  try {
 
-  if(
-    state.filter === "recent"
-  ){
-
-    const cutoff =
-      Date.now() -
-      7 *
-      24 *
-      60 *
-      60 *
-      1000;
-
-    cards =
-      cards.filter(card => {
-
-        if(!card.last_price_at){
-          return false;
-        }
-
-        const timestamp =
-          new Date(
-            card.last_price_at
-          ).getTime();
-
-        return (
-          Number.isFinite(timestamp) &&
-          timestamp >= cutoff
-        );
-
+    const data =
+      await fetchCards({
+        next:nextCursor
       });
 
-  }
 
-  return cards;
+    const incoming =
+      Array.isArray(data?.data)
+        ? data.data
+        : [];
 
-}
 
-/* =====================================================
-RENDER
-===================================================== */
+    cards = [
+      ...cards,
+      ...incoming
+    ];
 
-function renderAll(){
 
-  updateStats();
-  renderRadar();
-  renderCatalogue();
+    nextCursor =
+      data?.links?.next ||
+      null;
 
-  loadMoreBtn.disabled =
-    !state.nextUrl;
 
-  loadMoreBtn.textContent =
-    state.nextUrl
-      ? "Load More"
-      : "All Loaded";
+    updateStats();
+    renderRadar();
+    renderTable();
+    updateLoadMore();
 
-}
 
-/* =====================================================
-STATS
-===================================================== */
+  } catch (error) {
 
-function updateStats(){
+    console.error(error);
 
-  const cards =
-    state.cards;
-
-  const priced =
-    cards.filter(
-      card =>
-        getPrice(card) !== null
+    showError(
+      `Could not load more cards. ${error.message}`
     );
 
-  cardsLoaded.textContent =
+  } finally {
+
+    loading = false;
+
+    loadMoreBtn.disabled = false;
+
+    loadMoreBtn.textContent =
+      "Load More";
+
+    updateLoadMore();
+  }
+}
+
+
+/*
+=========================================================
+FILTERING
+=========================================================
+*/
+
+function filteredCards() {
+
+  let result =
+    [...cards];
+
+
+  if (
+    currentFilter ===
+    "market"
+  ) {
+
+    result =
+      result.filter(
+        card =>
+          getIndex(card) !== null
+      );
+  }
+
+
+  if (
+    currentFilter ===
+    "high"
+  ) {
+
+    result =
+      result.filter(
+        card => {
+
+          const value =
+            getIndex(card);
+
+          return (
+            value !== null &&
+            value >= 100
+          );
+        }
+      );
+  }
+
+
+  if (
+    currentFilter ===
+    "recent"
+  ) {
+
+    result =
+      result.filter(
+        card => {
+
+          const date =
+            getReleaseDate(card);
+
+          if (!date) {
+            return false;
+          }
+
+          const timestamp =
+            Date.parse(date);
+
+          if (
+            Number.isNaN(timestamp)
+          ) {
+            return false;
+          }
+
+          const days =
+            (
+              Date.now() -
+              timestamp
+            ) /
+            86400000;
+
+          return days <= 365;
+        }
+      );
+  }
+
+
+  return result;
+}
+
+
+/*
+=========================================================
+STATS
+=========================================================
+*/
+
+function updateStats() {
+
+  trackedCount.textContent =
     cards.length.toLocaleString();
 
-  marketCovered.textContent =
-    priced.length.toLocaleString();
+
+  const covered =
+    cards.filter(
+      card =>
+        getIndex(card) !== null
+    );
+
+
+  marketCount.textContent =
+    covered.length.toLocaleString();
+
+
+  const prices =
+    covered
+      .map(card => getIndex(card))
+      .filter(
+        value =>
+          value !== null
+      );
+
 
   const highest =
-    priced.length
-      ? Math.max(
-          ...priced.map(
-            card =>
-              getPrice(card)
-          )
-        )
+    prices.length
+      ? Math.max(...prices)
       : null;
+
 
   highestPrice.textContent =
     highest === null
       ? "—"
-      : money(
-          convert(
-            highest,
-            "SGD"
-          ),
-          "SGD"
-        );
-
-  lastUpdate.textContent =
-    state.lastUpdated
-      ? state.lastUpdated.toLocaleTimeString(
-          [],
-          {
-            hour:"2-digit",
-            minute:"2-digit"
-          }
-        )
-      : "—";
-
+      : formatEUR(highest);
 }
 
-/* =====================================================
+
+/*
+=========================================================
 RADAR
-===================================================== */
+=========================================================
+*/
 
-function renderRadar(){
+function renderRadar() {
 
-  const cards =
-    getFilteredCards()
+  const source =
+    filteredCards()
       .filter(
         card =>
-          getPrice(card) !== null
+          getImage(card)
       )
       .sort(
         (a,b) =>
-          getPrice(b) -
-          getPrice(a)
+          (getIndex(b) || 0) -
+          (getIndex(a) || 0)
       )
       .slice(0,8);
 
-  if(!cards.length){
 
-    radarGrid.innerHTML = `
-      <div class="empty">
-        No radar candidates found.
-      </div>
-    `;
+  if (!source.length) {
+
+    renderEmpty(
+      "No cards found",
+      "Try another search or filter."
+    );
 
     return;
-
   }
 
+
   radarGrid.innerHTML =
-    cards.map(card => {
+    source.map(
+      card => {
 
-      const price =
-        getPrice(card);
+        const image =
+          getImage(card);
 
-      const image =
-        getImage(card);
+        const index =
+          getIndex(card);
 
-      return `
+        const name =
+          getCardName(card);
 
-        <article
-          class="radar-card"
-          data-card-id="${escapeHtml(card.id)}"
-        >
+        const set =
+          getSetName(card);
 
-          <div class="radar-image">
+        return `
+          <article
+            class="radar-card"
+            data-card-id="${escapeHTML(card.id || "")}"
+          >
 
-            ${
-              image
-              ? `
-                <img
-                  src="${escapeHtml(image)}"
-                  alt="${escapeHtml(card.name)}"
-                  loading="lazy"
-                >
-              `
-              : `
-                <span class="muted">
-                  No image
-                </span>
-              `
-            }
+            <img
+              class="radar-image"
+              src="${escapeHTML(image)}"
+              alt="${escapeHTML(name)}"
+              loading="lazy"
+              onerror="this.style.visibility='hidden'"
+            >
 
-          </div>
+            <div class="radar-info">
 
-          <div class="radar-info">
+              <div class="radar-name">
+                ${escapeHTML(name)}
+              </div>
 
-            <div class="radar-name">
-              ${escapeHtml(card.name)}
-            </div>
-
-            <div class="radar-set">
-              ${escapeHtml(
-                card.set_name ||
-                card.set_code ||
-                "Unknown set"
-              )}
-              ·
-              ${escapeHtml(
-                card.number || "—"
-              )}
-            </div>
-
-            <div class="radar-bottom">
+              <div class="radar-set">
+                ${escapeHTML(set)}
+              </div>
 
               <div class="radar-price">
 
-                ${money(
-                  convert(
-                    price,
-                    "SGD"
-                  ),
-                  "SGD"
-                )}
+                <div>
+                  <div class="price-main">
+                    ${
+                      index === null
+                        ? "No index"
+                        : formatEUR(index)
+                    }
+                  </div>
 
-                <small>
-                  ${money(price,"EUR")} API index
-                </small>
+                  <div class="price-label">
+                    Current EUR index
+                  </div>
+                </div>
 
-              </div>
+                <div class="signal">
+                  ${
+                    index === null
+                      ? "CATALOGUE"
+                      : "MARKET"
+                  }
+                </div>
 
-              <div class="radar-tag">
-                Market
               </div>
 
             </div>
 
-          </div>
+          </article>
+        `;
+      }
+    ).join("");
 
-        </article>
-
-      `;
-
-    }).join("");
 
   radarGrid
     .querySelectorAll(
       ".radar-card"
     )
-    .forEach(cardElement => {
+    .forEach(
+      element => {
 
-      cardElement.addEventListener(
-        "click",
-        ()=>{
+        element.addEventListener(
+          "click",
+          () => {
 
-          const card =
-            state.cards.find(
-              item =>
-                item.id ===
-                cardElement.dataset.cardId
-            );
+            const id =
+              element.dataset.cardId;
 
-          if(card){
-            openModal(card);
+            const card =
+              cards.find(
+                item =>
+                  String(item.id) ===
+                  String(id)
+              );
+
+            if (card) {
+              openModal(card);
+            }
           }
-
-        }
-      );
-
-    });
-
+        );
+      }
+    );
 }
 
-/* =====================================================
-CATALOGUE
-===================================================== */
 
-function renderCatalogue(){
+/*
+=========================================================
+TABLE
+=========================================================
+*/
 
-  const cards =
-    getFilteredCards();
+function renderTable() {
 
-  if(!cards.length){
+  const source =
+    filteredCards();
 
-    catalogueBody.innerHTML = `
+
+  if (!source.length) {
+
+    cardsTable.innerHTML = `
       <tr>
-        <td colspan="9">
+        <td colspan="6">
           <div class="empty">
-            No cards match this filter.
+            <div class="empty-title">
+              No cards found
+            </div>
+            <div class="empty-text">
+              Try a different search or filter.
+            </div>
           </div>
         </td>
       </tr>
     `;
 
     return;
-
   }
 
-  catalogueBody.innerHTML =
-    cards.map(card => {
 
-      const price =
-        getPrice(card);
+  cardsTable.innerHTML =
+    source.map(
+      card => {
 
-      const image =
-        getImage(card);
+        const image =
+          getImage(card);
 
-      return `
+        const name =
+          getCardName(card);
 
-        <tr
-          data-card-id="${escapeHtml(card.id)}"
-        >
+        const set =
+          getSetName(card);
 
-          <td>
+        const number =
+          getNumber(card);
 
-            <div class="card-cell">
+        const rarity =
+          getRarity(card);
 
-              ${
-                image
-                ? `
-                  <img
-                    class="thumb"
-                    src="${escapeHtml(image)}"
-                    alt="${escapeHtml(card.name)}"
-                    loading="lazy"
-                  >
-                `
-                : `
-                  <div class="thumb"></div>
-                `
-              }
+        const index =
+          getIndex(card);
 
-              <div>
+        const covered =
+          index !== null;
+
+
+        return `
+          <tr
+            data-card-id="${escapeHTML(card.id || "")}"
+          >
+
+            <td>
+
+              <div class="card-cell">
+
+                ${
+                  image
+                    ? `
+                      <img
+                        class="thumb"
+                        src="${escapeHTML(image)}"
+                        alt="${escapeHTML(name)}"
+                        loading="lazy"
+                      >
+                    `
+                    : `
+                      <div
+                        class="thumb"
+                      ></div>
+                    `
+                }
 
                 <div class="card-name">
-                  ${escapeHtml(card.name)}
-                </div>
 
-                <div class="card-meta">
-                  ID:
-                  ${escapeHtml(card.id)}
+                  <div class="card-name-main">
+                    ${escapeHTML(name)}
+                  </div>
+
+                  <div class="card-name-sub">
+                    ID: ${escapeHTML(card.id || "—")}
+                  </div>
+
                 </div>
 
               </div>
 
-            </div>
+            </td>
 
-          </td>
+            <td>
+              ${escapeHTML(set)}
+            </td>
 
-          <td>
-            ${escapeHtml(
-              card.set_name ||
-              card.set_code ||
-              "—"
-            )}
-          </td>
+            <td>
+              ${escapeHTML(number)}
+            </td>
 
-          <td>
-            ${escapeHtml(
-              card.number || "—"
-            )}
-          </td>
+            <td>
+              ${escapeHTML(rarity)}
+            </td>
 
-          <td>
-            ${escapeHtml(
-              card.rarity || "—"
-            )}
-          </td>
+            <td>
+              ${
+                index === null
+                  ? "—"
+                  : formatEUR(index)
+              }
+            </td>
 
-          <td class="price primary-price">
-            ${money(
-              convert(price,"SGD"),
-              "SGD"
-            )}
-          </td>
+            <td class="${
+              covered
+                ? "market-covered"
+                : "no-market"
+            }">
 
-          <td class="price">
-            ${money(
-              convert(price,"USD"),
-              "USD"
-            )}
-          </td>
+              ${
+                covered
+                  ? "Covered"
+                  : "Catalogue only"
+              }
 
-          <td class="price">
-            ${money(
-              price,
-              "EUR"
-            )}
-          </td>
+            </td>
 
-          <td class="price">
-            ${money(
-              convert(price,"JPY"),
-              "JPY"
-            )}
-          </td>
+          </tr>
+        `;
+      }
+    ).join("");
 
-          <td class="price">
-            ${money(
-              convert(price,"GBP"),
-              "GBP"
-            )}
-          </td>
 
-        </tr>
-
-      `;
-
-    }).join("");
-
-  catalogueBody
+  cardsTable
     .querySelectorAll(
       "tr[data-card-id]"
     )
-    .forEach(row => {
+    .forEach(
+      row => {
 
-      row.addEventListener(
-        "click",
-        ()=>{
+        row.addEventListener(
+          "click",
+          () => {
 
-          const card =
-            state.cards.find(
-              item =>
-                item.id ===
-                row.dataset.cardId
-            );
+            const id =
+              row.dataset.cardId;
 
-          if(card){
-            openModal(card);
+            const card =
+              cards.find(
+                item =>
+                  String(item.id) ===
+                  String(id)
+              );
+
+            if (card) {
+              openModal(card);
+            }
           }
-
-        }
-      );
-
-    });
-
+        );
+      }
+    );
 }
 
-/* =====================================================
-MODAL
-===================================================== */
 
-function openModal(card){
+/*
+=========================================================
+LOADING / EMPTY
+=========================================================
+*/
+
+function renderLoading() {
+
+  radarGrid.innerHTML = `
+    <div
+      class="radar-card skeleton"
+      style="height:360px"
+    ></div>
+
+    <div
+      class="radar-card skeleton"
+      style="height:360px"
+    ></div>
+
+    <div
+      class="radar-card skeleton"
+      style="height:360px"
+    ></div>
+
+    <div
+      class="radar-card skeleton"
+      style="height:360px"
+    ></div>
+  `;
+
+
+  cardsTable.innerHTML = `
+    <tr>
+      <td colspan="6">
+        <div class="empty">
+          Loading live Pokémon TCG data...
+        </div>
+      </td>
+    </tr>
+  `;
+}
+
+
+function renderEmpty(
+  title,
+  text
+) {
+
+  radarGrid.innerHTML = `
+    <div
+      class="empty"
+      style="grid-column:1/-1"
+    >
+      <div class="empty-title">
+        ${escapeHTML(title)}
+      </div>
+
+      <div class="empty-text">
+        ${escapeHTML(text)}
+      </div>
+    </div>
+  `;
+
+  cardsTable.innerHTML = `
+    <tr>
+      <td colspan="6">
+
+        <div class="empty">
+
+          <div class="empty-title">
+            ${escapeHTML(title)}
+          </div>
+
+          <div class="empty-text">
+            ${escapeHTML(text)}
+          </div>
+
+        </div>
+
+      </td>
+    </tr>
+  `;
+}
+
+
+/*
+=========================================================
+LOAD MORE
+=========================================================
+*/
+
+function updateLoadMore() {
+
+  loadMoreBtn.style.display =
+    nextCursor
+      ? "inline-block"
+      : "none";
+
+  loadMoreBtn.disabled =
+    loading;
+}
+
+
+/*
+=========================================================
+MODAL
+=========================================================
+*/
+
+function openModal(card) {
 
   const image =
     getImage(card);
 
-  const price =
-    getPrice(card);
+  const name =
+    getCardName(card);
 
-  modalBody.innerHTML = `
+  const set =
+    getSetName(card);
 
-    <div class="modal-image">
+  const code =
+    getSetCode(card);
 
-      ${
-        image
-        ? `
-          <img
-            src="${escapeHtml(image)}"
-            alt="${escapeHtml(card.name)}"
-          >
-        `
-        : `
-          <span class="muted">
-            No image
-          </span>
-        `
-      }
+  const number =
+    getNumber(card);
 
-    </div>
+  const rarity =
+    getRarity(card);
 
-    <div>
+  const artist =
+    getArtist(card);
 
-      <h2 class="modal-title">
-        ${escapeHtml(card.name)}
-      </h2>
+  const releaseDate =
+    getReleaseDate(card);
 
-      <div class="modal-sub">
-        ${escapeHtml(
-          card.set_name ||
-          card.set_code ||
-          "Unknown set"
-        )}
-        ·
-        ${escapeHtml(
-          card.number || "—"
-        )}
-      </div>
+  const index =
+    getIndex(card);
 
-      <div class="detail-grid">
 
-        <div class="detail">
-          <div class="detail-label">
-            Exact Card ID
-          </div>
-          <div class="detail-value">
-            ${escapeHtml(card.id)}
-          </div>
-        </div>
+  modalImage.src =
+    image || "";
 
-        <div class="detail">
-          <div class="detail-label">
-            Rarity
-          </div>
-          <div class="detail-value">
-            ${escapeHtml(
-              card.rarity || "—"
-            )}
-          </div>
-        </div>
+  modalImage.alt =
+    name;
 
-        <div class="detail">
-          <div class="detail-label">
-            Set
-          </div>
-          <div class="detail-value">
-            ${escapeHtml(
-              card.set_name ||
-              card.set_code ||
-              "—"
-            )}
-          </div>
-        </div>
 
-        <div class="detail">
-          <div class="detail-label">
-            Release Date
-          </div>
-          <div class="detail-value">
-            ${escapeHtml(
-              card.release_date || "—"
-            )}
-          </div>
-        </div>
+  modalTitle.textContent =
+    name;
 
-        <div class="detail">
-          <div class="detail-label">
-            Artist
-          </div>
-          <div class="detail-value">
-            ${escapeHtml(
-              card.artist_name || "—"
-            )}
-          </div>
-        </div>
 
-        <div class="detail">
-          <div class="detail-label">
-            Price Updated
-          </div>
-          <div class="detail-value">
-            ${escapeHtml(
-              relativeTime(
-                card.last_price_at
-              )
-            )}
-          </div>
-        </div>
+  modalSet.textContent =
+    set;
 
-      </div>
 
-      <div class="modal-price">
+  const metaParts = [
+    `Card number: ${number}`,
+    `Rarity: ${rarity}`
+  ];
 
-        <div class="modal-price-label">
-          Current Market Index
-        </div>
 
-        <div class="modal-price-value">
-          ${money(
-            convert(price,"SGD"),
-            "SGD"
-          )}
-        </div>
+  if (code) {
+    metaParts.push(
+      `Set code: ${code}`
+    );
+  }
 
-        <div class="modal-note">
-          API base index:
-          ${money(price,"EUR")}.
-          Currency displays are converted values,
-          not separate native-market quotations.
-        </div>
 
-      </div>
+  if (artist) {
+    metaParts.push(
+      `Artist: ${artist}`
+    );
+  }
 
-      <div class="detail-grid">
 
-        <div class="detail">
-          <div class="detail-label">USD</div>
-          <div class="detail-value">
-            ${money(
-              convert(price,"USD"),
-              "USD"
-            )}
-          </div>
-        </div>
+  if (releaseDate) {
+    metaParts.push(
+      `Release date: ${releaseDate}`
+    );
+  }
 
-        <div class="detail">
-          <div class="detail-label">EUR</div>
-          <div class="detail-value">
-            ${money(
-              price,
-              "EUR"
-            )}
-          </div>
-        </div>
 
-        <div class="detail">
-          <div class="detail-label">JPY</div>
-          <div class="detail-value">
-            ${money(
-              convert(price,"JPY"),
-              "JPY"
-            )}
-          </div>
-        </div>
+  modalMeta.innerHTML =
+    metaParts
+      .map(
+        item =>
+          escapeHTML(item)
+      )
+      .join("<br>");
 
-        <div class="detail">
-          <div class="detail-label">GBP</div>
-          <div class="detail-value">
-            ${money(
-              convert(price,"GBP"),
-              "GBP"
-            )}
-          </div>
-        </div>
 
-      </div>
+  modalId.textContent =
+    `API Card ID: ${card.id || "—"}`;
 
-    </div>
 
-  `;
+  modalPrice.textContent =
+    index === null
+      ? "No current market index"
+      : formatEUR(index);
+
+
+  currencyGrid.innerHTML =
+    index === null
+      ? ""
+      : Object.entries(
+          CURRENCY_RATES
+        )
+        .map(
+          ([currency, rate]) => {
+
+            const converted =
+              index * rate;
+
+            return `
+              <div class="currency">
+
+                <div class="currency-code">
+                  ${currency}
+                </div>
+
+                <div class="currency-value">
+                  ${formatCurrency(
+                    converted,
+                    currency
+                  )}
+                </div>
+
+              </div>
+            `;
+          }
+        )
+        .join("");
+
 
   modal.classList.add("open");
 
+  modal.setAttribute(
+    "aria-hidden",
+    "false"
+  );
+
+  document.body.style.overflow =
+    "hidden";
 }
 
-/* =====================================================
-LOADING / ERROR
-===================================================== */
 
-function renderLoading(){
+function closeModal() {
 
-  radarGrid.innerHTML = `
-    <div class="loading">
-      <div class="spinner"></div>
-      Loading live Pokémon TCG data…
-    </div>
-  `;
+  modal.classList.remove(
+    "open"
+  );
 
-  catalogueBody.innerHTML = `
-    <tr>
-      <td colspan="9">
-        <div class="loading">
-          <div class="spinner"></div>
-          Connecting to the live market…
-        </div>
-      </td>
-    </tr>
-  `;
+  modal.setAttribute(
+    "aria-hidden",
+    "true"
+  );
 
+  document.body.style.overflow =
+    "";
 }
 
-function renderError(message){
 
-  radarGrid.innerHTML = `
-    <div class="empty">
-      <strong>
-        PokiRadar could not connect.
-      </strong>
-
-      <br><br>
-
-      ${escapeHtml(message)}
-
-    </div>
-  `;
-
-  catalogueBody.innerHTML = `
-    <tr>
-      <td colspan="9">
-        <div class="empty">
-          ${escapeHtml(message)}
-        </div>
-      </td>
-    </tr>
-  `;
-
-}
-
-/* =====================================================
-SEARCH
-===================================================== */
-
-let searchTimer = null;
-
-searchInput.addEventListener(
-  "input",
-  ()=>{
-
-    clearTimeout(
-      searchTimer
-    );
-
-    state.search =
-      searchInput.value.trim();
-
-    searchTimer =
-      setTimeout(
-        ()=>{
-
-          if(
-            state.search.length === 0 ||
-            state.search.length >= 2
-          ){
-
-            loadInitial();
-
-          }
-
-        },
-        500
-      );
-
-  }
-);
-
-/* =====================================================
-FILTERS
-===================================================== */
-
-document
-  .querySelectorAll(".filter")
-  .forEach(button => {
-
-    button.addEventListener(
-      "click",
-      ()=>{
-
-        document
-          .querySelectorAll(".filter")
-          .forEach(
-            item =>
-              item.classList.remove(
-                "active"
-              )
-          );
-
-        button.classList.add(
-          "active"
-        );
-
-        state.filter =
-          button.dataset.filter;
-
-        renderAll();
-
-      }
-    );
-
-  });
-
-/* =====================================================
-BUTTONS
-===================================================== */
+/*
+=========================================================
+EVENTS
+=========================================================
+*/
 
 refreshBtn.addEventListener(
   "click",
-  ()=>loadInitial()
+  () => {
+    loadInitial();
+  }
 );
+
+
+searchInput.addEventListener(
+  "keydown",
+  event => {
+
+    if (
+      event.key ===
+      "Enter"
+    ) {
+
+      currentSearch =
+        searchInput.value.trim();
+
+      loadInitial();
+    }
+  }
+);
+
+
+document
+  .querySelectorAll(".filter")
+  .forEach(
+    button => {
+
+      button.addEventListener(
+        "click",
+        () => {
+
+          document
+            .querySelectorAll(
+              ".filter"
+            )
+            .forEach(
+              item =>
+                item.classList.remove(
+                  "active"
+                )
+            );
+
+
+          button.classList.add(
+            "active"
+          );
+
+
+          currentFilter =
+            button.dataset.filter;
+
+
+          renderRadar();
+          renderTable();
+        }
+      );
+    }
+  );
+
 
 loadMoreBtn.addEventListener(
   "click",
-  ()=>loadMore()
-);
-
-closeModal.addEventListener(
-  "click",
-  ()=>{
-    modal.classList.remove(
-      "open"
-    );
+  () => {
+    loadMore();
   }
 );
+
+
+modalClose.addEventListener(
+  "click",
+  closeModal
+);
+
 
 modal.addEventListener(
   "click",
   event => {
 
-    if(
-      event.target === modal
-    ){
-      modal.classList.remove(
-        "open"
-      );
+    if (
+      event.target ===
+      modal
+    ) {
+      closeModal();
     }
-
   }
 );
+
 
 document.addEventListener(
   "keydown",
   event => {
 
-    if(event.key === "Escape"){
-
-      modal.classList.remove(
-        "open"
-      );
-
+    if (
+      event.key ===
+      "Escape"
+    ) {
+      closeModal();
     }
-
   }
 );
 
-/* =====================================================
+
+/*
+=========================================================
 START
-===================================================== */
+=========================================================
+*/
 
 loadInitial();
 
