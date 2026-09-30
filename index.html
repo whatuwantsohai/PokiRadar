@@ -1,42 +1,42 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#050608">
-<title>PokiRadar V2</title>
+<title>PokiRadar V3</title>
 
 <style>
 :root{
-    --bg:#050608;
-    --panel:#0c1016;
-    --panel2:#101620;
-    --border:rgba(255,255,255,.09);
-    --border-strong:rgba(255,255,255,.14);
-    --text:#f5f7fa;
+    --bg:#07090d;
+    --panel:#0d1118;
+    --panel2:#111722;
+    --border:rgba(255,255,255,.08);
+    --text:#f4f7fb;
     --muted:#8d98a8;
-    --green:#5ee6a8;
-    --red:#ff7180;
-    --yellow:#ffd66b;
-    --blue:#7fb3ff;
+    --green:#55e6a5;
+    --red:#ff6b7a;
+    --blue:#72a7ff;
+    --gold:#f4c76b;
+    --shadow:0 18px 50px rgba(0,0,0,.35);
 }
 
 *{
     box-sizing:border-box;
 }
 
-html,
-body{
-    margin:0;
-    min-height:100%;
+html{
     background:var(--bg);
-    color:var(--text);
-    font-family:Arial,Helvetica,sans-serif;
 }
 
 body{
-    padding:24px;
+    margin:0;
+    min-height:100vh;
+    background:
+        radial-gradient(circle at 15% 0%, rgba(80,120,255,.09), transparent 28%),
+        radial-gradient(circle at 90% 10%, rgba(70,230,170,.06), transparent 25%),
+        var(--bg);
+    color:var(--text);
+    font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
 }
 
 button,
@@ -48,706 +48,657 @@ button{
     cursor:pointer;
 }
 
-.app{
-    max-width:1400px;
+.container{
+    width:min(1400px,calc(100% - 36px));
     margin:0 auto;
 }
 
-/* =========================
-   HEADER
-========================= */
+/* HEADER */
 
 header{
+    padding:28px 0 12px;
+}
+
+.header-row{
     display:flex;
+    align-items:center;
     justify-content:space-between;
-    align-items:flex-start;
     gap:20px;
-    margin-bottom:24px;
 }
 
-.logo{
-    font-size:36px;
-    font-weight:800;
-    letter-spacing:-1.5px;
+.brand{
+    display:flex;
+    align-items:center;
+    gap:13px;
 }
 
-.sub{
+.brand-mark{
+    width:42px;
+    height:42px;
+    border-radius:13px;
+    display:grid;
+    place-items:center;
+    background:linear-gradient(135deg,#1d2635,#121824);
+    border:1px solid var(--border);
+    box-shadow:var(--shadow);
+    font-size:20px;
+}
+
+.brand h1{
+    margin:0;
+    font-size:24px;
+    letter-spacing:-.5px;
+}
+
+.brand p{
+    margin:3px 0 0;
     color:var(--muted);
-    margin-top:6px;
-    line-height:1.5;
+    font-size:12px;
 }
 
 .status{
     display:flex;
     align-items:center;
     gap:8px;
-    padding:9px 13px;
+    padding:8px 12px;
     border:1px solid var(--border);
-    border-radius:20px;
+    background:rgba(255,255,255,.025);
+    border-radius:999px;
     color:var(--muted);
     font-size:12px;
-    white-space:nowrap;
 }
 
 .status-dot{
     width:7px;
     height:7px;
     border-radius:50%;
-    background:var(--muted);
-    display:inline-block;
+    background:var(--gold);
+    box-shadow:0 0 12px rgba(244,199,107,.5);
 }
 
-.status.loading .status-dot{
-    background:var(--yellow);
-}
-
-.status.live .status-dot{
+.status.ready .status-dot{
     background:var(--green);
+    box-shadow:0 0 12px rgba(85,230,165,.5);
 }
 
 .status.error .status-dot{
     background:var(--red);
+    box-shadow:0 0 12px rgba(255,107,122,.5);
 }
 
-/* =========================
-   HERO
-========================= */
+/* HERO */
 
 .hero{
-    padding:30px;
-    border:1px solid var(--border);
-    border-radius:22px;
-    background:
-        radial-gradient(circle at top right,rgba(127,179,255,.08),transparent 35%),
-        linear-gradient(135deg,#101722,#090c11);
+    padding:48px 0 30px;
 }
 
 .hero h2{
-    font-size:clamp(30px,5vw,50px);
+    margin:0;
     max-width:850px;
-    line-height:1.02;
-    letter-spacing:-2px;
-    margin:0 0 14px;
+    font-size:clamp(36px,5vw,68px);
+    line-height:.98;
+    letter-spacing:-3px;
 }
 
 .hero p{
-    color:var(--muted);
     max-width:720px;
-    line-height:1.6;
-    margin:0;
+    margin:20px 0 0;
+    color:var(--muted);
+    font-size:16px;
+    line-height:1.65;
 }
+
+/* CONTROLS */
 
 .controls{
     display:flex;
     align-items:center;
-    gap:8px;
+    gap:10px;
     flex-wrap:wrap;
-    margin-top:22px;
+    margin-bottom:28px;
 }
 
-.search{
-    flex:1;
-    min-width:240px;
+.search-wrap{
+    position:relative;
+    flex:1 1 360px;
 }
 
-.search input{
+.search-wrap span{
+    position:absolute;
+    left:14px;
+    top:50%;
+    transform:translateY(-50%);
+    color:#687487;
+    pointer-events:none;
+}
+
+input[type="search"]{
     width:100%;
-}
-
-input{
-    padding:12px 14px;
-    background:#080b10;
-    color:white;
+    height:44px;
+    border-radius:12px;
     border:1px solid var(--border);
-    border-radius:11px;
     outline:none;
+    background:rgba(255,255,255,.035);
+    color:var(--text);
+    padding:0 14px 0 40px;
+    transition:.2s ease;
 }
 
-input:focus{
-    border-color:var(--border-strong);
+input[type="search"]:focus{
+    border-color:rgba(114,167,255,.45);
+    background:rgba(255,255,255,.055);
 }
 
-.filters{
-    display:flex;
-    gap:8px;
-    flex-wrap:wrap;
-}
-
-button{
-    padding:11px 14px;
-    border-radius:11px;
+.action{
+    height:44px;
     border:1px solid var(--border);
-    background:#121820;
-    color:white;
-    transition:background .15s ease,border-color .15s ease;
+    border-radius:12px;
+    background:rgba(255,255,255,.035);
+    color:var(--text);
+    padding:0 16px;
+    transition:.2s ease;
 }
 
-button:hover{
-    border-color:var(--border-strong);
+.action:hover{
+    background:rgba(255,255,255,.08);
 }
 
-button:disabled{
-    opacity:.55;
-    cursor:not-allowed;
+.filter{
+    height:38px;
+    border:1px solid var(--border);
+    border-radius:999px;
+    background:transparent;
+    color:var(--muted);
+    padding:0 14px;
 }
 
-.primary,
-.active{
-    background:white;
-    color:#050608;
-    font-weight:700;
+.filter.active{
+    background:rgba(114,167,255,.12);
+    color:#cfe0ff;
+    border-color:rgba(114,167,255,.28);
 }
 
-/* =========================
-   ERROR
-========================= */
-
-.error{
-    display:none;
-    margin-top:15px;
-    padding:14px;
-    border:1px solid rgba(255,113,128,.3);
-    border-radius:14px;
-    background:rgba(255,113,128,.06);
-    color:var(--red);
-    font-size:13px;
-    line-height:1.5;
-}
-
-.error.show{
-    display:block;
-}
-
-/* =========================
-   STATS
-========================= */
+/* STATS */
 
 .stats{
     display:grid;
     grid-template-columns:repeat(4,1fr);
     gap:12px;
-    margin-top:20px;
+    margin-bottom:28px;
 }
 
 .stat{
-    background:var(--panel);
+    min-height:120px;
+    padding:20px;
     border:1px solid var(--border);
-    border-radius:17px;
-    padding:18px;
+    background:linear-gradient(145deg,rgba(255,255,255,.045),rgba(255,255,255,.018));
+    border-radius:16px;
+    box-shadow:var(--shadow);
 }
 
 .stat-label{
-    font-size:11px;
     color:var(--muted);
+    font-size:12px;
     text-transform:uppercase;
     letter-spacing:.8px;
 }
 
 .stat-value{
-    font-size:28px;
-    font-weight:800;
-    margin-top:7px;
+    margin-top:12px;
+    font-size:31px;
+    font-weight:700;
+    letter-spacing:-1px;
 }
 
 .stat-note{
-    color:#687385;
-    font-size:11px;
-    margin-top:6px;
+    margin-top:5px;
+    color:#667182;
+    font-size:12px;
 }
 
-/* =========================
-   SECTIONS
-========================= */
+/* SECTIONS */
 
-section{
-    margin-top:25px;
+.section{
+    margin:30px 0;
 }
 
-.section-head{
+.section-header{
     display:flex;
     justify-content:space-between;
     align-items:end;
     gap:15px;
-    margin-bottom:12px;
+    margin-bottom:14px;
 }
 
-.section-head h3{
+.section-header h3{
     margin:0;
+    font-size:19px;
 }
 
-.section-head span{
+.section-header p{
+    margin:4px 0 0;
+    color:var(--muted);
+    font-size:12px;
+}
+
+/* CANDIDATES */
+
+.candidates{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:12px;
+}
+
+.candidate{
+    overflow:hidden;
+    border:1px solid var(--border);
+    border-radius:16px;
+    background:var(--panel);
+    transition:.2s ease;
+}
+
+.candidate:hover{
+    transform:translateY(-2px);
+    border-color:rgba(255,255,255,.14);
+}
+
+.card-image{
+    width:100%;
+    aspect-ratio:3/4.18;
+    object-fit:cover;
+    display:block;
+    background:#090c11;
+}
+
+.candidate-body{
+    padding:14px;
+}
+
+.candidate-name{
+    font-weight:700;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+.candidate-set{
+    margin-top:4px;
+    color:var(--muted);
+    font-size:12px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+.candidate-meta{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-top:14px;
+}
+
+.price{
+    font-weight:700;
+}
+
+.badge{
+    padding:5px 8px;
+    border-radius:999px;
+    font-size:10px;
+    border:1px solid var(--border);
+    color:var(--muted);
+}
+
+.badge.covered{
+    color:var(--green);
+    border-color:rgba(85,230,165,.2);
+    background:rgba(85,230,165,.05);
+}
+
+/* TABLE */
+
+.table-wrap{
+    overflow:auto;
+    border:1px solid var(--border);
+    border-radius:16px;
+    background:var(--panel);
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:760px;
+}
+
+th,
+td{
+    padding:14px 16px;
+    border-bottom:1px solid rgba(255,255,255,.055);
+    text-align:left;
+}
+
+th{
+    color:#6f7b8c;
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:.8px;
+    font-weight:600;
+}
+
+td{
+    font-size:13px;
+}
+
+tr:last-child td{
+    border-bottom:0;
+}
+
+.card-cell{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.thumb{
+    width:34px;
+    height:46px;
+    object-fit:cover;
+    border-radius:5px;
+    background:#090c11;
+}
+
+.card-title{
+    font-weight:650;
+}
+
+.card-sub{
+    margin-top:2px;
     color:var(--muted);
     font-size:11px;
 }
 
-/* =========================
-   CARDS
-========================= */
+.empty{
+    padding:45px 20px;
+    text-align:center;
+    color:var(--muted);
+}
 
-.grid{
+.error-box{
+    display:none;
+    margin-bottom:20px;
+    padding:14px 16px;
+    border:1px solid rgba(255,107,122,.2);
+    border-radius:12px;
+    background:rgba(255,107,122,.06);
+    color:#ff9da7;
+    font-size:13px;
+}
+
+.error-box.show{
+    display:block;
+}
+
+/* INFO */
+
+.info{
     display:grid;
     grid-template-columns:repeat(3,1fr);
     gap:12px;
 }
 
-.card{
-    background:var(--panel);
-    border:1px solid var(--border);
-    border-radius:17px;
+.info-card{
     padding:18px;
+    border:1px solid var(--border);
+    border-radius:15px;
+    background:rgba(255,255,255,.025);
 }
 
-.name{
-    font-weight:750;
-    font-size:16px;
+.info-card strong{
+    display:block;
+    margin-bottom:6px;
+    font-size:13px;
 }
 
-.set{
+.info-card span{
     color:var(--muted);
     font-size:12px;
-    margin-top:5px;
+    line-height:1.55;
 }
 
-.price{
-    font-size:24px;
-    font-weight:800;
-    margin-top:18px;
-}
-
-.change{
-    font-weight:750;
-    margin-top:5px;
-}
-
-.positive{
-    color:var(--green);
-}
-
-.negative{
-    color:var(--red);
-}
-
-.neutral{
-    color:var(--muted);
-}
-
-.badge{
-    display:inline-block;
-    padding:5px 8px;
-    border-radius:20px;
-    border:1px solid var(--border);
-    font-size:10px;
-    margin:12px 5px 0 0;
-}
-
-.green{
-    color:var(--green);
-}
-
-.red{
-    color:var(--red);
-}
-
-.yellow{
-    color:var(--yellow);
-}
-
-.blue{
-    color:var(--blue);
-}
-
-/* =========================
-   TABLE
-========================= */
-
-.table-wrap{
-    overflow:auto;
-    border:1px solid var(--border);
-    border-radius:17px;
-}
-
-.table-wrap table{
-    width:100%;
-    border-collapse:collapse;
-    min-width:700px;
-}
-
-.table-wrap th,
-.table-wrap td{
-    padding:13px 15px;
-    text-align:left;
-    border-bottom:1px solid rgba(255,255,255,.05);
-    font-size:12px;
-}
-
-.table-wrap th{
-    color:var(--muted);
-    font-size:10px;
-    text-transform:uppercase;
-}
-
-.table-wrap tr:last-child td{
-    border:0;
-}
-
-/* =========================
-   EMPTY STATES
-========================= */
-
-.empty{
-    text-align:center;
-    color:var(--muted);
-    padding:35px;
-    border:1px dashed var(--border);
-    border-radius:17px;
-    grid-column:1/-1;
-    line-height:1.5;
-}
-
-/* =========================
-   API
-========================= */
+/* API */
 
 .api{
-    margin-top:24px;
-    background:var(--panel);
+    margin:35px 0 50px;
     border:1px solid var(--border);
-    border-radius:17px;
-    padding:18px;
+    border-radius:15px;
+    background:rgba(255,255,255,.025);
+    overflow:hidden;
 }
 
 .api summary{
+    padding:16px 18px;
     cursor:pointer;
-    font-weight:700;
+    color:#cdd5e0;
+    font-size:13px;
 }
 
-.api-form{
+.api-body{
+    padding:18px;
+    border-top:1px solid var(--border);
+}
+
+.api-row{
     display:flex;
-    gap:8px;
-    margin-top:15px;
+    gap:10px;
 }
 
-.api-form input{
+.api-row input{
     flex:1;
+    min-width:0;
+    height:42px;
+    border-radius:10px;
+    border:1px solid var(--border);
+    background:#090c11;
+    color:var(--text);
+    padding:0 12px;
+    outline:none;
 }
 
 .api-help{
-    color:#687385;
+    margin-top:9px;
+    color:#667182;
     font-size:11px;
     line-height:1.5;
-    margin-top:10px;
 }
 
-/* =========================
-   FOOTER
-========================= */
+/* FOOTER */
 
 footer{
-    color:#687385;
+    padding:0 0 35px;
+    color:#596474;
     font-size:11px;
-    line-height:1.5;
-    margin:25px 0;
 }
 
-/* =========================
-   RESPONSIVE
-========================= */
+/* RESPONSIVE */
 
-@media(max-width:900px){
-
+@media(max-width:1000px){
     .stats{
         grid-template-columns:repeat(2,1fr);
     }
 
-    .grid{
-        grid-template-columns:repeat(2,1fr);
+    .candidates{
+        grid-template-columns:repeat(3,1fr);
+    }
+
+    .info{
+        grid-template-columns:1fr;
     }
 }
 
-@media(max-width:600px){
-
-    body{
-        padding:15px;
+@media(max-width:700px){
+    .container{
+        width:min(100% - 24px,1400px);
     }
 
     header{
-        align-items:flex-start;
-    }
-
-    .logo{
-        font-size:30px;
+        padding-top:18px;
     }
 
     .hero{
-        padding:22px;
+        padding:35px 0 24px;
     }
 
-    .stats,
-    .grid{
-        grid-template-columns:1fr;
+    .hero h2{
+        letter-spacing:-2px;
     }
 
-    .controls{
-        align-items:stretch;
+    .stats{
+        grid-template-columns:1fr 1fr;
     }
 
-    .search{
-        min-width:100%;
+    .candidates{
+        grid-template-columns:repeat(2,1fr);
     }
 
-    .filters{
-        width:100%;
+    .header-row{
+        align-items:flex-start;
     }
 
-    .filters button{
-        flex:1;
+    .status{
+        font-size:10px;
+    }
+}
+
+@media(max-width:450px){
+    .stats{
+        grid-template-columns:1fr 1fr;
     }
 
-    .api-form{
+    .stat{
+        padding:15px;
+        min-height:105px;
+    }
+
+    .stat-value{
+        font-size:24px;
+    }
+
+    .api-row{
         flex-direction:column;
     }
 }
 </style>
-
 </head>
 
 <body>
 
-<div class="app">
-
-```
-<!-- =========================
-     HEADER
-========================== -->
+<div class="container">
 
 <header>
+    <div class="header-row">
+        <div class="brand">
+            <div class="brand-mark">◈</div>
+            <div>
+                <h1>PokiRadar</h1>
+                <p>Pokémon TCG Market Intelligence</p>
+            </div>
+        </div>
 
-    <div>
-        <div class="logo">PokiRadar</div>
-        <div class="sub">
-            Pokémon TCG Market Intelligence · V2
+        <div class="status" id="status">
+            <span class="status-dot"></span>
+            <span id="statusText">Waiting for API</span>
         </div>
     </div>
-
-    <div class="status" id="status">
-        <span class="status-dot"></span>
-        <span id="statusText">Starting</span>
-    </div>
-
 </header>
 
+<main>
 
-<!-- =========================
-     ERROR
-========================== -->
-
-<div class="error" id="error"></div>
-
-
-<!-- =========================
-     HERO
-========================== -->
-
-<div class="hero">
-
-    <h2>
-        Find what is changing before simply watching prices.
-    </h2>
-
+<section class="hero">
+    <h2>Find what is changing before simply watching prices.</h2>
     <p>
-        PokiRadar tracks observed Pokémon TCG prices and market movement,
-        then turns those observations into research signals.
+        V3 connects PokiRadar to real Pokémon TCG catalogue data and
+        establishes the live market-data foundation for the radar engine.
     </p>
+</section>
 
-    <div class="controls">
+<div id="error" class="error-box"></div>
 
-        <div class="search">
-            <input
-                id="search"
-                type="search"
-                placeholder="Search Pokémon, set or card number..."
-                autocomplete="off"
-            >
-        </div>
+<section class="controls">
 
-        <div class="filters">
-
-            <button
-                class="filter active"
-                data-filter="all"
-            >
-                All
-            </button>
-
-            <button
-                class="filter"
-                data-filter="momentum"
-            >
-                Momentum
-            </button>
-
-            <button
-                class="filter"
-                data-filter="divergence"
-            >
-                Divergence
-            </button>
-
-            <button
-                class="filter"
-                data-filter="drops"
-            >
-                Drops
-            </button>
-
-        </div>
-
-        <button
-            class="primary"
-            id="refresh"
+    <div class="search-wrap">
+        <span>⌕</span>
+        <input
+            id="search"
+            type="search"
+            placeholder="Search Pokémon, set or card number..."
+            autocomplete="off"
         >
-            Refresh
-        </button>
-
     </div>
 
-</div>
+    <button class="action" id="refresh">Refresh Data</button>
 
+    <button class="filter active" data-filter="all">All</button>
+    <button class="filter" data-filter="covered">Market Covered</button>
+    <button class="filter" data-filter="priced">Priced</button>
 
-<!-- =========================
-     STATS
-========================== -->
+</section>
 
-<div class="stats">
+<section class="stats">
 
     <div class="stat">
-
-        <div class="stat-label">
-            Cards Tracked
-        </div>
-
-        <div
-            class="stat-value"
-            id="cardsCount"
-        >
-            —
-        </div>
-
-        <div class="stat-note">
-            Current API dataset
-        </div>
-
+        <div class="stat-label">Cards Loaded</div>
+        <div class="stat-value" id="cardsCount">—</div>
+        <div class="stat-note">Live catalogue records</div>
     </div>
-
 
     <div class="stat">
-
-        <div class="stat-label">
-            Radar Signals
-        </div>
-
-        <div
-            class="stat-value"
-            id="signalCount"
-        >
-            —
-        </div>
-
-        <div class="stat-note">
-            Observed conditions
-        </div>
-
+        <div class="stat-label">Market Covered</div>
+        <div class="stat-value" id="signalCount">—</div>
+        <div class="stat-note">Cards with market index</div>
     </div>
-
 
     <div class="stat">
-
-        <div class="stat-label">
-            Largest 7d Move
-        </div>
-
-        <div
-            class="stat-value"
-            id="largestMove"
-        >
-            —
-        </div>
-
-        <div class="stat-note">
-            Absolute movement
-        </div>
-
+        <div class="stat-label">Highest Current Price</div>
+        <div class="stat-value" id="largestMove">—</div>
+        <div class="stat-note">Among loaded cards</div>
     </div>
-
 
     <div class="stat">
-
-        <div class="stat-label">
-            Last Update
-        </div>
-
-        <div
-            class="stat-value"
-            id="lastUpdate"
-        >
-            —
-        </div>
-
-        <div class="stat-note">
-            Local browser time
-        </div>
-
+        <div class="stat-label">Last Update</div>
+        <div class="stat-value" id="lastUpdate">—</div>
+        <div class="stat-note">PokiRadar data refresh</div>
     </div>
 
-</div>
+</section>
 
+<section class="section">
 
-<!-- =========================
-     RADAR CANDIDATES
-========================== -->
-
-<section>
-
-    <div class="section-head">
-
-        <h3>
-            🔥 Radar Candidates
-        </h3>
-
-        <span id="candidateCount">
-            Waiting for data
-        </span>
-
+    <div class="section-header">
+        <div>
+            <h3>Radar Candidates</h3>
+            <p id="candidateInfo">
+                Loading real market records...
+            </p>
+        </div>
     </div>
 
-    <div
-        class="grid"
-        id="candidates"
-    >
+    <div class="candidates" id="candidates">
         <div class="empty">
-            Connect your API key below to load live market data.
+            Connect your API key to load real Pokémon TCG data.
         </div>
     </div>
 
 </section>
 
+<section class="section">
 
-<!-- =========================
-     BIGGEST MOVERS
-========================== -->
-
-<section>
-
-    <div class="section-head">
-
-        <h3>
-            📈 Biggest 7d Movers
-        </h3>
-
-        <span>
-            Observed composite-index movement
-        </span>
-
+    <div class="section-header">
+        <div>
+            <h3>Current Market Catalogue</h3>
+            <p>
+                V3 live catalogue — movement analysis arrives in V5.
+            </p>
+        </div>
     </div>
 
     <div class="table-wrap">
@@ -755,26 +706,25 @@ footer{
         <table>
 
             <thead>
-
                 <tr>
                     <th>Card</th>
                     <th>Set</th>
-                    <th>Current</th>
-                    <th>7d</th>
-                    <th>30d</th>
-                    <th>Signal</th>
+                    <th>Number</th>
+                    <th>Rarity</th>
+                    <th>Current Index</th>
+                    <th>Updated</th>
+                    <th>Status</th>
                 </tr>
-
             </thead>
 
             <tbody id="movers">
-
                 <tr>
-                    <td colspan="6">
-                        No live data loaded.
+                    <td colspan="7">
+                        <div class="empty">
+                            No market data loaded yet.
+                        </div>
                     </td>
                 </tr>
-
             </tbody>
 
         </table>
@@ -783,1195 +733,729 @@ footer{
 
 </section>
 
+<section class="section">
 
-<!-- =========================
-     MARKET INFORMATION
-========================== -->
-
-<section>
-
-    <div class="section-head">
-
-        <h3>
-            📰 Market Information
-        </h3>
-
-        <span>
-            Live source information
-        </span>
-
+    <div class="section-header">
+        <div>
+            <h3>Market Information</h3>
+            <p>What V3 is currently collecting.</p>
+        </div>
     </div>
 
-    <div
-        class="grid"
-        id="information"
-    >
+    <div class="info" id="information">
 
-        <div class="card">
-
-            <div class="name">
-                PokiRadar V2
-            </div>
-
-            <div class="set">
-                Dashboard shell is ready.
-            </div>
-
+        <div class="info-card">
+            <strong>Catalogue</strong>
+            <span>
+                Real Pokémon TCG card records are loaded from the live API.
+            </span>
         </div>
 
-
-        <div class="card">
-
-            <div class="name">
-                Live API
-            </div>
-
-            <div class="set">
-                Waiting for API key.
-            </div>
-
+        <div class="info-card">
+            <strong>Current Market Index</strong>
+            <span>
+                V3 reads the available market index field. Historical
+                movement calculations are intentionally reserved for V4/V5.
+            </span>
         </div>
 
-
-        <div class="card">
-
-            <div class="name">
-                Signal Engine
-            </div>
-
-            <div class="set">
-                Ready for market observations.
-            </div>
-
+        <div class="info-card">
+            <strong>Radar Engine</strong>
+            <span>
+                No artificial movement numbers are generated. Radar signals
+                will only appear once PokiRadar has historical observations.
+            </span>
         </div>
 
     </div>
 
 </section>
 
-
-<!-- =========================
-     API CONNECTION
-========================== -->
-
 <details class="api">
 
-    <summary>
-        API Connection
-    </summary>
+    <summary>API Connection</summary>
 
-    <div class="api-form">
+    <div class="api-body">
 
-        <input
-            id="apiKey"
-            type="password"
-            placeholder="Paste your browser/public API key"
-            autocomplete="off"
-        >
+        <div class="api-row">
 
-        <button
-            class="primary"
-            id="saveKey"
-        >
-            Save & Load
-        </button>
+            <input
+                id="apiKey"
+                type="password"
+                placeholder="Paste your PokiRadar API key"
+                autocomplete="off"
+            >
 
-    </div>
+            <button class="action" id="saveKey">
+                Save & Load
+            </button>
 
-    <div class="api-help">
-        The key is stored in this browser only.
-        Do not put a secret/server API key into a public HTML file.
+        </div>
+
+        <div class="api-help">
+            Your key is stored locally in this browser using localStorage.
+            PokiRadar V3 uses the current Pokémon TCG API v1 endpoint.
+        </div>
+
     </div>
 
 </details>
 
+</main>
 
 <footer>
-    PokiRadar V2 · Live market-data foundation.
-    Signals describe observed conditions and are not predictions or guarantees.
+    PokiRadar V3 · Live catalogue foundation · Historical movement engine not yet enabled
 </footer>
-```
 
 </div>
 
 <script>
-
 (function(){
 
-"use strict";
+    "use strict";
 
+    const API = "https://api.pokemontcgapi.com/v1";
+    const STORAGE_KEY = "pokiradar_api_key";
 
-/* ==========================================
-   CONFIGURATION
-========================================== */
+    const state = {
+        cards: [],
+        filtered: [],
+        filter: "all",
+        loading: false,
+        lastUpdated: null
+    };
 
-var API = "https://api.pokemontcgapi.com/v1";
+    const $ = id => document.getElementById(id);
 
-var cards = [];
+    const status = $("status");
+    const statusText = $("statusText");
+    const errorBox = $("error");
 
-var filter = "all";
+    const searchInput = $("search");
+    const refreshButton = $("refresh");
 
-var loading = false;
+    const cardsCount = $("cardsCount");
+    const signalCount = $("signalCount");
+    const largestMove = $("largestMove");
+    const lastUpdate = $("lastUpdate");
 
+    const candidateInfo = $("candidateInfo");
+    const candidates = $("candidates");
+    const movers = $("movers");
 
-/* ==========================================
-   DOM HELPER
-========================================== */
+    const apiKeyInput = $("apiKey");
+    const saveKeyButton = $("saveKey");
 
-function $(id){
-    return document.getElementById(id);
-}
+    function getKey(){
+        return localStorage.getItem(STORAGE_KEY) || "";
+    }
 
+    function setStatus(text, type){
 
-/* ==========================================
-   HTML ESCAPING
-========================================== */
+        statusText.textContent = text;
 
-function esc(value){
+        status.classList.remove("ready","error");
 
-    return String(
-        value == null ? "" : value
-    ).replace(
-        /[&<>"']/g,
-        function(character){
-
-            return {
-                "&":"&amp;",
-                "<":"&lt;",
-                ">":"&gt;",
-                '"':"&quot;",
-                "'":"&#039;"
-            }[character];
-
+        if(type){
+            status.classList.add(type);
         }
-    );
-
-}
-
-
-/* ==========================================
-   NUMBER HELPERS
-========================================== */
-
-function number(value){
-
-    var n = Number(value);
-
-    return Number.isFinite(n) ? n : null;
-
-}
-
-
-function money(value){
-
-    var n = number(value);
-
-    if(n === null){
-        return "—";
     }
 
-    return "€" + n.toFixed(2);
+    function showError(message){
 
-}
+        errorBox.textContent = message;
+        errorBox.classList.add("show");
 
-
-function pct(value){
-
-    var n = number(value);
-
-    if(n === null){
-        return "—";
+        setStatus("Connection error","error");
     }
 
-    return (
-        n > 0 ? "+" : ""
-    ) + n.toFixed(2) + "%";
+    function clearError(){
 
-}
-
-
-function cls(value){
-
-    var n = number(value);
-
-    if(n === null || n === 0){
-        return "neutral";
+        errorBox.textContent = "";
+        errorBox.classList.remove("show");
     }
 
-    return n > 0 ? "positive" : "negative";
+    function escapeHTML(value){
 
-}
+        if(value === null || value === undefined){
+            return "";
+        }
 
-
-/* ==========================================
-   STATUS
-========================================== */
-
-function setStatus(type,text){
-
-    var status = $("status");
-
-    status.className = "status";
-
-    if(type){
-        status.classList.add(type);
+        return String(value)
+            .replace(/&/g,"&amp;")
+            .replace(/</g,"&lt;")
+            .replace(/>/g,"&gt;")
+            .replace(/"/g,"&quot;")
+            .replace(/'/g,"&#039;");
     }
 
-    $("statusText").textContent = text;
+    function formatNumber(value){
 
-}
-
-
-/* ==========================================
-   ERROR
-========================================== */
-
-function showError(message){
-
-    var error = $("error");
-
-    error.textContent = message;
-
-    error.classList.add("show");
-
-}
-
-
-function clearError(){
-
-    $("error").textContent = "";
-
-    $("error").classList.remove("show");
-
-}
-
-
-/* ==========================================
-   SIGNAL ENGINE
-========================================== */
-
-function signals(card){
-
-    var result = [];
-
-    var change7 = number(card.change7);
-
-    var change30 = number(card.change30);
-
-
-    /*
-       Momentum:
-       Strong positive observed 7d movement.
-    */
-
-    if(
-        change7 !== null &&
-        change7 >= 8
-    ){
-        result.push("Momentum");
+        return Number(value || 0).toLocaleString();
     }
 
+    function formatPrice(value){
 
-    /*
-       Drop:
-       Strong negative observed 7d movement.
-    */
+        if(value === null || value === undefined || value === ""){
+            return "—";
+        }
 
-    if(
-        change7 !== null &&
-        change7 <= -8
-    ){
-        result.push("Drop");
+        const number = Number(value);
+
+        if(!Number.isFinite(number)){
+            return "—";
+        }
+
+        return "€" + number.toLocaleString(undefined,{
+            minimumFractionDigits:2,
+            maximumFractionDigits:2
+        });
     }
 
+    function formatDate(value){
 
-    /*
-       Divergence:
-       Compare the recent 7d movement with
-       a simple normalized 30d movement.
-    */
+        if(!value){
+            return "—";
+        }
 
-    if(
-        change7 !== null &&
-        change30 !== null &&
-        Math.abs(
-            change7 - (change30 / 4)
-        ) >= 5
-    ){
-        result.push("Divergence");
+        const date = new Date(value);
+
+        if(Number.isNaN(date.getTime())){
+            return value;
+        }
+
+        return date.toLocaleDateString(undefined,{
+            year:"numeric",
+            month:"short",
+            day:"numeric"
+        });
     }
 
+    function formatTime(date){
 
-    return result;
-
-}
-
-
-/* ==========================================
-   API REQUEST
-========================================== */
-
-async function request(path){
-
-    var key =
-        localStorage.getItem(
-            "pokiradar_api_key"
-        ) || "";
-
-
-    if(!key){
-
-        throw new Error(
-            "No API key. Paste your browser/public API key below."
-        );
-
+        return date.toLocaleTimeString(undefined,{
+            hour:"2-digit",
+            minute:"2-digit"
+        });
     }
 
+    function hasMarketPrice(card){
 
-    var response;
-
-    try{
-
-        response = await fetch(
-            API + path,
-            {
-                method:"GET",
-
-                headers:{
-                    "X-Api-Key":key,
-                    "Accept":"application/json"
-                },
-
-                cache:"no-store"
-            }
-        );
-
-    }catch(error){
-
-        throw new Error(
-            "Could not connect to the market API. Check your internet connection and API endpoint."
-        );
-
+        return Number.isFinite(Number(card.index_eur))
+            && Number(card.index_eur) > 0;
     }
 
+    function normalizeCard(card){
 
-    var text =
-        await response.text();
+        return {
+            id: card.id || "",
+            name: card.name || "Unknown Card",
+            number: card.number || "—",
+            rarity: card.rarity || "—",
 
-    var data = {};
+            setName:
+                card.set_name ||
+                card.set?.name ||
+                "Unknown Set",
 
-    try{
+            image:
+                card.image_large ||
+                card.image_small ||
+                card.images?.large ||
+                card.images?.small ||
+                "",
 
-        data = JSON.parse(text);
+            indexEUR:
+                Number.isFinite(Number(card.index_eur))
+                    ? Number(card.index_eur)
+                    : null,
 
-    }catch(error){
-
-        data = {};
-
+            lastPriceAt:
+                card.last_price_at ||
+                card.lastPriceAt ||
+                null
+        };
     }
 
+    async function apiRequest(url){
 
-    if(!response.ok){
+        const key = getKey();
 
-        throw new Error(
-            "API request failed (" +
-            response.status +
-            "). " +
-            (
-                data.message ||
-                data.error ||
-                "Check your API key and API access."
-            )
-        );
+        if(!key){
+            throw new Error("No API key saved. Open API Connection and add your key.");
+        }
 
-    }
-
-
-    return data;
-
-}
-
-
-/* ==========================================
-   LOAD MARKET DATA
-========================================== */
-
-async function load(){
-
-    if(loading){
-        return;
-    }
-
-    loading = true;
-
-    clearError();
-
-    setStatus(
-        "loading",
-        "Loading"
-    );
-
-    $("refresh").disabled = true;
-
-
-    try{
-
-        /*
-           Main card dataset.
-        */
-
-        var result =
-            await request(
-                "/cards?limit=250&include=index&orderBy=-index_eur"
-            );
-
-
-        var raw =
-            Array.isArray(result.data)
-            ? result.data
-            : [];
-
-
-        cards = raw.map(function(card){
-
-            var price =
-                number(card.index_eur);
-
-
-            return {
-
-                id:
-                    card.id || "",
-
-                name:
-                    card.name || "Unknown",
-
-                set:
-                    card.set_name ||
-                    card.setName ||
-                    "Unknown set",
-
-                number:
-                    card.number || "",
-
-                price:
-                    price,
-
-                change7:
-                    null,
-
-                change30:
-                    null
-
-            };
-
-        }).filter(function(card){
-
-            return card.price !== null;
-
+        const response = await fetch(url,{
+            method:"GET",
+            headers:{
+                "X-Api-Key":key,
+                "Accept":"application/json"
+            },
+            cache:"no-store"
         });
 
+        if(!response.ok){
 
-        /*
-           Fetch movement information for the
-           first batch only.
-
-           This keeps the initial V2 build
-           from making hundreds of requests.
-        */
-
-        var limit =
-            Math.min(cards.length,15);
-
-
-        for(
-            var i = 0;
-            i < limit;
-            i++
-        ){
+            let message = "API request failed (" + response.status + ")";
 
             try{
+                const data = await response.json();
 
-                var weekly =
-                    await request(
-                        "/cards/" +
-                        encodeURIComponent(cards[i].id) +
-                        "/prices/stats?window=7d"
-                    );
-
-
-                if(
-                    weekly &&
-                    weekly.data &&
-                    number(
-                        weekly.data.change_pct
-                    ) !== null
-                ){
-
-                    cards[i].change7 =
-                        number(
-                            weekly.data.change_pct
-                        );
-
+                if(data && data.message){
+                    message = data.message;
                 }
 
-            }catch(error){
-
-                /*
-                   Individual movement failure
-                   should not destroy the whole dashboard.
-                */
-
-            }
-
-
-            try{
-
-                var monthly =
-                    await request(
-                        "/cards/" +
-                        encodeURIComponent(cards[i].id) +
-                        "/prices/stats?window=30d"
-                    );
-
-
-                if(
-                    monthly &&
-                    monthly.data &&
-                    number(
-                        monthly.data.change_pct
-                    ) !== null
-                ){
-
-                    cards[i].change30 =
-                        number(
-                            monthly.data.change_pct
-                        );
-
+                if(data && data.error){
+                    message = data.error;
                 }
+            }catch(e){}
 
-            }catch(error){
-
-                /*
-                   Individual movement failure
-                   should not destroy the whole dashboard.
-                */
-
-            }
-
+            throw new Error(message);
         }
 
+        return response.json();
+    }
 
-        render();
+    async function loadCards(){
 
+        if(state.loading){
+            return;
+        }
 
-        setStatus(
-            "live",
-            "Live · " + cards.length + " cards"
-        );
+        state.loading = true;
 
+        clearError();
 
-        $("lastUpdate").textContent =
-            new Date().toLocaleTimeString(
-                [],
-                {
-                    hour:"2-digit",
-                    minute:"2-digit"
-                }
+        refreshButton.disabled = true;
+        refreshButton.textContent = "Loading...";
+
+        setStatus("Loading live catalogue","");
+
+        try{
+
+            /*
+             * V3 intentionally requests only index data.
+             *
+             * This keeps API usage controlled while establishing
+             * the real catalogue foundation.
+             *
+             * 250 records are loaded and sorted by current EUR index.
+             */
+
+            const url =
+                API +
+                "/cards?limit=250" +
+                "&include=index" +
+                "&orderBy=-index_eur";
+
+            const data = await apiRequest(url);
+
+            const rawCards =
+                Array.isArray(data)
+                    ? data
+                    : Array.isArray(data.data)
+                        ? data.data
+                        : Array.isArray(data.cards)
+                            ? data.cards
+                            : [];
+
+            state.cards = rawCards.map(normalizeCard);
+
+            state.lastUpdated = new Date();
+
+            applyFilters();
+
+            updateStats();
+
+            setStatus(
+                state.cards.length
+                    ? "Live data connected"
+                    : "Connected · no cards returned",
+                state.cards.length ? "ready" : ""
             );
 
+        }catch(error){
 
-    }catch(error){
+            console.error(error);
 
-        setStatus(
-            "error",
-            "Needs attention"
-        );
+            state.cards = [];
+            state.filtered = [];
 
-        showError(
-            error.message ||
-            "Unable to load market data."
-        );
+            renderAll();
 
-    }finally{
+            showError(error.message || "Unable to load market data.");
 
-        loading = false;
+        }finally{
 
-        $("refresh").disabled = false;
+            state.loading = false;
 
+            refreshButton.disabled = false;
+            refreshButton.textContent = "Refresh Data";
+        }
     }
 
-}
+    function applyFilters(){
 
+        const term =
+            searchInput.value
+                .trim()
+                .toLowerCase();
 
-/* ==========================================
-   FILTER
-========================================== */
+        let cards = [...state.cards];
 
-function filtered(){
+        if(term){
 
-    var query =
-        $("search").value
-            .trim()
-            .toLowerCase();
-
-
-    return cards.filter(function(card){
-
-        var text =
-            (
-                card.name +
-                " " +
-                card.set +
-                " " +
-                card.number
-            ).toLowerCase();
-
-
-        if(
-            query &&
-            text.indexOf(query) === -1
-        ){
-            return false;
-        }
-
-
-        var signalList =
-            signals(card);
-
-
-        if(filter === "momentum"){
-
-            return signalList.indexOf(
-                "Momentum"
-            ) >= 0;
-
-        }
-
-
-        if(filter === "drops"){
-
-            return signalList.indexOf(
-                "Drop"
-            ) >= 0;
-
-        }
-
-
-        if(filter === "divergence"){
-
-            return signalList.indexOf(
-                "Divergence"
-            ) >= 0;
-
-        }
-
-
-        return true;
-
-    });
-
-}
-
-
-/* ==========================================
-   SIGNAL BADGE
-========================================== */
-
-function badge(signal){
-
-    var className = "green";
-
-
-    if(signal === "Drop"){
-        className = "red";
-    }
-
-    if(signal === "Divergence"){
-        className = "yellow";
-    }
-
-    if(signal === "Momentum"){
-        className = "green";
-    }
-
-
-    return (
-        '<span class="badge ' +
-        className +
-        '">' +
-        esc(signal) +
-        '</span>'
-    );
-
-}
-
-
-/* ==========================================
-   RENDER
-========================================== */
-
-function render(){
-
-    var list =
-        filtered();
-
-
-    /*
-       Cards tracked
-    */
-
-    $("cardsCount").textContent =
-        cards.length;
-
-
-    /*
-       Total signals
-    */
-
-    var signalTotal = 0;
-
-
-    cards.forEach(function(card){
-
-        signalTotal +=
-            signals(card).length;
-
-    });
-
-
-    $("signalCount").textContent =
-        signalTotal;
-
-
-    /*
-       Largest absolute 7d movement
-    */
-
-    var movements =
-        cards.map(function(card){
-
-            return Math.abs(
-                number(card.change7)
-            );
-
-        }).filter(function(value){
-
-            return Number.isFinite(value);
-
-        });
-
-
-    $("largestMove").textContent =
-        movements.length
-        ? Math.max.apply(
-            null,
-            movements
-        ).toFixed(2) + "%"
-        : "—";
-
-
-    /*
-       Candidate count
-    */
-
-    $("candidateCount").textContent =
-        list.length + " cards";
-
-
-    /*
-       Radar candidates
-    */
-
-    var candidates =
-        list.filter(function(card){
-
-            return signals(card).length > 0;
-
-        }).sort(function(a,b){
-
-            return (
-                Math.abs(
-                    number(b.change7) || 0
-                ) -
-                Math.abs(
-                    number(a.change7) || 0
-                )
-            );
-
-        }).slice(0,9);
-
-
-    if(!candidates.length){
-
-        $("candidates").innerHTML =
-            '<div class="empty">' +
-            (
-                cards.length
-                ? "No radar signals found in the current dataset."
-                : "Connect your API key below to load live market data."
-            ) +
-            '</div>';
-
-    }else{
-
-        $("candidates").innerHTML =
-            candidates.map(function(card){
-
-                var signalList =
-                    signals(card);
-
+            cards = cards.filter(card => {
 
                 return (
-
-                    '<div class="card">' +
-
-                        '<div class="name">' +
-                            esc(card.name) +
-                        '</div>' +
-
-                        '<div class="set">' +
-                            esc(card.set) +
-                            ' · ' +
-                            esc(card.number) +
-                        '</div>' +
-
-                        '<div>' +
-                            signalList.map(
-                                badge
-                            ).join("") +
-                        '</div>' +
-
-                        '<div class="price">' +
-                            money(card.price) +
-                        '</div>' +
-
-                        '<div class="change ' +
-                            cls(card.change7) +
-                        '">' +
-                            pct(card.change7) +
-                            ' 7d' +
-                        '</div>' +
-
-                    '</div>'
-
+                    card.name.toLowerCase().includes(term) ||
+                    card.setName.toLowerCase().includes(term) ||
+                    card.number.toLowerCase().includes(term) ||
+                    card.rarity.toLowerCase().includes(term)
                 );
 
-            }).join("");
+            });
+        }
 
+        if(state.filter === "covered"){
+
+            cards = cards.filter(hasMarketPrice);
+
+        }
+
+        if(state.filter === "priced"){
+
+            cards = cards.filter(hasMarketPrice);
+
+        }
+
+        state.filtered = cards;
+
+        renderAll();
     }
 
+    function updateStats(){
 
-    /*
-       Biggest movers
-    */
+        const total = state.cards.length;
 
-    var movers =
-        list.filter(function(card){
+        const covered =
+            state.cards.filter(hasMarketPrice).length;
 
-            return number(card.change7) !== null;
+        const prices =
+            state.cards
+                .map(card => card.indexEUR)
+                .filter(value => Number.isFinite(value));
 
-        }).sort(function(a,b){
+        const highest =
+            prices.length
+                ? Math.max(...prices)
+                : null;
 
-            return Math.abs(
-                number(b.change7)
-            ) -
-            Math.abs(
-                number(a.change7)
-            );
+        cardsCount.textContent =
+            total ? formatNumber(total) : "—";
 
-        }).slice(0,30);
+        signalCount.textContent =
+            total ? formatNumber(covered) : "—";
 
+        largestMove.textContent =
+            highest !== null
+                ? formatPrice(highest)
+                : "—";
 
-    if(!movers.length){
-
-        $("movers").innerHTML =
-            '<tr>' +
-                '<td colspan="6">' +
-                    (
-                        cards.length
-                        ? "7-day movement data is not available for the loaded cards."
-                        : "No live data loaded."
-                    ) +
-                '</td>' +
-            '</tr>';
-
-    }else{
-
-        $("movers").innerHTML =
-            movers.map(function(card){
-
-                var signalList =
-                    signals(card);
-
-
-                return (
-
-                    '<tr>' +
-
-                        '<td>' +
-                            '<strong>' +
-                                esc(card.name) +
-                            '</strong>' +
-                            '<br>' +
-                            '<span class="neutral">' +
-                                esc(card.number) +
-                            '</span>' +
-                        '</td>' +
-
-                        '<td>' +
-                            esc(card.set) +
-                        '</td>' +
-
-                        '<td>' +
-                            money(card.price) +
-                        '</td>' +
-
-                        '<td class="' +
-                            cls(card.change7) +
-                        '">' +
-                            pct(card.change7) +
-                        '</td>' +
-
-                        '<td class="' +
-                            cls(card.change30) +
-                        '">' +
-                            pct(card.change30) +
-                        '</td>' +
-
-                        '<td>' +
-                            (
-                                signalList.length
-                                ? signalList.join(", ")
-                                : "—"
-                            ) +
-                        '</td>' +
-
-                    '</tr>'
-
-                );
-
-            }).join("");
-
+        lastUpdate.textContent =
+            state.lastUpdated
+                ? formatTime(state.lastUpdated)
+                : "—";
     }
 
+    function renderCandidates(){
 
-    /*
-       Market information
-    */
+        const cards =
+            state.filtered
+                .filter(hasMarketPrice)
+                .slice(0,8);
 
-    renderInformation();
+        if(!cards.length){
 
-}
+            candidates.innerHTML = `
+                <div class="empty">
+                    ${
+                        state.cards.length
+                            ? "No matching market-covered cards."
+                            : "No live card data loaded yet."
+                    }
+                </div>
+            `;
 
+            candidateInfo.textContent =
+                state.cards.length
+                    ? "No cards match the current filter."
+                    : "Connect your API key to load real market records.";
 
-/* ==========================================
-   MARKET INFORMATION
-========================================== */
+            return;
+        }
 
-function renderInformation(){
+        candidateInfo.textContent =
+            `${formatNumber(cards.length)} cards currently shown`;
 
-    var hasData =
-        cards.length > 0;
+        candidates.innerHTML =
+            cards.map(card => {
 
+                const image =
+                    card.image ||
+                    "";
 
-    $("information").innerHTML =
+                return `
+                    <article class="candidate">
 
-        '<div class="card">' +
+                        ${
+                            image
+                                ? `<img
+                                    class="card-image"
+                                    src="${escapeHTML(image)}"
+                                    alt="${escapeHTML(card.name)}"
+                                    loading="lazy"
+                                  >`
+                                : `<div class="card-image"></div>`
+                        }
 
-            '<div class="name">' +
-                'PokiRadar V2' +
-            '</div>' +
+                        <div class="candidate-body">
 
-            '<div class="set">' +
-                (
-                    hasData
-                    ? 'Market dataset connected.'
-                    : 'Dashboard shell is ready.'
-                ) +
-            '</div>' +
+                            <div class="candidate-name">
+                                ${escapeHTML(card.name)}
+                            </div>
 
-        '</div>' +
+                            <div class="candidate-set">
+                                ${escapeHTML(card.setName)}
+                                · #${escapeHTML(card.number)}
+                            </div>
 
+                            <div class="candidate-meta">
 
-        '<div class="card">' +
+                                <span class="price">
+                                    ${formatPrice(card.indexEUR)}
+                                </span>
 
-            '<div class="name">' +
-                'Live API' +
-            '</div>' +
+                                <span class="badge covered">
+                                    MARKET
+                                </span>
 
-            '<div class="set">' +
-                (
-                    hasData
-                    ? 'Live market data received.'
-                    : 'Waiting for API key.'
-                ) +
-            '</div>' +
+                            </div>
 
-        '</div>' +
+                        </div>
 
+                    </article>
+                `;
 
-        '<div class="card">' +
+            }).join("");
+    }
 
-            '<div class="name">' +
-                'Signal Engine' +
-            '</div>' +
+    function renderTable(){
 
-            '<div class="set">' +
-                (
-                    hasData
-                    ? 'Observed movement signals calculated.'
-                    : 'Ready for market observations.'
-                ) +
-            '</div>' +
+        const cards =
+            state.filtered.slice(0,50);
 
-        '</div>';
+        if(!cards.length){
 
-}
+            movers.innerHTML = `
+                <tr>
+                    <td colspan="7">
+                        <div class="empty">
+                            ${
+                                state.cards.length
+                                    ? "No cards match your search."
+                                    : "No market data loaded yet."
+                            }
+                        </div>
+                    </td>
+                </tr>
+            `;
 
+            return;
+        }
 
-/* ==========================================
-   SEARCH
-========================================== */
+        movers.innerHTML =
+            cards.map(card => {
 
-$("search").addEventListener(
-    "input",
-    render
-);
+                const covered =
+                    hasMarketPrice(card);
 
+                const image =
+                    card.image || "";
 
-/* ==========================================
-   FILTER BUTTONS
-========================================== */
+                return `
+                    <tr>
 
-document
-    .querySelectorAll(".filter")
-    .forEach(function(button){
+                        <td>
 
-        button.addEventListener(
-            "click",
-            function(){
+                            <div class="card-cell">
 
-                document
-                    .querySelectorAll(".filter")
-                    .forEach(function(item){
+                                ${
+                                    image
+                                        ? `<img
+                                            class="thumb"
+                                            src="${escapeHTML(image)}"
+                                            alt=""
+                                            loading="lazy"
+                                          >`
+                                        : `<div class="thumb"></div>`
+                                }
 
-                        item.classList.remove(
-                            "active"
-                        );
+                                <div>
+                                    <div class="card-title">
+                                        ${escapeHTML(card.name)}
+                                    </div>
 
-                    });
+                                    <div class="card-sub">
+                                        ${escapeHTML(card.id)}
+                                    </div>
+                                </div>
 
+                            </div>
 
-                button.classList.add(
-                    "active"
-                );
+                        </td>
 
+                        <td>
+                            ${escapeHTML(card.setName)}
+                        </td>
 
-                filter =
-                    button.dataset.filter;
+                        <td>
+                            ${escapeHTML(card.number)}
+                        </td>
 
+                        <td>
+                            ${escapeHTML(card.rarity)}
+                        </td>
 
-                render();
+                        <td>
+                            ${formatPrice(card.indexEUR)}
+                        </td>
 
-            }
-        );
+                        <td>
+                            ${formatDate(card.lastPriceAt)}
+                        </td>
 
-    });
+                        <td>
 
+                            <span class="badge ${
+                                covered ? "covered" : ""
+                            }">
+                                ${
+                                    covered
+                                        ? "COVERED"
+                                        : "NO PRICE"
+                                }
+                            </span>
 
-/* ==========================================
-   REFRESH
-========================================== */
+                        </td>
 
-$("refresh").addEventListener(
-    "click",
-    load
-);
+                    </tr>
+                `;
 
+            }).join("");
+    }
 
-/* ==========================================
-   SAVE API KEY
-========================================== */
+    function renderAll(){
 
-$("saveKey").addEventListener(
-    "click",
-    function(){
+        renderCandidates();
+        renderTable();
+    }
 
-        var key =
-            $("apiKey").value.trim();
+    function saveKey(){
 
+        const key =
+            apiKeyInput.value.trim();
 
         if(!key){
 
-            showError(
-                "Paste your API key first."
-            );
+            showError("Please enter an API key.");
 
             return;
-
         }
 
-
         localStorage.setItem(
-            "pokiradar_api_key",
+            STORAGE_KEY,
             key
         );
 
-
-        load();
-
+        loadCards();
     }
-);
 
+    /* SEARCH */
 
-/* ==========================================
-   ENTER KEY
-========================================== */
+    searchInput.addEventListener(
+        "input",
+        applyFilters
+    );
 
-$("apiKey").addEventListener(
-    "keydown",
-    function(event){
+    /* REFRESH */
 
-        if(event.key === "Enter"){
+    refreshButton.addEventListener(
+        "click",
+        loadCards
+    );
 
-            $("saveKey").click();
+    /* SAVE API KEY */
+
+    saveKeyButton.addEventListener(
+        "click",
+        saveKey
+    );
+
+    apiKeyInput.addEventListener(
+        "keydown",
+        event => {
+
+            if(event.key === "Enter"){
+                saveKey();
+            }
 
         }
+    );
 
+    /* FILTERS */
+
+    document
+        .querySelectorAll(".filter")
+        .forEach(button => {
+
+            button.addEventListener(
+                "click",
+                () => {
+
+                    document
+                        .querySelectorAll(".filter")
+                        .forEach(item =>
+                            item.classList.remove("active")
+                        );
+
+                    button.classList.add("active");
+
+                    state.filter =
+                        button.dataset.filter || "all";
+
+                    applyFilters();
+                }
+            );
+
+        });
+
+    /* LOAD SAVED KEY */
+
+    const savedKey = getKey();
+
+    if(savedKey){
+
+        apiKeyInput.value = savedKey;
+
+        loadCards();
+
+    }else{
+
+        setStatus("API key required","");
+
+        renderAll();
     }
-);
-
-
-/* ==========================================
-   INITIAL STATE
-========================================== */
-
-renderInformation();
-
-
-var existingKey =
-    localStorage.getItem(
-        "pokiradar_api_key"
-    );
-
-
-if(existingKey){
-
-    $("apiKey").value =
-        existingKey;
-
-    load();
-
-}else{
-
-    setStatus(
-        "",
-        "Ready"
-    );
-
-}
-
 
 })();
 </script>
