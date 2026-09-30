@@ -46,8 +46,8 @@ body{
   margin:0;
   min-height:100vh;
   background:
-    radial-gradient(circle at 15% -5%, rgba(103,223,255,.09), transparent 32%),
-    radial-gradient(circle at 85% 0%, rgba(141,247,178,.07), transparent 30%),
+    radial-gradient(circle at 15% -5%,rgba(103,223,255,.09),transparent 32%),
+    radial-gradient(circle at 85% 0%,rgba(141,247,178,.07),transparent 30%),
     linear-gradient(180deg,#07080b 0%,#090b0f 48%,#07080b 100%);
 }
 
@@ -67,9 +67,7 @@ button{
   padding:28px 0 50px;
 }
 
-/* =========================================================
-   HEADER
-========================================================= */
+/* ================= HEADER ================= */
 
 .header{
   display:flex;
@@ -152,7 +150,6 @@ button{
   height:7px;
   border-radius:50%;
   background:var(--muted2);
-  box-shadow:0 0 0 transparent;
 }
 
 .status.connected .status-dot{
@@ -165,9 +162,7 @@ button{
   box-shadow:0 0 12px rgba(255,126,139,.6);
 }
 
-/* =========================================================
-   HERO
-========================================================= */
+/* ================= HERO ================= */
 
 .hero{
   position:relative;
@@ -240,113 +235,56 @@ button{
   font-size:14px;
 }
 
-/* =========================================================
-   API SETUP
-========================================================= */
+/* ================= CONNECTION ================= */
 
-.api-panel{
+.connection-panel{
   border:1px solid var(--line);
+  border-radius:20px;
   background:rgba(255,255,255,.025);
-  border-radius:var(--radius);
   padding:18px;
   margin-bottom:18px;
 }
 
-.api-panel.hidden{
-  display:none;
-}
-
-.api-top{
+.connection-row{
   display:flex;
+  align-items:center;
   justify-content:space-between;
-  gap:16px;
-  align-items:flex-start;
-  margin-bottom:14px;
+  gap:15px;
 }
 
-.api-title{
+.connection-title{
   font-size:14px;
   font-weight:750;
 }
 
-.api-sub{
+.connection-sub{
+  color:var(--muted);
+  font-size:11px;
+  margin-top:4px;
+}
+
+.connection-state{
   color:var(--muted);
   font-size:12px;
-  margin-top:4px;
-  line-height:1.5;
-}
-
-.api-row{
-  display:flex;
-  gap:10px;
-}
-
-.api-input{
-  flex:1;
-  min-width:0;
-  height:46px;
-  border:1px solid var(--line2);
-  border-radius:12px;
-  background:#080a0e;
-  color:var(--text);
-  outline:none;
-  padding:0 14px;
-}
-
-.api-input:focus{
-  border-color:rgba(141,247,178,.5);
-  box-shadow:0 0 0 3px rgba(141,247,178,.07);
-}
-
-.primary{
-  height:46px;
-  border:0;
-  border-radius:12px;
-  padding:0 18px;
-  background:linear-gradient(135deg,var(--accent),#6de2ff);
-  color:#07100c;
-  font-weight:800;
   white-space:nowrap;
 }
 
-.secondary{
-  height:40px;
-  border:1px solid var(--line2);
-  border-radius:11px;
-  padding:0 14px;
-  background:rgba(255,255,255,.035);
-  color:var(--text);
-}
-
-.secondary:hover{
-  background:rgba(255,255,255,.07);
-}
-
-.api-message{
-  min-height:18px;
-  margin-top:10px;
-  font-size:12px;
-  color:var(--muted);
-}
-
-.api-message.error{
-  color:var(--danger);
-}
-
-.api-message.good{
+.connection-state.good{
   color:var(--accent);
 }
 
-/* =========================================================
-   TOOLBAR
-========================================================= */
+.connection-state.bad{
+  color:var(--danger);
+}
+
+/* ================= TOOLBAR ================= */
 
 .toolbar{
   display:flex;
   gap:10px;
   align-items:center;
   justify-content:space-between;
-  margin-bottom:18px;
+  margin-bottom:10px;
 }
 
 .search-wrap{
@@ -379,10 +317,26 @@ button{
   pointer-events:none;
 }
 
+.secondary{
+  height:40px;
+  border:1px solid var(--line2);
+  border-radius:11px;
+  padding:0 14px;
+  background:rgba(255,255,255,.035);
+  color:var(--text);
+}
+
+.secondary:hover{
+  background:rgba(255,255,255,.07);
+}
+
+/* ================= FILTERS ================= */
+
 .filters{
   display:flex;
   gap:7px;
   flex-wrap:wrap;
+  margin-bottom:18px;
 }
 
 .filter{
@@ -401,9 +355,7 @@ button{
   font-weight:750;
 }
 
-/* =========================================================
-   STATS
-========================================================= */
+/* ================= STATS ================= */
 
 .stats{
   display:grid;
@@ -440,9 +392,7 @@ button{
   font-size:11px;
 }
 
-/* =========================================================
-   SECTION
-========================================================= */
+/* ================= SECTIONS ================= */
 
 .section{
   margin-top:18px;
@@ -468,14 +418,7 @@ button{
   margin-top:4px;
 }
 
-.section-actions{
-  display:flex;
-  gap:8px;
-}
-
-/* =========================================================
-   RADAR
-========================================================= */
+/* ================= RADAR ================= */
 
 .radar-grid{
   display:grid;
@@ -572,9 +515,7 @@ button{
   letter-spacing:.08em;
 }
 
-/* =========================================================
-   TABLE
-========================================================= */
+/* ================= TABLE ================= */
 
 .table-shell{
   border:1px solid var(--line);
@@ -659,13 +600,7 @@ tbody tr:hover{
   font-weight:800;
 }
 
-.muted{
-  color:var(--muted2);
-}
-
-/* =========================================================
-   LOADING
-========================================================= */
+/* ================= LOADING ================= */
 
 .loading{
   padding:55px 20px;
@@ -693,9 +628,7 @@ tbody tr:hover{
   color:var(--muted);
 }
 
-/* =========================================================
-   FOOTER / LOAD MORE
-========================================================= */
+/* ================= LOAD MORE ================= */
 
 .load-more-wrap{
   display:flex;
@@ -707,20 +640,7 @@ tbody tr:hover{
   min-width:150px;
 }
 
-.footer{
-  margin-top:30px;
-  border-top:1px solid var(--line);
-  padding-top:18px;
-  display:flex;
-  justify-content:space-between;
-  gap:15px;
-  color:var(--muted2);
-  font-size:10px;
-}
-
-/* =========================================================
-   MODAL
-========================================================= */
+/* ================= MODAL ================= */
 
 .modal{
   position:fixed;
@@ -869,9 +789,20 @@ tbody tr:hover{
   line-height:1.5;
 }
 
-/* =========================================================
-   TOAST
-========================================================= */
+/* ================= FOOTER ================= */
+
+.footer{
+  margin-top:30px;
+  border-top:1px solid var(--line);
+  padding-top:18px;
+  display:flex;
+  justify-content:space-between;
+  gap:15px;
+  color:var(--muted2);
+  font-size:10px;
+}
+
+/* ================= TOAST ================= */
 
 .toast{
   position:fixed;
@@ -896,11 +827,10 @@ tbody tr:hover{
   transform:translate(-50%,0);
 }
 
-/* =========================================================
-   RESPONSIVE
-========================================================= */
+/* ================= RESPONSIVE ================= */
 
 @media(max-width:1100px){
+
   .radar-grid{
     grid-template-columns:repeat(2,1fr);
   }
@@ -908,9 +838,11 @@ tbody tr:hover{
   .stats{
     grid-template-columns:repeat(2,1fr);
   }
+
 }
 
 @media(max-width:760px){
+
   .app{
     width:min(100% - 20px,1500px);
     padding-top:15px;
@@ -977,11 +909,8 @@ tbody tr:hover{
     max-height:145px;
   }
 
-  .api-row{
-    flex-direction:column;
-  }
-
-  .api-top{
+  .connection-row{
+    align-items:flex-start;
     flex-direction:column;
   }
 
@@ -993,12 +922,10 @@ tbody tr:hover{
     min-height:280px;
   }
 
-  .footer{
-    flex-direction:column;
-  }
 }
 
 @media(max-width:480px){
+
   .brand-copy p{
     display:none;
   }
@@ -1038,6 +965,7 @@ tbody tr:hover{
   .modal-body{
     padding:20px;
   }
+
 }
 </style>
 </head>
@@ -1046,31 +974,40 @@ tbody tr:hover{
 
 <div class="app">
 
-  <!-- HEADER -->
   <header class="header">
+
     <div class="brand">
+
       <div class="brand-mark"></div>
 
       <div class="brand-copy">
         <h1>PokiRadar</h1>
         <p>Pokémon TCG Market Intelligence</p>
       </div>
+
     </div>
 
     <div class="header-actions">
+
       <div id="connectionStatus" class="status">
+
         <span class="status-dot"></span>
-        <span id="connectionText">Not connected</span>
+
+        <span id="connectionText">
+          Connecting…
+        </span>
+
       </div>
+
     </div>
+
   </header>
 
-  <!-- HERO -->
   <section class="hero">
 
     <div class="eyebrow">
       <span></span>
-      Live catalogue intelligence
+      Live market intelligence
     </div>
 
     <h2>
@@ -1079,55 +1016,42 @@ tbody tr:hover{
     </h2>
 
     <p class="hero-copy">
-      PokiRadar connects directly to the Pokémon TCG API to identify,
-      display and investigate real card data. Every card is tracked by
-      its exact API identity rather than by Pokémon name alone.
+      PokiRadar connects to live Pokémon TCG market data,
+      identifies real card records by exact API identity,
+      and gives you a clean market-intelligence view
+      without fabricated movement numbers.
     </p>
 
   </section>
 
-  <!-- API -->
-  <section id="apiPanel" class="api-panel">
+  <section class="connection-panel">
 
-    <div class="api-top">
+    <div class="connection-row">
 
       <div>
-        <div class="api-title">Pokémon TCG API connection</div>
 
-        <div class="api-sub">
-          Enter a browser-safe <strong>ptcg_pub_</strong> key.
-          Your key stays in this browser's local storage.
+        <div class="connection-title">
+          Live API connection
         </div>
+
+        <div class="connection-sub">
+          Your secret API key is handled by the secure PokiRadar proxy.
+          It is never placed in this webpage.
+        </div>
+
       </div>
 
-      <button id="clearKeyBtn" class="secondary">
-        Clear Key
-      </button>
-
-    </div>
-
-    <div class="api-row">
-
-      <input
-        id="apiKeyInput"
-        class="api-input"
-        type="password"
-        autocomplete="off"
-        spellcheck="false"
-        placeholder="ptcg_pub_..."
+      <div
+        id="proxyStatus"
+        class="connection-state"
       >
-
-      <button id="connectBtn" class="primary">
-        Connect
-      </button>
+        Checking…
+      </div>
 
     </div>
-
-    <div id="apiMessage" class="api-message"></div>
 
   </section>
 
-  <!-- TOOLBAR -->
   <section class="toolbar">
 
     <div class="search-wrap">
@@ -1144,72 +1068,129 @@ tbody tr:hover{
 
     </div>
 
-    <button id="refreshBtn" class="secondary">
+    <button
+      id="refreshBtn"
+      class="secondary"
+    >
       Refresh
     </button>
 
   </section>
 
-  <!-- FILTERS -->
   <div class="filters">
 
-    <button class="filter active" data-filter="all">
+    <button
+      class="filter active"
+      data-filter="all"
+    >
       All
     </button>
 
-    <button class="filter" data-filter="priced">
+    <button
+      class="filter"
+      data-filter="priced"
+    >
       Market Covered
     </button>
 
-    <button class="filter" data-filter="high">
+    <button
+      class="filter"
+      data-filter="high"
+    >
       High Value
     </button>
 
-    <button class="filter" data-filter="recent">
+    <button
+      class="filter"
+      data-filter="recent"
+    >
       Recently Priced
     </button>
 
   </div>
 
-  <!-- STATS -->
   <section class="stats">
 
     <div class="stat">
-      <div class="stat-label">Cards Loaded</div>
-      <div id="cardsLoaded" class="stat-value">—</div>
-      <div class="stat-note">Current API catalogue page</div>
+
+      <div class="stat-label">
+        Cards Loaded
+      </div>
+
+      <div id="cardsLoaded" class="stat-value">
+        —
+      </div>
+
+      <div class="stat-note">
+        Current live API result
+      </div>
+
     </div>
 
     <div class="stat">
-      <div class="stat-label">Market Covered</div>
-      <div id="marketCovered" class="stat-value">—</div>
-      <div class="stat-note">Cards with current index data</div>
+
+      <div class="stat-label">
+        Market Covered
+      </div>
+
+      <div id="marketCovered" class="stat-value">
+        —
+      </div>
+
+      <div class="stat-note">
+        Cards with current index
+      </div>
+
     </div>
 
     <div class="stat">
-      <div class="stat-label">Highest Current Price</div>
-      <div id="highestPrice" class="stat-value">—</div>
-      <div class="stat-note">Converted market index</div>
+
+      <div class="stat-label">
+        Highest Current Price
+      </div>
+
+      <div id="highestPrice" class="stat-value">
+        —
+      </div>
+
+      <div class="stat-note">
+        Converted market index
+      </div>
+
     </div>
 
     <div class="stat">
-      <div class="stat-label">Last Update</div>
-      <div id="lastUpdate" class="stat-value">—</div>
-      <div class="stat-note">API catalogue timestamp</div>
+
+      <div class="stat-label">
+        Last Update
+      </div>
+
+      <div id="lastUpdate" class="stat-value">
+        —
+      </div>
+
+      <div class="stat-note">
+        Live API request
+      </div>
+
     </div>
 
   </section>
 
-  <!-- RADAR -->
   <section class="section">
 
     <div class="section-head">
 
       <div>
-        <h2 class="section-title">Radar Candidates</h2>
+
+        <h2 class="section-title">
+          Radar Candidates
+        </h2>
+
         <div class="section-sub">
-          High-signal cards currently present in the market catalogue.
+          High-value cards detected in the current live catalogue.
         </div>
+
       </div>
 
     </div>
@@ -1217,31 +1198,36 @@ tbody tr:hover{
     <div id="radarGrid" class="radar-grid">
 
       <div class="loading">
-        Connect PokiRadar to load the market.
+        <div class="spinner"></div>
+        Connecting to PokiRadar…
       </div>
 
     </div>
 
   </section>
 
-  <!-- CATALOGUE -->
   <section class="section">
 
     <div class="section-head">
 
       <div>
-        <h2 class="section-title">Current Market Catalogue</h2>
+
+        <h2 class="section-title">
+          Current Market Catalogue
+        </h2>
+
         <div class="section-sub">
-          Real API card records. Prices are based on the API's current EUR
-          composite index and converted for display.
+          Exact API card records with exact card images.
         </div>
+
       </div>
 
-      <div class="section-actions">
-        <button id="loadMoreBtn" class="secondary load-more">
-          Load More
-        </button>
-      </div>
+      <button
+        id="loadMoreBtn"
+        class="secondary"
+      >
+        Load More
+      </button>
 
     </div>
 
@@ -1252,6 +1238,7 @@ tbody tr:hover{
         <table>
 
           <thead>
+
             <tr>
               <th>Card</th>
               <th>Set</th>
@@ -1263,16 +1250,25 @@ tbody tr:hover{
               <th>JPY</th>
               <th>GBP</th>
             </tr>
+
           </thead>
 
           <tbody id="catalogueBody">
 
             <tr>
+
               <td colspan="9">
-                <div class="empty">
-                  Connect PokiRadar to load cards.
+
+                <div class="loading">
+
+                  <div class="spinner"></div>
+
+                  Waiting for live data…
+
                 </div>
+
               </td>
+
             </tr>
 
           </tbody>
@@ -1285,71 +1281,19 @@ tbody tr:hover{
 
   </section>
 
-  <!-- CONNECTION INFO -->
-  <section class="section">
-
-    <div class="section-head">
-
-      <div>
-        <h2 class="section-title">Data Connection</h2>
-        <div class="section-sub">
-          Live connection diagnostics.
-        </div>
-      </div>
-
-    </div>
-
-    <div class="api-panel" style="margin:0">
-
-      <div class="detail-grid" style="margin-top:0">
-
-        <div class="detail">
-          <div class="detail-label">API</div>
-          <div id="apiEndpointStatus" class="detail-value">
-            Pokémon TCG API
-          </div>
-        </div>
-
-        <div class="detail">
-          <div class="detail-label">Connection</div>
-          <div id="connectionDetail" class="detail-value">
-            Not connected
-          </div>
-        </div>
-
-        <div class="detail">
-          <div class="detail-label">Card Identity</div>
-          <div class="detail-value">
-            Exact API ID
-          </div>
-        </div>
-
-        <div class="detail">
-          <div class="detail-label">Movement Data</div>
-          <div class="detail-value">
-            Historical layer pending
-          </div>
-        </div>
-
-      </div>
-
-    </div>
-
-  </section>
-
   <footer class="footer">
+
     <div>
       PokiRadar · Pokémon TCG Market Intelligence
     </div>
 
     <div>
-      Current catalogue data · No fabricated movement values
+      Live API · Exact card identity · No fabricated movement
     </div>
+
   </footer>
 
 </div>
-
-<!-- MODAL -->
 
 <div id="modal" class="modal">
 
@@ -1361,145 +1305,233 @@ tbody tr:hover{
         Card Intelligence
       </div>
 
-      <button id="closeModal" class="close">
+      <button
+        id="closeModal"
+        class="close"
+      >
         ×
       </button>
 
     </div>
 
-    <div id="modalBody" class="modal-body"></div>
+    <div
+      id="modalBody"
+      class="modal-body"
+    ></div>
 
   </div>
 
 </div>
 
-<div id="toast" class="toast"></div>
+<div
+  id="toast"
+  class="toast"
+></div>
 
 <script>
-/* =========================================================
-   POKIRADAR
-   DIRECT POKEMON TCG API ARCHITECTURE
-========================================================= */
-
-const API_BASE = "https://api.pokemontcgapi.com/v1";
-const STORAGE_KEY = "pokiradar_public_api_key";
 
 /*
-  Display conversion rates.
+=========================================================
+POKIRADAR
+FRONTEND
+=========================================================
 
-  The API's catalogue index is EUR.
-  These rates are used only for display conversion.
-  They are NOT presented as native marketplace quotes.
+IMPORTANT:
+
+The browser NEVER receives the ptcg_live_ key.
+
+All API requests go through:
+
+/api/cards
+
+The proxy then talks to the Pokémon TCG API.
+=========================================================
 */
+
+const PROXY_BASE = "/api";
+
 const FX = {
-  EUR: 1,
-  SGD: 1.49,
-  USD: 1.17,
-  JPY: 183.00,
-  GBP: 0.87
+  EUR:1,
+  SGD:1.49,
+  USD:1.17,
+  JPY:183,
+  GBP:.87
 };
 
 const state = {
-  apiKey: localStorage.getItem(STORAGE_KEY) || "",
-  cards: [],
-  nextUrl: null,
-  loading: false,
-  filter: "all",
-  search: "",
-  connected: false,
-  lastUpdated: null
+  cards:[],
+  nextUrl:null,
+  loading:false,
+  filter:"all",
+  search:"",
+  connected:false,
+  lastUpdated:null
 };
-
-/* =========================================================
-   ELEMENTS
-========================================================= */
 
 const $ = id => document.getElementById(id);
 
-const apiPanel = $("apiPanel");
-const apiKeyInput = $("apiKeyInput");
-const apiMessage = $("apiMessage");
-const connectBtn = $("connectBtn");
-const clearKeyBtn = $("clearKeyBtn");
+const connectionStatus =
+  $("connectionStatus");
 
-const connectionStatus = $("connectionStatus");
-const connectionText = $("connectionText");
+const connectionText =
+  $("connectionText");
 
-const searchInput = $("searchInput");
-const refreshBtn = $("refreshBtn");
-const loadMoreBtn = $("loadMoreBtn");
+const proxyStatus =
+  $("proxyStatus");
 
-const cardsLoaded = $("cardsLoaded");
-const marketCovered = $("marketCovered");
-const highestPrice = $("highestPrice");
-const lastUpdate = $("lastUpdate");
+const searchInput =
+  $("searchInput");
 
-const radarGrid = $("radarGrid");
-const catalogueBody = $("catalogueBody");
+const refreshBtn =
+  $("refreshBtn");
 
-const apiEndpointStatus = $("apiEndpointStatus");
-const connectionDetail = $("connectionDetail");
+const loadMoreBtn =
+  $("loadMoreBtn");
 
-const modal = $("modal");
-const modalBody = $("modalBody");
-const closeModal = $("closeModal");
+const cardsLoaded =
+  $("cardsLoaded");
 
-const toast = $("toast");
+const marketCovered =
+  $("marketCovered");
 
-/* =========================================================
-   HELPERS
-========================================================= */
+const highestPrice =
+  $("highestPrice");
+
+const lastUpdate =
+  $("lastUpdate");
+
+const radarGrid =
+  $("radarGrid");
+
+const catalogueBody =
+  $("catalogueBody");
+
+const modal =
+  $("modal");
+
+const modalBody =
+  $("modalBody");
+
+const closeModal =
+  $("closeModal");
+
+const toast =
+  $("toast");
+
+/* =====================================================
+HELPERS
+===================================================== */
 
 function escapeHtml(value){
+
   return String(value ?? "")
     .replaceAll("&","&amp;")
     .replaceAll("<","&lt;")
     .replaceAll(">","&gt;")
     .replaceAll('"',"&quot;")
     .replaceAll("'","&#039;");
+
 }
 
 function showToast(message){
+
   toast.textContent = message;
+
   toast.classList.add("show");
 
   clearTimeout(showToast.timer);
 
-  showToast.timer = setTimeout(()=>{
-    toast.classList.remove("show");
-  },2500);
+  showToast.timer =
+    setTimeout(()=>{
+      toast.classList.remove("show");
+    },2500);
+
 }
 
-function setApiMessage(message,type=""){
-  apiMessage.textContent = message;
-  apiMessage.className = "api-message";
+function setConnection(ok,message){
 
-  if(type){
-    apiMessage.classList.add(type);
+  connectionStatus.classList.remove(
+    "connected",
+    "error"
+  );
+
+  if(ok){
+    connectionStatus.classList.add(
+      "connected"
+    );
+  }else{
+    connectionStatus.classList.add(
+      "error"
+    );
   }
+
+  connectionText.textContent =
+    message;
+
 }
 
-function setConnection(connected, message){
-  state.connected = connected;
+function getImage(card){
 
-  connectionStatus.classList.remove("connected","error");
-
-  if(connected){
-    connectionStatus.classList.add("connected");
-  }else if(message){
-    connectionStatus.classList.add("error");
+  if(!card){
+    return "";
   }
 
-  connectionText.textContent = message || "Not connected";
-  connectionDetail.textContent = message || "Not connected";
+  if(card.images){
+
+    if(typeof card.images === "object"){
+
+      return (
+        card.images.large ||
+        card.images.small ||
+        card.images.large_url ||
+        card.images.small_url ||
+        ""
+      );
+
+    }
+
+  }
+
+  return "";
+
 }
 
-function isPublicKey(key){
-  return /^ptcg_pub_[A-Za-z0-9_-]+$/.test(key.trim());
+function getPrice(card){
+
+  const value =
+    Number(card?.index_eur);
+
+  if(
+    !Number.isFinite(value) ||
+    value <= 0
+  ){
+    return null;
+  }
+
+  return value;
+
 }
 
-function formatCurrency(value,currency){
-  if(value === null || value === undefined || !Number.isFinite(Number(value))){
+function convert(value,currency){
+
+  if(
+    value === null ||
+    value === undefined
+  ){
+    return null;
+  }
+
+  return Number(value) * FX[currency];
+
+}
+
+function money(value,currency){
+
+  if(
+    value === null ||
+    value === undefined ||
+    !Number.isFinite(Number(value))
+  ){
     return "—";
   }
 
@@ -1511,96 +1543,40 @@ function formatCurrency(value,currency){
     GBP:"£"
   };
 
-  const decimals = currency === "JPY" ? 0 : 2;
+  const decimals =
+    currency === "JPY" ? 0 : 2;
 
-  return symbols[currency] +
-    Number(value).toLocaleString(undefined,{
-      minimumFractionDigits:decimals,
-      maximumFractionDigits:decimals
-    });
+  return (
+    symbols[currency] +
+    Number(value).toLocaleString(
+      undefined,
+      {
+        minimumFractionDigits:decimals,
+        maximumFractionDigits:decimals
+      }
+    )
+  );
+
 }
 
-function eurTo(currency,value){
-  if(value === null || value === undefined){
-    return null;
-  }
+function relativeTime(value){
 
-  const numeric = Number(value);
-
-  if(!Number.isFinite(numeric)){
-    return null;
-  }
-
-  return numeric * FX[currency];
-}
-
-function getCardImage(card){
-
-  /*
-    Images are taken ONLY from this exact card object.
-    No Pokémon-name lookup.
-    No fuzzy matching.
-    No cross-card image assignment.
-  */
-
-  if(!card || !card.images){
-    return "";
-  }
-
-  if(typeof card.images === "object"){
-    return (
-      card.images.large ||
-      card.images.small ||
-      card.images.large_url ||
-      card.images.small_url ||
-      ""
-    );
-  }
-
-  if(Array.isArray(card.images)){
-    const image = card.images.find(x =>
-      x &&
-      (
-        x.large ||
-        x.small ||
-        x.url
-      )
-    );
-
-    if(image){
-      return image.large || image.small || image.url || "";
-    }
-  }
-
-  return "";
-}
-
-function getIndex(card){
-
-  const value = Number(card?.index_eur);
-
-  if(!Number.isFinite(value) || value <= 0){
-    return null;
-  }
-
-  return value;
-}
-
-function formatRelativeDate(dateString){
-
-  if(!dateString){
+  if(!value){
     return "—";
   }
 
-  const date = new Date(dateString);
+  const date =
+    new Date(value);
 
   if(Number.isNaN(date.getTime())){
     return "—";
   }
 
-  const diff = Date.now() - date.getTime();
-
-  const minutes = Math.floor(diff / 60000);
+  const minutes =
+    Math.floor(
+      (Date.now() - date.getTime()) /
+      60000
+    );
 
   if(minutes < 1){
     return "Now";
@@ -1610,177 +1586,151 @@ function formatRelativeDate(dateString){
     return `${minutes}m ago`;
   }
 
-  const hours = Math.floor(minutes / 60);
+  const hours =
+    Math.floor(minutes / 60);
 
   if(hours < 24){
     return `${hours}h ago`;
   }
 
-  const days = Math.floor(hours / 24);
+  return `${Math.floor(hours / 24)}d ago`;
 
-  return `${days}d ago`;
 }
 
-/* =========================================================
-   API ERROR HANDLING
-========================================================= */
+/* =====================================================
+API
+===================================================== */
 
-async function readApiError(response){
+async function apiRequest(path){
 
-  let payload = null;
+  const response =
+    await fetch(
+      `${PROXY_BASE}${path}`,
+      {
+        method:"GET",
+        headers:{
+          "Accept":"application/json"
+        },
+        cache:"no-store"
+      }
+    );
+
+  let data = null;
 
   try{
-    payload = await response.json();
+    data = await response.json();
   }catch(_){}
 
-  const error = payload?.error;
-
-  if(error?.code){
-    return `${error.code}: ${error.message || "API request failed"}`;
-  }
-
-  if(response.status === 401){
-    return "401: API key rejected.";
-  }
-
-  if(response.status === 403){
-    return "403: browser key/referrer is not authorised for this site.";
-  }
-
-  if(response.status === 429){
-    return "429: API quota exceeded.";
-  }
-
-  return `HTTP ${response.status}: API request failed.`;
-}
-
-/* =========================================================
-   API REQUEST
-========================================================= */
-
-async function apiFetch(url){
-
-  if(!state.apiKey){
-    throw new Error("No API key configured.");
-  }
-
-  const response = await fetch(url,{
-    method:"GET",
-    headers:{
-      "X-Api-Key":state.apiKey,
-      "Accept":"application/json"
-    },
-    cache:"no-store"
-  });
-
   if(!response.ok){
-    throw new Error(await readApiError(response));
+
+    const message =
+      data?.error?.message ||
+      data?.error ||
+      `HTTP ${response.status}`;
+
+    throw new Error(message);
+
   }
 
-  return await response.json();
+  return data;
+
 }
 
-/* =========================================================
-   BUILD CARD QUERY
-========================================================= */
+/* =====================================================
+BUILD QUERY
+===================================================== */
 
-function buildCardUrl(){
+function buildCardsPath(){
 
-  const url = new URL(`${API_BASE}/cards`);
+  const params =
+    new URLSearchParams();
 
-  url.searchParams.set("limit","100");
+  params.set("limit","100");
 
-  /*
-    Exact catalogue fields.
-    index is included separately because it is a relation.
-  */
-
-  url.searchParams.set(
-    "select",
-    [
-      "id",
-      "name",
-      "number",
-      "rarity",
-      "set_code",
-      "set_name",
-      "release_date",
-      "artist_name",
-      "index_eur",
-      "last_price_at"
-    ].join(",")
-  );
-
-  url.searchParams.set(
+  params.set(
     "include",
     "index,images"
   );
 
-  url.searchParams.set(
+  params.set(
     "orderBy",
     "-index_eur"
   );
 
-  if(state.search.trim()){
+  if(state.search){
 
-    /*
-      Search the API catalogue rather than filtering
-      a tiny local sample.
-    */
+    const query =
+      state.search
+        .replaceAll('"',"")
+        .trim();
 
-    const query = state.search.trim()
-      .replaceAll('"','');
+    if(query){
 
-    url.searchParams.set(
-      "q",
-      `name:*${query}* OR set.name:*${query}* OR number:${query} OR rarity:*${query}*`
-    );
+      params.set(
+        "q",
+        `name:*${query}* OR set.name:*${query}* OR number:${query} OR rarity:*${query}*`
+      );
+
+    }
+
   }
 
-  return url.toString();
+  return `/cards?${params.toString()}`;
+
 }
 
-/* =========================================================
-   LOAD INITIAL DATA
-========================================================= */
+/* =====================================================
+LOAD
+===================================================== */
 
 async function loadInitial(){
 
-  if(!state.apiKey){
-    renderEmptyState();
-    return;
-  }
-
   state.loading = true;
 
-  setLoadingUi(true);
+  renderLoading();
 
-  setApiMessage("Connecting to the Pokémon TCG API…");
+  proxyStatus.textContent =
+    "Connecting…";
+
+  proxyStatus.className =
+    "connection-state";
+
+  setConnection(
+    false,
+    "Connecting…"
+  );
 
   try{
 
-    const url = buildCardUrl();
+    const payload =
+      await apiRequest(
+        buildCardsPath()
+      );
 
-    const payload = await apiFetch(url);
+    state.cards =
+      Array.isArray(payload.data)
+        ? payload.data
+        : [];
 
-    const cards = Array.isArray(payload.data)
-      ? payload.data
-      : [];
+    state.nextUrl =
+      payload.links?.next ||
+      null;
 
-    state.cards = cards;
-    state.nextUrl = payload.links?.next || null;
-    state.lastUpdated = new Date();
+    state.lastUpdated =
+      new Date();
 
-    state.connected = true;
+    state.connected =
+      true;
+
+    proxyStatus.textContent =
+      "Live API connected";
+
+    proxyStatus.className =
+      "connection-state good";
 
     setConnection(
       true,
-      `Connected · ${cards.length} cards`
-    );
-
-    setApiMessage(
-      `Live API connection established. ${cards.length} cards loaded.`,
-      "good"
+      "Live API"
     );
 
     renderAll();
@@ -1791,143 +1741,199 @@ async function loadInitial(){
 
     state.cards = [];
     state.nextUrl = null;
+    state.connected = false;
+
+    proxyStatus.textContent =
+      error.message ||
+      "Connection failed";
+
+    proxyStatus.className =
+      "connection-state bad";
 
     setConnection(
       false,
       "Connection failed"
     );
 
-    setApiMessage(
-      error.message || "Unable to connect to API.",
-      "error"
+    renderError(
+      error.message
     );
-
-    renderError(error.message);
 
   }finally{
 
     state.loading = false;
 
-    setLoadingUi(false);
   }
+
 }
 
-/* =========================================================
-   LOAD MORE
-========================================================= */
+/* =====================================================
+LOAD MORE
+===================================================== */
 
 async function loadMore(){
 
-  if(state.loading){
-    return;
-  }
-
-  if(!state.nextUrl){
-    showToast("No more cards in this result.");
+  if(
+    state.loading ||
+    !state.nextUrl
+  ){
     return;
   }
 
   state.loading = true;
 
   loadMoreBtn.disabled = true;
-  loadMoreBtn.textContent = "Loading…";
+
+  loadMoreBtn.textContent =
+    "Loading…";
 
   try{
 
-    const payload = await apiFetch(state.nextUrl);
-
-    const cards = Array.isArray(payload.data)
-      ? payload.data
-      : [];
-
     /*
-      Exact ID de-duplication.
+      The backend accepts the API's
+      next cursor URL as ?next=...
     */
 
-    const existingIds = new Set(
-      state.cards.map(card => card.id)
-    );
+    const next =
+      encodeURIComponent(
+        state.nextUrl
+      );
 
-    for(const card of cards){
+    const payload =
+      await apiRequest(
+        `/cards?next=${next}`
+      );
 
-      if(!existingIds.has(card.id)){
+    const newCards =
+      Array.isArray(payload.data)
+        ? payload.data
+        : [];
+
+    const existing =
+      new Set(
+        state.cards.map(
+          card => card.id
+        )
+      );
+
+    for(
+      const card of newCards
+    ){
+
+      if(!existing.has(card.id)){
         state.cards.push(card);
       }
+
     }
 
-    state.nextUrl = payload.links?.next || null;
+    state.nextUrl =
+      payload.links?.next ||
+      null;
 
     renderAll();
 
-    showToast(`${cards.length} more cards loaded.`);
+    showToast(
+      `${newCards.length} cards loaded`
+    );
 
   }catch(error){
 
     console.error(error);
 
     showToast(
-      error.message || "Unable to load more cards."
+      error.message ||
+      "Unable to load more cards."
     );
 
   }finally{
 
     state.loading = false;
 
-    loadMoreBtn.disabled = false;
+    loadMoreBtn.disabled =
+      !state.nextUrl;
 
     loadMoreBtn.textContent =
       state.nextUrl
         ? "Load More"
         : "All Loaded";
+
   }
+
 }
 
-/* =========================================================
-   FILTERING
-========================================================= */
+/* =====================================================
+FILTER
+===================================================== */
 
-function filteredCards(){
+function getFilteredCards(){
 
-  let result = [...state.cards];
+  let cards =
+    [...state.cards];
 
-  if(state.filter === "priced"){
+  if(
+    state.filter === "priced"
+  ){
 
-    result = result.filter(card =>
-      getIndex(card) !== null
-    );
+    cards =
+      cards.filter(
+        card =>
+          getPrice(card) !== null
+      );
+
   }
 
-  if(state.filter === "high"){
+  if(
+    state.filter === "high"
+  ){
 
-    result = result.filter(card =>
-      (getIndex(card) || 0) >= 50
-    );
+    cards =
+      cards.filter(
+        card =>
+          (getPrice(card) || 0) >= 50
+      );
+
   }
 
-  if(state.filter === "recent"){
+  if(
+    state.filter === "recent"
+  ){
 
     const cutoff =
-      Date.now() - (7 * 24 * 60 * 60 * 1000);
+      Date.now() -
+      7 *
+      24 *
+      60 *
+      60 *
+      1000;
 
-    result = result.filter(card => {
+    cards =
+      cards.filter(card => {
 
-      if(!card.last_price_at){
-        return false;
-      }
+        if(!card.last_price_at){
+          return false;
+        }
 
-      const time =
-        new Date(card.last_price_at).getTime();
+        const timestamp =
+          new Date(
+            card.last_price_at
+          ).getTime();
 
-      return Number.isFinite(time) && time >= cutoff;
-    });
+        return (
+          Number.isFinite(timestamp) &&
+          timestamp >= cutoff
+        );
+
+      });
+
   }
 
-  return result;
+  return cards;
+
 }
 
-/* =========================================================
-   RENDER ALL
-========================================================= */
+/* =====================================================
+RENDER
+===================================================== */
 
 function renderAll(){
 
@@ -1936,94 +1942,112 @@ function renderAll(){
   renderCatalogue();
 
   loadMoreBtn.disabled =
-    !state.nextUrl || state.loading;
+    !state.nextUrl;
 
   loadMoreBtn.textContent =
     state.nextUrl
       ? "Load More"
       : "All Loaded";
+
 }
 
-/* =========================================================
-   STATS
-========================================================= */
+/* =====================================================
+STATS
+===================================================== */
 
 function updateStats(){
 
-  const cards = state.cards;
+  const cards =
+    state.cards;
 
-  const covered = cards.filter(card =>
-    getIndex(card) !== null
-  );
+  const priced =
+    cards.filter(
+      card =>
+        getPrice(card) !== null
+    );
 
   cardsLoaded.textContent =
     cards.length.toLocaleString();
 
   marketCovered.textContent =
-    covered.length.toLocaleString();
+    priced.length.toLocaleString();
 
   const highest =
-    covered.length
-      ? Math.max(...covered.map(card => getIndex(card)))
+    priced.length
+      ? Math.max(
+          ...priced.map(
+            card =>
+              getPrice(card)
+          )
+        )
       : null;
 
   highestPrice.textContent =
     highest === null
       ? "—"
-      : formatCurrency(
-          eurTo("SGD",highest),
+      : money(
+          convert(
+            highest,
+            "SGD"
+          ),
           "SGD"
         );
 
   lastUpdate.textContent =
     state.lastUpdated
-      ? state.lastUpdated.toLocaleTimeString([],{
-          hour:"2-digit",
-          minute:"2-digit"
-        })
+      ? state.lastUpdated.toLocaleTimeString(
+          [],
+          {
+            hour:"2-digit",
+            minute:"2-digit"
+          }
+        )
       : "—";
+
 }
 
-/* =========================================================
-   RADAR
-========================================================= */
+/* =====================================================
+RADAR
+===================================================== */
 
 function renderRadar(){
 
-  const candidates =
-    [...filteredCards()]
-      .filter(card => getIndex(card) !== null)
+  const cards =
+    getFilteredCards()
+      .filter(
+        card =>
+          getPrice(card) !== null
+      )
       .sort(
         (a,b) =>
-          (getIndex(b) || 0) -
-          (getIndex(a) || 0)
+          getPrice(b) -
+          getPrice(a)
       )
       .slice(0,8);
 
-  if(!candidates.length){
+  if(!cards.length){
 
     radarGrid.innerHTML = `
       <div class="empty">
-        No cards match the current radar filter.
+        No radar candidates found.
       </div>
     `;
 
     return;
+
   }
 
   radarGrid.innerHTML =
-    candidates.map(card => {
+    cards.map(card => {
+
+      const price =
+        getPrice(card);
 
       const image =
-        getCardImage(card);
-
-      const eur =
-        getIndex(card);
-
-      const sgd =
-        eurTo("SGD",eur);
+        getImage(card);
 
       return `
+
         <article
           class="radar-card"
           data-card-id="${escapeHtml(card.id)}"
@@ -2041,9 +2065,9 @@ function renderRadar(){
                 >
               `
               : `
-                <div class="muted">
+                <span class="muted">
                   No image
-                </div>
+                </span>
               `
             }
 
@@ -2056,17 +2080,33 @@ function renderRadar(){
             </div>
 
             <div class="radar-set">
-              ${escapeHtml(card.set_name || card.set_code || "Unknown set")}
-              · ${escapeHtml(card.number || "—")}
+              ${escapeHtml(
+                card.set_name ||
+                card.set_code ||
+                "Unknown set"
+              )}
+              ·
+              ${escapeHtml(
+                card.number || "—"
+              )}
             </div>
 
             <div class="radar-bottom">
 
               <div class="radar-price">
-                ${formatCurrency(sgd,"SGD")}
+
+                ${money(
+                  convert(
+                    price,
+                    "SGD"
+                  ),
+                  "SGD"
+                )}
+
                 <small>
-                  ${formatCurrency(eur,"EUR")} API index
+                  ${money(price,"EUR")} API index
                 </small>
+
               </div>
 
               <div class="radar-tag">
@@ -2078,37 +2118,47 @@ function renderRadar(){
           </div>
 
         </article>
+
       `;
+
     }).join("");
 
   radarGrid
-    .querySelectorAll(".radar-card")
-    .forEach(element => {
+    .querySelectorAll(
+      ".radar-card"
+    )
+    .forEach(cardElement => {
 
-      element.addEventListener("click",()=>{
+      cardElement.addEventListener(
+        "click",
+        ()=>{
 
-        const card =
-          state.cards.find(
-            item => item.id === element.dataset.cardId
-          );
+          const card =
+            state.cards.find(
+              item =>
+                item.id ===
+                cardElement.dataset.cardId
+            );
 
-        if(card){
-          openModal(card);
+          if(card){
+            openModal(card);
+          }
+
         }
-
-      });
+      );
 
     });
+
 }
 
-/* =========================================================
-   CATALOGUE
-========================================================= */
+/* =====================================================
+CATALOGUE
+===================================================== */
 
 function renderCatalogue(){
 
   const cards =
-    filteredCards();
+    getFilteredCards();
 
   if(!cards.length){
 
@@ -2123,19 +2173,23 @@ function renderCatalogue(){
     `;
 
     return;
+
   }
 
   catalogueBody.innerHTML =
     cards.map(card => {
 
-      const eur =
-        getIndex(card);
+      const price =
+        getPrice(card);
 
       const image =
-        getCardImage(card);
+        getImage(card);
 
       return `
-        <tr data-card-id="${escapeHtml(card.id)}">
+
+        <tr
+          data-card-id="${escapeHtml(card.id)}"
+        >
 
           <td>
 
@@ -2163,7 +2217,8 @@ function renderCatalogue(){
                 </div>
 
                 <div class="card-meta">
-                  ID: ${escapeHtml(card.id)}
+                  ID:
+                  ${escapeHtml(card.id)}
                 </div>
 
               </div>
@@ -2173,73 +2228,105 @@ function renderCatalogue(){
           </td>
 
           <td>
-            ${escapeHtml(card.set_name || card.set_code || "—")}
+            ${escapeHtml(
+              card.set_name ||
+              card.set_code ||
+              "—"
+            )}
           </td>
 
           <td>
-            ${escapeHtml(card.number || "—")}
+            ${escapeHtml(
+              card.number || "—"
+            )}
           </td>
 
           <td>
-            ${escapeHtml(card.rarity || "—")}
+            ${escapeHtml(
+              card.rarity || "—"
+            )}
           </td>
 
           <td class="price primary-price">
-            ${formatCurrency(eurTo("SGD",eur),"SGD")}
+            ${money(
+              convert(price,"SGD"),
+              "SGD"
+            )}
           </td>
 
           <td class="price">
-            ${formatCurrency(eurTo("USD",eur),"USD")}
+            ${money(
+              convert(price,"USD"),
+              "USD"
+            )}
           </td>
 
           <td class="price">
-            ${formatCurrency(eur,"EUR")}
+            ${money(
+              price,
+              "EUR"
+            )}
           </td>
 
           <td class="price">
-            ${formatCurrency(eurTo("JPY",eur),"JPY")}
+            ${money(
+              convert(price,"JPY"),
+              "JPY"
+            )}
           </td>
 
           <td class="price">
-            ${formatCurrency(eurTo("GBP",eur),"GBP")}
+            ${money(
+              convert(price,"GBP"),
+              "GBP"
+            )}
           </td>
 
         </tr>
+
       `;
 
     }).join("");
 
   catalogueBody
-    .querySelectorAll("tr[data-card-id]")
+    .querySelectorAll(
+      "tr[data-card-id]"
+    )
     .forEach(row => {
 
-      row.addEventListener("click",()=>{
+      row.addEventListener(
+        "click",
+        ()=>{
 
-        const card =
-          state.cards.find(
-            item => item.id === row.dataset.cardId
-          );
+          const card =
+            state.cards.find(
+              item =>
+                item.id ===
+                row.dataset.cardId
+            );
 
-        if(card){
-          openModal(card);
+          if(card){
+            openModal(card);
+          }
+
         }
-
-      });
+      );
 
     });
+
 }
 
-/* =========================================================
-   CARD MODAL
-========================================================= */
+/* =====================================================
+MODAL
+===================================================== */
 
 function openModal(card){
 
   const image =
-    getCardImage(card);
+    getImage(card);
 
-  const eur =
-    getIndex(card);
+  const price =
+    getPrice(card);
 
   modalBody.innerHTML = `
 
@@ -2254,9 +2341,9 @@ function openModal(card){
           >
         `
         : `
-          <div class="muted">
-            No image supplied by API
-          </div>
+          <span class="muted">
+            No image
+          </span>
         `
       }
 
@@ -2269,52 +2356,83 @@ function openModal(card){
       </h2>
 
       <div class="modal-sub">
-        ${escapeHtml(card.set_name || card.set_code || "Unknown set")}
-        · ${escapeHtml(card.number || "—")}
+        ${escapeHtml(
+          card.set_name ||
+          card.set_code ||
+          "Unknown set"
+        )}
+        ·
+        ${escapeHtml(
+          card.number || "—"
+        )}
       </div>
 
       <div class="detail-grid">
 
         <div class="detail">
-          <div class="detail-label">Exact Card ID</div>
+          <div class="detail-label">
+            Exact Card ID
+          </div>
           <div class="detail-value">
             ${escapeHtml(card.id)}
           </div>
         </div>
 
         <div class="detail">
-          <div class="detail-label">Rarity</div>
-          <div class="detail-value">
-            ${escapeHtml(card.rarity || "—")}
+          <div class="detail-label">
+            Rarity
           </div>
-        </div>
-
-        <div class="detail">
-          <div class="detail-label">Set Code</div>
-          <div class="detail-value">
-            ${escapeHtml(card.set_code || "—")}
-          </div>
-        </div>
-
-        <div class="detail">
-          <div class="detail-label">Release Date</div>
-          <div class="detail-value">
-            ${escapeHtml(card.release_date || "—")}
-          </div>
-        </div>
-
-        <div class="detail">
-          <div class="detail-label">Artist</div>
-          <div class="detail-value">
-            ${escapeHtml(card.artist_name || "—")}
-          </div>
-        </div>
-
-        <div class="detail">
-          <div class="detail-label">Price Timestamp</div>
           <div class="detail-value">
             ${escapeHtml(
-              formatRelativeDate(card.last_price_at)
+              card.rarity || "—"
+            )}
+          </div>
+        </div>
+
+        <div class="detail">
+          <div class="detail-label">
+            Set
+          </div>
+          <div class="detail-value">
+            ${escapeHtml(
+              card.set_name ||
+              card.set_code ||
+              "—"
+            )}
+          </div>
+        </div>
+
+        <div class="detail">
+          <div class="detail-label">
+            Release Date
+          </div>
+          <div class="detail-value">
+            ${escapeHtml(
+              card.release_date || "—"
+            )}
+          </div>
+        </div>
+
+        <div class="detail">
+          <div class="detail-label">
+            Artist
+          </div>
+          <div class="detail-value">
+            ${escapeHtml(
+              card.artist_name || "—"
+            )}
+          </div>
+        </div>
+
+        <div class="detail">
+          <div class="detail-label">
+            Price Updated
+          </div>
+          <div class="detail-value">
+            ${escapeHtml(
+              relativeTime(
+                card.last_price_at
+              )
             )}
           </div>
         </div>
@@ -2328,15 +2446,17 @@ function openModal(card){
         </div>
 
         <div class="modal-price-value">
-          ${formatCurrency(eurTo("SGD",eur),"SGD")}
+          ${money(
+            convert(price,"SGD"),
+            "SGD"
+          )}
         </div>
 
         <div class="modal-note">
-          Base API index:
-          ${formatCurrency(eur,"EUR")}.
-          SGD, USD, JPY and GBP values shown by PokiRadar are
-          converted display values, not independent native-market
-          quotations.
+          API base index:
+          ${money(price,"EUR")}.
+          Currency displays are converted values,
+          not separate native-market quotations.
         </div>
 
       </div>
@@ -2346,71 +2466,91 @@ function openModal(card){
         <div class="detail">
           <div class="detail-label">USD</div>
           <div class="detail-value">
-            ${formatCurrency(eurTo("USD",eur),"USD")}
+            ${money(
+              convert(price,"USD"),
+              "USD"
+            )}
           </div>
         </div>
 
         <div class="detail">
           <div class="detail-label">EUR</div>
           <div class="detail-value">
-            ${formatCurrency(eur,"EUR")}
+            ${money(
+              price,
+              "EUR"
+            )}
           </div>
         </div>
 
         <div class="detail">
           <div class="detail-label">JPY</div>
           <div class="detail-value">
-            ${formatCurrency(eurTo("JPY",eur),"JPY")}
+            ${money(
+              convert(price,"JPY"),
+              "JPY"
+            )}
           </div>
         </div>
 
         <div class="detail">
           <div class="detail-label">GBP</div>
           <div class="detail-value">
-            ${formatCurrency(eurTo("GBP",eur),"GBP")}
+            ${money(
+              convert(price,"GBP"),
+              "GBP"
+            )}
           </div>
         </div>
 
       </div>
 
     </div>
+
   `;
 
   modal.classList.add("open");
+
 }
 
-/* =========================================================
-   EMPTY / ERROR / LOADING
-========================================================= */
+/* =====================================================
+LOADING / ERROR
+===================================================== */
 
-function renderEmptyState(){
+function renderLoading(){
 
   radarGrid.innerHTML = `
-    <div class="empty">
-      Enter your browser-safe Pokémon TCG API key above.
+    <div class="loading">
+      <div class="spinner"></div>
+      Loading live Pokémon TCG data…
     </div>
   `;
 
   catalogueBody.innerHTML = `
     <tr>
       <td colspan="9">
-        <div class="empty">
-          Waiting for API connection.
+        <div class="loading">
+          <div class="spinner"></div>
+          Connecting to the live market…
         </div>
       </td>
     </tr>
   `;
 
-  updateStats();
 }
 
 function renderError(message){
 
   radarGrid.innerHTML = `
     <div class="empty">
-      <strong>API connection failed.</strong>
+      <strong>
+        PokiRadar could not connect.
+      </strong>
+
       <br><br>
+
       ${escapeHtml(message)}
+
     </div>
   `;
 
@@ -2423,189 +2563,101 @@ function renderError(message){
       </td>
     </tr>
   `;
+
 }
 
-function setLoadingUi(loading){
-
-  if(loading){
-
-    radarGrid.innerHTML = `
-      <div class="loading">
-        <div class="spinner"></div>
-        Connecting to the live catalogue…
-      </div>
-    `;
-
-    catalogueBody.innerHTML = `
-      <tr>
-        <td colspan="9">
-          <div class="loading">
-            <div class="spinner"></div>
-            Loading real Pokémon TCG card data…
-          </div>
-        </td>
-      </tr>
-    `;
-
-  }
-
-  connectBtn.disabled = loading;
-}
-
-/* =========================================================
-   CONNECT
-========================================================= */
-
-async function connect(){
-
-  const key =
-    apiKeyInput.value.trim();
-
-  if(!isPublicKey(key)){
-
-    setApiMessage(
-      "Use a browser-safe ptcg_pub_ key. Do not put a ptcg_live_ secret in this page.",
-      "error"
-    );
-
-    setConnection(
-      false,
-      "Invalid browser key"
-    );
-
-    return;
-  }
-
-  state.apiKey = key;
-
-  localStorage.setItem(
-    STORAGE_KEY,
-    key
-  );
-
-  await loadInitial();
-}
-
-/* =========================================================
-   CLEAR KEY
-========================================================= */
-
-function clearKey(){
-
-  localStorage.removeItem(STORAGE_KEY);
-
-  state.apiKey = "";
-  state.cards = [];
-  state.nextUrl = null;
-  state.connected = false;
-
-  apiKeyInput.value = "";
-
-  setConnection(
-    false,
-    "Not connected"
-  );
-
-  setApiMessage(
-    "API key removed from this browser."
-  );
-
-  renderEmptyState();
-
-  showToast("API key cleared.");
-}
-
-/* =========================================================
-   SEARCH
-========================================================= */
+/* =====================================================
+SEARCH
+===================================================== */
 
 let searchTimer = null;
 
-searchInput.addEventListener("input",()=>{
+searchInput.addEventListener(
+  "input",
+  ()=>{
 
-  clearTimeout(searchTimer);
+    clearTimeout(
+      searchTimer
+    );
 
-  state.search =
-    searchInput.value.trim();
+    state.search =
+      searchInput.value.trim();
 
-  searchTimer =
-    setTimeout(()=>{
+    searchTimer =
+      setTimeout(
+        ()=>{
 
-      if(state.apiKey){
-        loadInitial();
-      }
+          if(
+            state.search.length === 0 ||
+            state.search.length >= 2
+          ){
 
-    },500);
-});
+            loadInitial();
 
-/* =========================================================
-   FILTER BUTTONS
-========================================================= */
+          }
+
+        },
+        500
+      );
+
+  }
+);
+
+/* =====================================================
+FILTERS
+===================================================== */
 
 document
   .querySelectorAll(".filter")
   .forEach(button => {
 
-    button.addEventListener("click",()=>{
+    button.addEventListener(
+      "click",
+      ()=>{
 
-      document
-        .querySelectorAll(".filter")
-        .forEach(item =>
-          item.classList.remove("active")
+        document
+          .querySelectorAll(".filter")
+          .forEach(
+            item =>
+              item.classList.remove(
+                "active"
+              )
+          );
+
+        button.classList.add(
+          "active"
         );
 
-      button.classList.add("active");
+        state.filter =
+          button.dataset.filter;
 
-      state.filter =
-        button.dataset.filter;
+        renderAll();
 
-      renderAll();
-    });
+      }
+    );
 
   });
 
-/* =========================================================
-   EVENTS
-========================================================= */
-
-connectBtn.addEventListener(
-  "click",
-  connect
-);
-
-clearKeyBtn.addEventListener(
-  "click",
-  clearKey
-);
+/* =====================================================
+BUTTONS
+===================================================== */
 
 refreshBtn.addEventListener(
   "click",
-  ()=>{
-
-    if(!state.apiKey){
-
-      setApiMessage(
-        "Connect an API key first.",
-        "error"
-      );
-
-      return;
-    }
-
-    loadInitial();
-
-  }
+  ()=>loadInitial()
 );
 
 loadMoreBtn.addEventListener(
   "click",
-  loadMore
+  ()=>loadMore()
 );
 
 closeModal.addEventListener(
   "click",
   ()=>{
-    modal.classList.remove("open");
+    modal.classList.remove(
+      "open"
+    );
   }
 );
 
@@ -2613,8 +2665,12 @@ modal.addEventListener(
   "click",
   event => {
 
-    if(event.target === modal){
-      modal.classList.remove("open");
+    if(
+      event.target === modal
+    ){
+      modal.classList.remove(
+        "open"
+      );
     }
 
   }
@@ -2625,44 +2681,21 @@ document.addEventListener(
   event => {
 
     if(event.key === "Escape"){
-      modal.classList.remove("open");
+
+      modal.classList.remove(
+        "open"
+      );
+
     }
 
   }
 );
 
-/* =========================================================
-   RESTORE SAVED KEY
-========================================================= */
+/* =====================================================
+START
+===================================================== */
 
-if(state.apiKey){
-
-  apiKeyInput.value =
-    state.apiKey;
-
-  setApiMessage(
-    "Saved browser key detected. Connecting…"
-  );
-
-  /*
-    Automatically reconnect when returning to
-    the GitHub Pages deployment.
-  */
-
-  loadInitial();
-
-}else{
-
-  renderEmptyState();
-
-}
-
-/* =========================================================
-   INITIAL UI STATE
-========================================================= */
-
-apiEndpointStatus.textContent =
-  "api.pokemontcgapi.com/v1/cards";
+loadInitial();
 
 </script>
 
