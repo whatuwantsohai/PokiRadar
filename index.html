@@ -3,2365 +3,2666 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<meta name="theme-color" content="#08090c">
 <title>PokiRadar</title>
 
 <style>
 :root{
-    --bg:#070b12;
-    --panel:#0d131d;
-    --panel2:#111925;
-    --border:#1d2938;
-    --text:#f4f7fb;
-    --muted:#8d9aaa;
-    --accent:#78a9ff;
-    --green:#55d68a;
-    --red:#ff6f78;
-    --yellow:#f4c95d;
+  --bg:#07080b;
+  --panel:#0e1015;
+  --panel2:#12151b;
+  --panel3:#171b22;
+  --line:rgba(255,255,255,.08);
+  --line2:rgba(255,255,255,.13);
+  --text:#f4f6f8;
+  --muted:#8f98a6;
+  --muted2:#697280;
+  --accent:#8df7b2;
+  --accent2:#67dfff;
+  --danger:#ff7e8b;
+  --warning:#ffd27a;
+  --shadow:0 24px 80px rgba(0,0,0,.45);
+  --radius:20px;
 }
 
 *{
-    box-sizing:border-box;
+  box-sizing:border-box;
 }
 
 html{
-    scroll-behavior:smooth;
+  background:var(--bg);
+  color:var(--text);
+  font-family:
+    Inter,
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
 }
 
 body{
-    margin:0;
-    background:
-        radial-gradient(circle at 15% 10%,rgba(77,125,255,.10),transparent 28%),
-        radial-gradient(circle at 85% 20%,rgba(0,205,180,.07),transparent 28%),
-        var(--bg);
-    color:var(--text);
-    font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  margin:0;
+  min-height:100vh;
+  background:
+    radial-gradient(circle at 15% -5%, rgba(103,223,255,.09), transparent 32%),
+    radial-gradient(circle at 85% 0%, rgba(141,247,178,.07), transparent 30%),
+    linear-gradient(180deg,#07080b 0%,#090b0f 48%,#07080b 100%);
 }
 
 button,
-input{
-    font:inherit;
+input,
+select{
+  font:inherit;
 }
 
 button{
-    cursor:pointer;
+  cursor:pointer;
 }
 
-.container{
-    width:min(1450px,94%);
-    margin:auto;
+.app{
+  width:min(1500px,calc(100% - 32px));
+  margin:0 auto;
+  padding:28px 0 50px;
 }
 
-/* HEADER */
+/* =========================================================
+   HEADER
+========================================================= */
 
-header{
-    padding:28px 0 18px;
-    border-bottom:1px solid var(--border);
+.header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+  margin-bottom:28px;
 }
 
-.header-row{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:20px;
+.brand{
+  display:flex;
+  align-items:center;
+  gap:14px;
 }
 
-.logo{
-    font-size:27px;
-    font-weight:800;
-    letter-spacing:-.8px;
+.brand-mark{
+  width:42px;
+  height:42px;
+  border-radius:13px;
+  background:
+    radial-gradient(circle at 30% 25%,#fff 0 5%,transparent 6%),
+    linear-gradient(135deg,#8df7b2,#67dfff);
+  position:relative;
+  box-shadow:
+    0 0 35px rgba(103,223,255,.14),
+    0 0 22px rgba(141,247,178,.10);
 }
 
-.logo span{
-    color:var(--accent);
+.brand-mark:before{
+  content:"";
+  position:absolute;
+  inset:9px;
+  border-radius:50%;
+  background:#090b0f;
+}
+
+.brand-mark:after{
+  content:"";
+  position:absolute;
+  left:16px;
+  right:16px;
+  top:20px;
+  height:3px;
+  background:#090b0f;
+  z-index:2;
+}
+
+.brand-copy h1{
+  margin:0;
+  font-size:22px;
+  letter-spacing:-.04em;
+}
+
+.brand-copy p{
+  margin:2px 0 0;
+  color:var(--muted);
+  font-size:12px;
+}
+
+.header-actions{
+  display:flex;
+  align-items:center;
+  gap:10px;
 }
 
 .status{
-    display:flex;
-    align-items:center;
-    gap:8px;
-    border:1px solid var(--border);
-    background:rgba(255,255,255,.025);
-    border-radius:999px;
-    padding:8px 13px;
-    color:var(--muted);
-    font-size:12px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  border:1px solid var(--line);
+  background:rgba(255,255,255,.025);
+  border-radius:999px;
+  padding:8px 12px;
+  font-size:12px;
+  color:var(--muted);
 }
 
 .status-dot{
-    width:7px;
-    height:7px;
-    border-radius:50%;
-    background:var(--yellow);
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:var(--muted2);
+  box-shadow:0 0 0 transparent;
 }
 
 .status.connected .status-dot{
-    background:var(--green);
+  background:var(--accent);
+  box-shadow:0 0 12px rgba(141,247,178,.7);
 }
 
 .status.error .status-dot{
-    background:var(--red);
+  background:var(--danger);
+  box-shadow:0 0 12px rgba(255,126,139,.6);
 }
 
-/* HERO */
+/* =========================================================
+   HERO
+========================================================= */
 
 .hero{
-    padding:44px 0 28px;
+  position:relative;
+  overflow:hidden;
+  border:1px solid var(--line);
+  border-radius:28px;
+  background:
+    radial-gradient(circle at 78% 15%,rgba(103,223,255,.08),transparent 28%),
+    radial-gradient(circle at 10% 80%,rgba(141,247,178,.055),transparent 25%),
+    linear-gradient(145deg,rgba(255,255,255,.045),rgba(255,255,255,.018));
+  box-shadow:var(--shadow);
+  padding:38px;
+  margin-bottom:18px;
 }
 
-.hero h1{
-    margin:0;
-    font-size:clamp(32px,5vw,62px);
-    line-height:1;
-    letter-spacing:-2.5px;
+.hero:after{
+  content:"";
+  position:absolute;
+  width:420px;
+  height:420px;
+  right:-160px;
+  bottom:-220px;
+  border-radius:50%;
+  border:1px solid rgba(103,223,255,.08);
+  box-shadow:
+    0 0 0 55px rgba(103,223,255,.025),
+    0 0 0 110px rgba(103,223,255,.012);
+  pointer-events:none;
 }
 
-.hero p{
-    max-width:720px;
-    margin:18px 0 0;
-    color:var(--muted);
-    font-size:16px;
-    line-height:1.7;
+.eyebrow{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  color:var(--accent);
+  font-size:11px;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:.13em;
+  margin-bottom:13px;
 }
 
-/* CONTROLS */
+.eyebrow span{
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:currentColor;
+  box-shadow:0 0 12px currentColor;
+}
 
-.controls{
-    display:flex;
-    gap:10px;
-    flex-wrap:wrap;
-    margin:12px 0 16px;
+.hero h2{
+  margin:0;
+  max-width:850px;
+  font-size:clamp(34px,5vw,68px);
+  line-height:.98;
+  letter-spacing:-.065em;
+  font-weight:800;
+}
+
+.hero h2 em{
+  color:var(--accent);
+  font-style:normal;
+}
+
+.hero-copy{
+  max-width:760px;
+  color:var(--muted);
+  line-height:1.65;
+  margin:18px 0 0;
+  font-size:14px;
+}
+
+/* =========================================================
+   API SETUP
+========================================================= */
+
+.api-panel{
+  border:1px solid var(--line);
+  background:rgba(255,255,255,.025);
+  border-radius:var(--radius);
+  padding:18px;
+  margin-bottom:18px;
+}
+
+.api-panel.hidden{
+  display:none;
+}
+
+.api-top{
+  display:flex;
+  justify-content:space-between;
+  gap:16px;
+  align-items:flex-start;
+  margin-bottom:14px;
+}
+
+.api-title{
+  font-size:14px;
+  font-weight:750;
+}
+
+.api-sub{
+  color:var(--muted);
+  font-size:12px;
+  margin-top:4px;
+  line-height:1.5;
+}
+
+.api-row{
+  display:flex;
+  gap:10px;
+}
+
+.api-input{
+  flex:1;
+  min-width:0;
+  height:46px;
+  border:1px solid var(--line2);
+  border-radius:12px;
+  background:#080a0e;
+  color:var(--text);
+  outline:none;
+  padding:0 14px;
+}
+
+.api-input:focus{
+  border-color:rgba(141,247,178,.5);
+  box-shadow:0 0 0 3px rgba(141,247,178,.07);
+}
+
+.primary{
+  height:46px;
+  border:0;
+  border-radius:12px;
+  padding:0 18px;
+  background:linear-gradient(135deg,var(--accent),#6de2ff);
+  color:#07100c;
+  font-weight:800;
+  white-space:nowrap;
+}
+
+.secondary{
+  height:40px;
+  border:1px solid var(--line2);
+  border-radius:11px;
+  padding:0 14px;
+  background:rgba(255,255,255,.035);
+  color:var(--text);
+}
+
+.secondary:hover{
+  background:rgba(255,255,255,.07);
+}
+
+.api-message{
+  min-height:18px;
+  margin-top:10px;
+  font-size:12px;
+  color:var(--muted);
+}
+
+.api-message.error{
+  color:var(--danger);
+}
+
+.api-message.good{
+  color:var(--accent);
+}
+
+/* =========================================================
+   TOOLBAR
+========================================================= */
+
+.toolbar{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:18px;
+}
+
+.search-wrap{
+  position:relative;
+  flex:1;
 }
 
 .search{
-    flex:1 1 320px;
-    min-width:240px;
-    height:45px;
-    border:1px solid var(--border);
-    background:var(--panel);
-    color:var(--text);
-    border-radius:10px;
-    padding:0 15px;
-    outline:none;
+  width:100%;
+  height:48px;
+  border:1px solid var(--line);
+  border-radius:14px;
+  background:rgba(255,255,255,.035);
+  color:var(--text);
+  padding:0 15px 0 44px;
+  outline:none;
 }
 
 .search:focus{
-    border-color:var(--accent);
+  border-color:rgba(103,223,255,.35);
+  box-shadow:0 0 0 3px rgba(103,223,255,.06);
 }
 
-.btn{
-    height:45px;
-    border-radius:10px;
-    border:1px solid var(--border);
-    background:var(--panel);
-    color:var(--text);
-    padding:0 16px;
-    font-weight:650;
-}
-
-.btn:hover{
-    border-color:#34465d;
-    background:var(--panel2);
+.search-icon{
+  position:absolute;
+  left:15px;
+  top:50%;
+  transform:translateY(-50%);
+  color:var(--muted);
+  pointer-events:none;
 }
 
 .filters{
-    display:flex;
-    gap:8px;
-    flex-wrap:wrap;
-    margin-bottom:28px;
+  display:flex;
+  gap:7px;
+  flex-wrap:wrap;
 }
 
 .filter{
-    border:1px solid var(--border);
-    background:var(--panel);
-    color:var(--muted);
-    border-radius:999px;
-    padding:8px 14px;
+  height:40px;
+  border:1px solid var(--line);
+  border-radius:999px;
+  background:rgba(255,255,255,.025);
+  color:var(--muted);
+  padding:0 14px;
 }
 
 .filter.active{
-    color:var(--text);
-    border-color:var(--accent);
-    background:rgba(120,169,255,.10);
+  color:#07100c;
+  background:var(--accent);
+  border-color:var(--accent);
+  font-weight:750;
 }
 
-/* STATS */
+/* =========================================================
+   STATS
+========================================================= */
 
 .stats{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:14px;
-    margin-bottom:35px;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
+  margin-bottom:18px;
 }
 
 .stat{
-    background:linear-gradient(145deg,var(--panel),#0a1018);
-    border:1px solid var(--border);
-    border-radius:15px;
-    padding:20px;
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:19px;
+  background:rgba(255,255,255,.025);
+  min-height:115px;
 }
 
 .stat-label{
-    color:var(--muted);
-    font-size:12px;
-    text-transform:uppercase;
-    letter-spacing:.8px;
+  color:var(--muted);
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:.1em;
 }
 
 .stat-value{
-    margin-top:9px;
-    font-size:27px;
-    font-weight:800;
+  margin-top:12px;
+  font-size:27px;
+  font-weight:800;
+  letter-spacing:-.045em;
 }
 
-.stat-sub{
-    margin-top:5px;
-    color:var(--muted);
-    font-size:12px;
+.stat-note{
+  margin-top:4px;
+  color:var(--muted2);
+  font-size:11px;
 }
 
-/* SECTIONS */
+/* =========================================================
+   SECTION
+========================================================= */
 
 .section{
-    margin:42px 0;
+  margin-top:18px;
 }
 
 .section-head{
-    display:flex;
-    align-items:end;
-    justify-content:space-between;
-    gap:15px;
-    margin-bottom:15px;
+  display:flex;
+  align-items:end;
+  justify-content:space-between;
+  gap:15px;
+  margin-bottom:12px;
 }
 
-.section h2{
-    margin:0;
-    font-size:22px;
-    letter-spacing:-.5px;
+.section-title{
+  margin:0;
+  font-size:18px;
+  letter-spacing:-.035em;
 }
 
-.section-note{
-    color:var(--muted);
-    font-size:12px;
+.section-sub{
+  color:var(--muted);
+  font-size:12px;
+  margin-top:4px;
 }
 
-/* RADAR CARDS */
+.section-actions{
+  display:flex;
+  gap:8px;
+}
+
+/* =========================================================
+   RADAR
+========================================================= */
 
 .radar-grid{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:15px;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
 }
 
-.card{
-    position:relative;
-    overflow:hidden;
-    border:1px solid var(--border);
-    background:linear-gradient(145deg,var(--panel),#090f17);
-    border-radius:16px;
+.radar-card{
+  position:relative;
+  overflow:hidden;
+  min-height:315px;
+  border:1px solid var(--line);
+  border-radius:20px;
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.018));
+  cursor:pointer;
+  transition:
+    transform .2s ease,
+    border-color .2s ease,
+    background .2s ease;
 }
 
-.card-image{
-    position:relative;
-    background:#080d14;
-    aspect-ratio:2.5/3.5;
-    overflow:hidden;
+.radar-card:hover{
+  transform:translateY(-3px);
+  border-color:rgba(141,247,178,.23);
+  background:linear-gradient(180deg,rgba(255,255,255,.065),rgba(255,255,255,.025));
 }
 
-.card-image img{
-    width:100%;
-    height:100%;
-    display:block;
-    object-fit:cover;
+.radar-image{
+  height:190px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:18px;
+  background:
+    radial-gradient(circle at 50% 50%,rgba(255,255,255,.09),transparent 62%);
 }
 
-.card-body{
-    padding:15px;
+.radar-image img{
+  max-width:100%;
+  max-height:175px;
+  object-fit:contain;
+  filter:drop-shadow(0 16px 22px rgba(0,0,0,.45));
 }
 
-.card-name{
-    font-size:16px;
-    font-weight:750;
-    line-height:1.25;
+.radar-info{
+  padding:15px;
 }
 
-.card-meta{
-    color:var(--muted);
-    font-size:12px;
-    margin-top:5px;
-    line-height:1.45;
+.radar-name{
+  font-weight:750;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
 }
 
-.card-id{
-    margin-top:7px;
-    font-size:10px;
-    color:#617083;
-    word-break:break-all;
+.radar-set{
+  color:var(--muted);
+  font-size:11px;
+  margin-top:4px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
 }
 
-.card-prices{
-    margin-top:14px;
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:7px;
+.radar-bottom{
+  display:flex;
+  align-items:end;
+  justify-content:space-between;
+  gap:10px;
+  margin-top:13px;
 }
 
-.price-box{
-    border:1px solid var(--border);
-    background:rgba(255,255,255,.025);
-    border-radius:8px;
-    padding:8px;
+.radar-price{
+  font-size:20px;
+  font-weight:800;
 }
 
-.price-label{
-    color:var(--muted);
-    font-size:10px;
-    text-transform:uppercase;
+.radar-price small{
+  display:block;
+  color:var(--muted2);
+  font-size:10px;
+  font-weight:500;
+  margin-top:2px;
 }
 
-.price-value{
-    margin-top:3px;
-    font-size:13px;
-    font-weight:750;
+.radar-tag{
+  border:1px solid rgba(141,247,178,.17);
+  color:var(--accent);
+  border-radius:999px;
+  padding:5px 8px;
+  font-size:9px;
+  text-transform:uppercase;
+  letter-spacing:.08em;
 }
 
-.price-value.primary{
-    color:var(--green);
+/* =========================================================
+   TABLE
+========================================================= */
+
+.table-shell{
+  border:1px solid var(--line);
+  border-radius:20px;
+  overflow:hidden;
+  background:rgba(255,255,255,.018);
 }
 
-/* TABLE */
-
-.table-wrap{
-    overflow:auto;
-    border:1px solid var(--border);
-    border-radius:15px;
-    background:var(--panel);
+.table-scroll{
+  overflow:auto;
 }
 
 table{
-    width:100%;
-    border-collapse:collapse;
-    min-width:1150px;
+  width:100%;
+  border-collapse:collapse;
+  min-width:940px;
 }
 
-th,
-td{
-    padding:13px 14px;
-    border-bottom:1px solid var(--border);
-    text-align:left;
+thead{
+  background:rgba(255,255,255,.025);
 }
 
 th{
-    color:var(--muted);
-    font-size:11px;
-    text-transform:uppercase;
-    letter-spacing:.7px;
-    background:#0b111a;
+  text-align:left;
+  padding:13px 15px;
+  color:var(--muted2);
+  font-size:10px;
+  text-transform:uppercase;
+  letter-spacing:.09em;
+  font-weight:700;
+  white-space:nowrap;
 }
 
 td{
-    font-size:13px;
+  padding:12px 15px;
+  border-top:1px solid var(--line);
+  font-size:12px;
+  white-space:nowrap;
 }
 
-tr:last-child td{
-    border-bottom:0;
+tbody tr{
+  cursor:pointer;
+  transition:background .15s ease;
 }
 
-.table-card{
-    display:flex;
-    align-items:center;
-    gap:12px;
+tbody tr:hover{
+  background:rgba(255,255,255,.035);
 }
 
-.table-card img{
-    width:42px;
-    height:59px;
-    object-fit:cover;
-    border-radius:5px;
-    background:#080d14;
+.card-cell{
+  display:flex;
+  align-items:center;
+  gap:11px;
+  min-width:260px;
 }
 
-.table-name{
-    font-weight:700;
+.thumb{
+  width:43px;
+  height:58px;
+  flex:none;
+  border-radius:7px;
+  background:#151820;
+  object-fit:contain;
 }
 
-.table-meta{
-    color:var(--muted);
-    font-size:11px;
-    margin-top:3px;
+.card-name{
+  font-weight:700;
 }
 
-.converted{
-    color:var(--muted);
-    font-size:9px;
-    margin-top:2px;
+.card-meta{
+  color:var(--muted);
+  font-size:10px;
+  margin-top:3px;
 }
 
-/* CONNECTION */
-
-.connection-panel{
-    border:1px solid var(--border);
-    background:var(--panel);
-    border-radius:15px;
-    padding:20px;
+.price{
+  font-variant-numeric:tabular-nums;
 }
 
-.connection-panel h3{
-    margin:0 0 8px;
+.price.primary-price{
+  color:var(--accent);
+  font-weight:800;
 }
 
-.connection-panel p{
-    color:var(--muted);
-    font-size:13px;
-    line-height:1.6;
-    margin:0;
+.muted{
+  color:var(--muted2);
 }
 
-.connection-status{
-    margin-top:16px;
-    display:flex;
-    align-items:center;
-    gap:10px;
-    padding:12px 14px;
-    border-radius:10px;
-    background:rgba(255,255,255,.025);
-    border:1px solid var(--border);
-    font-size:12px;
-}
-
-.connection-status .dot{
-    width:8px;
-    height:8px;
-    border-radius:50%;
-    background:var(--yellow);
-}
-
-.connection-status.connected .dot{
-    background:var(--green);
-}
-
-.connection-status.error .dot{
-    background:var(--red);
-}
-
-/* EMPTY */
-
-.empty{
-    border:1px dashed var(--border);
-    border-radius:14px;
-    padding:35px;
-    text-align:center;
-    color:var(--muted);
-}
+/* =========================================================
+   LOADING
+========================================================= */
 
 .loading{
-    animation:pulse 1.3s infinite ease-in-out;
+  padding:55px 20px;
+  text-align:center;
+  color:var(--muted);
 }
 
-@keyframes pulse{
-    0%,100%{opacity:.45}
-    50%{opacity:1}
+.spinner{
+  width:26px;
+  height:26px;
+  border-radius:50%;
+  border:2px solid rgba(255,255,255,.1);
+  border-top-color:var(--accent);
+  animation:spin .8s linear infinite;
+  margin:0 auto 13px;
 }
 
-/* FOOTER */
-
-footer{
-    padding:35px 0 50px;
-    color:var(--muted);
-    font-size:11px;
-    line-height:1.7;
-    border-top:1px solid var(--border);
+@keyframes spin{
+  to{transform:rotate(360deg)}
 }
 
-/* RESPONSIVE */
+.empty{
+  padding:50px 20px;
+  text-align:center;
+  color:var(--muted);
+}
 
-@media(max-width:1050px){
+/* =========================================================
+   FOOTER / LOAD MORE
+========================================================= */
 
-    .stats{
-        grid-template-columns:repeat(2,1fr);
-    }
+.load-more-wrap{
+  display:flex;
+  justify-content:center;
+  padding:20px 0 5px;
+}
 
-    .radar-grid{
-        grid-template-columns:repeat(3,1fr);
-    }
+.load-more{
+  min-width:150px;
+}
 
+.footer{
+  margin-top:30px;
+  border-top:1px solid var(--line);
+  padding-top:18px;
+  display:flex;
+  justify-content:space-between;
+  gap:15px;
+  color:var(--muted2);
+  font-size:10px;
+}
+
+/* =========================================================
+   MODAL
+========================================================= */
+
+.modal{
+  position:fixed;
+  inset:0;
+  z-index:100;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  background:rgba(0,0,0,.72);
+  backdrop-filter:blur(16px);
+}
+
+.modal.open{
+  display:flex;
+}
+
+.modal-card{
+  width:min(920px,100%);
+  max-height:90vh;
+  overflow:auto;
+  border:1px solid var(--line2);
+  border-radius:25px;
+  background:
+    radial-gradient(circle at 80% 0%,rgba(103,223,255,.06),transparent 30%),
+    #0c0e13;
+  box-shadow:0 40px 120px rgba(0,0,0,.65);
+}
+
+.modal-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:15px 18px;
+  border-bottom:1px solid var(--line);
+}
+
+.modal-label{
+  color:var(--muted);
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:.1em;
+}
+
+.close{
+  width:36px;
+  height:36px;
+  border-radius:50%;
+  border:1px solid var(--line);
+  background:rgba(255,255,255,.035);
+  color:var(--text);
+}
+
+.modal-body{
+  display:grid;
+  grid-template-columns:280px 1fr;
+  gap:28px;
+  padding:28px;
+}
+
+.modal-image{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-height:360px;
+  border:1px solid var(--line);
+  border-radius:18px;
+  background:
+    radial-gradient(circle,rgba(255,255,255,.07),transparent 68%);
+}
+
+.modal-image img{
+  max-width:100%;
+  max-height:390px;
+  object-fit:contain;
+  filter:drop-shadow(0 20px 35px rgba(0,0,0,.5));
+}
+
+.modal-title{
+  margin:0;
+  font-size:34px;
+  line-height:1.05;
+  letter-spacing:-.05em;
+}
+
+.modal-sub{
+  margin-top:7px;
+  color:var(--muted);
+  font-size:13px;
+}
+
+.detail-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+  margin-top:22px;
+}
+
+.detail{
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:13px;
+  background:rgba(255,255,255,.02);
+}
+
+.detail-label{
+  color:var(--muted2);
+  font-size:9px;
+  text-transform:uppercase;
+  letter-spacing:.09em;
+}
+
+.detail-value{
+  margin-top:5px;
+  font-size:14px;
+  font-weight:700;
+}
+
+.modal-price{
+  margin-top:20px;
+  padding:17px;
+  border:1px solid rgba(141,247,178,.13);
+  border-radius:16px;
+  background:rgba(141,247,178,.035);
+}
+
+.modal-price-label{
+  color:var(--muted);
+  font-size:10px;
+  text-transform:uppercase;
+  letter-spacing:.1em;
+}
+
+.modal-price-value{
+  margin-top:5px;
+  font-size:32px;
+  font-weight:850;
+  color:var(--accent);
+  letter-spacing:-.05em;
+}
+
+.modal-note{
+  margin-top:8px;
+  color:var(--muted2);
+  font-size:10px;
+  line-height:1.5;
+}
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+.toast{
+  position:fixed;
+  left:50%;
+  bottom:22px;
+  z-index:200;
+  transform:translate(-50%,20px);
+  opacity:0;
+  pointer-events:none;
+  padding:11px 15px;
+  border:1px solid var(--line2);
+  border-radius:999px;
+  background:#11141a;
+  color:var(--text);
+  font-size:12px;
+  box-shadow:0 15px 45px rgba(0,0,0,.45);
+  transition:.25s ease;
+}
+
+.toast.show{
+  opacity:1;
+  transform:translate(-50%,0);
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:1100px){
+  .radar-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .stats{
+    grid-template-columns:repeat(2,1fr);
+  }
 }
 
 @media(max-width:760px){
+  .app{
+    width:min(100% - 20px,1500px);
+    padding-top:15px;
+  }
 
-    .hero{
-        padding-top:32px;
-    }
+  .header{
+    align-items:flex-start;
+  }
 
-    .stats{
-        grid-template-columns:1fr 1fr;
-    }
+  .status{
+    display:none;
+  }
 
-    .radar-grid{
-        grid-template-columns:repeat(2,1fr);
-    }
+  .hero{
+    padding:25px 20px;
+    border-radius:21px;
+  }
 
+  .hero h2{
+    font-size:38px;
+  }
+
+  .toolbar{
+    flex-direction:column;
+    align-items:stretch;
+  }
+
+  .filters{
+    overflow:auto;
+    flex-wrap:nowrap;
+    padding-bottom:2px;
+  }
+
+  .filter{
+    flex:none;
+  }
+
+  .stats{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .stat{
+    min-height:105px;
+    padding:15px;
+  }
+
+  .stat-value{
+    font-size:22px;
+  }
+
+  .radar-grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .radar-card{
+    min-height:280px;
+  }
+
+  .radar-image{
+    height:155px;
+  }
+
+  .radar-image img{
+    max-height:145px;
+  }
+
+  .api-row{
+    flex-direction:column;
+  }
+
+  .api-top{
+    flex-direction:column;
+  }
+
+  .modal-body{
+    grid-template-columns:1fr;
+  }
+
+  .modal-image{
+    min-height:280px;
+  }
+
+  .footer{
+    flex-direction:column;
+  }
 }
 
-@media(max-width:500px){
+@media(max-width:480px){
+  .brand-copy p{
+    display:none;
+  }
 
-    .container{
-        width:92%;
-    }
+  .radar-grid{
+    grid-template-columns:1fr;
+  }
 
-    .stats{
-        grid-template-columns:1fr;
-    }
+  .radar-card{
+    min-height:300px;
+  }
 
-    .radar-grid{
-        grid-template-columns:repeat(2,1fr);
-        gap:10px;
-    }
+  .radar-image{
+    height:190px;
+  }
 
-    .card-body{
-        padding:11px;
-    }
+  .stats{
+    gap:8px;
+  }
 
-    .card-prices{
-        grid-template-columns:1fr;
-    }
+  .stat{
+    padding:13px;
+  }
 
-    .hero h1{
-        letter-spacing:-1.5px;
-    }
+  .stat-value{
+    font-size:19px;
+  }
 
+  .modal{
+    padding:8px;
+  }
+
+  .modal-card{
+    border-radius:19px;
+  }
+
+  .modal-body{
+    padding:20px;
+  }
 }
 </style>
 </head>
 
 <body>
 
-<header>
+<div class="app">
 
-<div class="container">
+  <!-- HEADER -->
+  <header class="header">
+    <div class="brand">
+      <div class="brand-mark"></div>
 
-<div class="header-row">
+      <div class="brand-copy">
+        <h1>PokiRadar</h1>
+        <p>Pokémon TCG Market Intelligence</p>
+      </div>
+    </div>
 
-<div class="logo">
-Poki<span>Radar</span>
-</div>
+    <div class="header-actions">
+      <div id="connectionStatus" class="status">
+        <span class="status-dot"></span>
+        <span id="connectionText">Not connected</span>
+      </div>
+    </div>
+  </header>
 
-<div
-class="status"
-id="status"
->
-<span class="status-dot"></span>
-<span id="statusText">Loading data...</span>
-</div>
+  <!-- HERO -->
+  <section class="hero">
 
-</div>
+    <div class="eyebrow">
+      <span></span>
+      Live catalogue intelligence
+    </div>
 
-</div>
+    <h2>
+      Find what is changing before
+      <em>simply watching prices.</em>
+    </h2>
 
-</header>
+    <p class="hero-copy">
+      PokiRadar connects directly to the Pokémon TCG API to identify,
+      display and investigate real card data. Every card is tracked by
+      its exact API identity rather than by Pokémon name alone.
+    </p>
 
+  </section>
 
-<main class="container">
+  <!-- API -->
+  <section id="apiPanel" class="api-panel">
 
-<section class="hero">
+    <div class="api-top">
 
-<h1>
-Pokémon TCG<br>
-Market Intelligence.
-</h1>
+      <div>
+        <div class="api-title">Pokémon TCG API connection</div>
 
-<p>
-Find what is changing before simply watching prices.
-PokiRadar connects verified card identity, artwork and
-market data so every card stays matched to the correct
-printing.
-</p>
+        <div class="api-sub">
+          Enter a browser-safe <strong>ptcg_pub_</strong> key.
+          Your key stays in this browser's local storage.
+        </div>
+      </div>
 
-</section>
+      <button id="clearKeyBtn" class="secondary">
+        Clear Key
+      </button>
 
+    </div>
 
-<div class="controls">
+    <div class="api-row">
 
-<input
-id="search"
-class="search"
-type="search"
-placeholder="Search Pokémon, set or card number..."
->
+      <input
+        id="apiKeyInput"
+        class="api-input"
+        type="password"
+        autocomplete="off"
+        spellcheck="false"
+        placeholder="ptcg_pub_..."
+      >
 
-<button
-class="btn"
-id="refreshBtn"
->
-Refresh Data
-</button>
+      <button id="connectBtn" class="primary">
+        Connect
+      </button>
 
-</div>
+    </div>
 
+    <div id="apiMessage" class="api-message"></div>
 
-<div class="filters">
+  </section>
 
-<button
-class="filter active"
-data-filter="all"
->
-All
-</button>
+  <!-- TOOLBAR -->
+  <section class="toolbar">
 
-<button
-class="filter"
-data-filter="market"
->
-Market Covered
-</button>
+    <div class="search-wrap">
 
-<button
-class="filter"
-data-filter="priced"
->
-Priced
-</button>
+      <span class="search-icon">⌕</span>
 
-</div>
+      <input
+        id="searchInput"
+        class="search"
+        type="search"
+        placeholder="Search Pokémon, card, set, rarity or number..."
+        autocomplete="off"
+      >
 
+    </div>
 
-<section class="stats">
+    <button id="refreshBtn" class="secondary">
+      Refresh
+    </button>
 
-<div class="stat">
+  </section>
 
-<div class="stat-label">
-Cards Loaded
-</div>
+  <!-- FILTERS -->
+  <div class="filters">
 
-<div
-class="stat-value"
-id="trackedCount"
->
-0
-</div>
+    <button class="filter active" data-filter="all">
+      All
+    </button>
 
-<div class="stat-sub">
-Catalogue records
-</div>
+    <button class="filter" data-filter="priced">
+      Market Covered
+    </button>
 
-</div>
+    <button class="filter" data-filter="high">
+      High Value
+    </button>
 
+    <button class="filter" data-filter="recent">
+      Recently Priced
+    </button>
 
-<div class="stat">
+  </div>
 
-<div class="stat-label">
-Market Covered
-</div>
+  <!-- STATS -->
+  <section class="stats">
+
+    <div class="stat">
+      <div class="stat-label">Cards Loaded</div>
+      <div id="cardsLoaded" class="stat-value">—</div>
+      <div class="stat-note">Current API catalogue page</div>
+    </div>
 
-<div
-class="stat-value"
-id="coveredCount"
->
-0
-</div>
+    <div class="stat">
+      <div class="stat-label">Market Covered</div>
+      <div id="marketCovered" class="stat-value">—</div>
+      <div class="stat-note">Cards with current index data</div>
+    </div>
 
-<div class="stat-sub">
-Cards with market data
-</div>
+    <div class="stat">
+      <div class="stat-label">Highest Current Price</div>
+      <div id="highestPrice" class="stat-value">—</div>
+      <div class="stat-note">Converted market index</div>
+    </div>
 
-</div>
+    <div class="stat">
+      <div class="stat-label">Last Update</div>
+      <div id="lastUpdate" class="stat-value">—</div>
+      <div class="stat-note">API catalogue timestamp</div>
+    </div>
 
+  </section>
 
-<div class="stat">
+  <!-- RADAR -->
+  <section class="section">
 
-<div class="stat-label">
-Highest Current Price
-</div>
+    <div class="section-head">
 
-<div
-class="stat-value"
-id="highestPrice"
->
-—
-</div>
+      <div>
+        <h2 class="section-title">Radar Candidates</h2>
+        <div class="section-sub">
+          High-signal cards currently present in the market catalogue.
+        </div>
+      </div>
 
-<div class="stat-sub">
-Displayed in SGD
-</div>
+    </div>
 
-</div>
+    <div id="radarGrid" class="radar-grid">
 
+      <div class="loading">
+        Connect PokiRadar to load the market.
+      </div>
 
-<div class="stat">
+    </div>
 
-<div class="stat-label">
-Last Update
-</div>
+  </section>
 
-<div
-class="stat-value"
-id="lastUpdate"
->
-—
-</div>
+  <!-- CATALOGUE -->
+  <section class="section">
 
-<div class="stat-sub">
-Latest data snapshot
-</div>
+    <div class="section-head">
 
-</div>
+      <div>
+        <h2 class="section-title">Current Market Catalogue</h2>
+        <div class="section-sub">
+          Real API card records. Prices are based on the API's current EUR
+          composite index and converted for display.
+        </div>
+      </div>
 
-</section>
+      <div class="section-actions">
+        <button id="loadMoreBtn" class="secondary load-more">
+          Load More
+        </button>
+      </div>
 
+    </div>
 
-<section class="section">
+    <div class="table-shell">
 
-<div class="section-head">
+      <div class="table-scroll">
 
-<div>
-<h2>Radar Candidates</h2>
-</div>
+        <table>
 
-<div
-class="section-note"
->
-Current market data
-</div>
+          <thead>
+            <tr>
+              <th>Card</th>
+              <th>Set</th>
+              <th>Number</th>
+              <th>Rarity</th>
+              <th>SGD</th>
+              <th>USD</th>
+              <th>EUR</th>
+              <th>JPY</th>
+              <th>GBP</th>
+            </tr>
+          </thead>
 
-</div>
+          <tbody id="catalogueBody">
 
+            <tr>
+              <td colspan="9">
+                <div class="empty">
+                  Connect PokiRadar to load cards.
+                </div>
+              </td>
+            </tr>
 
-<div
-id="radarGrid"
-class="radar-grid"
->
+          </tbody>
 
-<div class="empty loading">
-Loading PokiRadar data...
-</div>
+        </table>
 
-</div>
+      </div>
 
-</section>
+    </div>
 
+  </section>
 
-<section class="section">
+  <!-- CONNECTION INFO -->
+  <section class="section">
 
-<div class="section-head">
+    <div class="section-head">
 
-<div>
-<h2>Current Market Catalogue</h2>
-</div>
+      <div>
+        <h2 class="section-title">Data Connection</h2>
+        <div class="section-sub">
+          Live connection diagnostics.
+        </div>
+      </div>
 
-<div
-class="section-note"
-id="resultCount"
->
-0 cards
-</div>
+    </div>
 
-</div>
+    <div class="api-panel" style="margin:0">
 
+      <div class="detail-grid" style="margin-top:0">
 
-<div class="table-wrap">
+        <div class="detail">
+          <div class="detail-label">API</div>
+          <div id="apiEndpointStatus" class="detail-value">
+            Pokémon TCG API
+          </div>
+        </div>
 
-<table>
+        <div class="detail">
+          <div class="detail-label">Connection</div>
+          <div id="connectionDetail" class="detail-value">
+            Not connected
+          </div>
+        </div>
 
-<thead>
+        <div class="detail">
+          <div class="detail-label">Card Identity</div>
+          <div class="detail-value">
+            Exact API ID
+          </div>
+        </div>
 
-<tr>
+        <div class="detail">
+          <div class="detail-label">Movement Data</div>
+          <div class="detail-value">
+            Historical layer pending
+          </div>
+        </div>
 
-<th>Card</th>
-<th>Set</th>
-<th>Number</th>
-<th>Rarity</th>
-<th>SGD</th>
-<th>USD</th>
-<th>EUR</th>
-<th>JPY</th>
-<th>GBP</th>
+      </div>
 
-</tr>
+    </div>
 
-</thead>
+  </section>
 
-<tbody id="catalogueBody">
+  <footer class="footer">
+    <div>
+      PokiRadar · Pokémon TCG Market Intelligence
+    </div>
 
-<tr>
-
-<td colspan="9">
-
-<div class="empty">
-Loading market catalogue...
-</div>
-
-</td>
-
-</tr>
-
-</tbody>
-
-</table>
-
-</div>
-
-</section>
-
-
-<section class="section">
-
-<div class="section-head">
-
-<div>
-<h2>Data Connection</h2>
-</div>
-
-</div>
-
-
-<div class="connection-panel">
-
-<h3>
-PokiRadar Market Data
-</h3>
-
-<p>
-PokiRadar retrieves market data through a secure scheduled
-data collector. Your private Pokémon TCG API key is never
-placed inside this public website.
-</p>
-
-
-<div
-id="connectionStatus"
-class="connection-status"
->
-
-<span class="dot"></span>
-
-<span id="connectionStatusText">
-Waiting for data...
-</span>
-
-</div>
-
-</div>
-
-</section>
-
-</main>
-
-
-<footer>
-
-<div class="container">
-
-<strong>PokiRadar</strong>
-
-<br>
-
-Pokémon TCG market intelligence with verified card
-identity, artwork and multi-currency market data.
-
-<br><br>
-
-SGD is the primary display currency.
-When the source does not provide SGD directly,
-PokiRadar labels the value as converted.
+    <div>
+      Current catalogue data · No fabricated movement values
+    </div>
+  </footer>
 
 </div>
 
-</footer>
+<!-- MODAL -->
 
+<div id="modal" class="modal">
+
+  <div class="modal-card">
+
+    <div class="modal-top">
+
+      <div class="modal-label">
+        Card Intelligence
+      </div>
+
+      <button id="closeModal" class="close">
+        ×
+      </button>
+
+    </div>
+
+    <div id="modalBody" class="modal-body"></div>
+
+  </div>
+
+</div>
+
+<div id="toast" class="toast"></div>
 
 <script>
-
-/* ============================================================
-   POKIRADAR DATA SOURCE
-============================================================ */
-
-const DATA_ENDPOINT = "./data/cards.json";
-
-const FX_ENDPOINT = "./data/fx.json";
-
-
-let cards = [];
-
-let activeFilter = "all";
-
-
-let fxRates = {
-
-    USD: 1,
-    SGD: 1.30,
-    EUR: 0.85,
-    JPY: 147,
-    GBP: 0.74
-
-};
-
-
-/* ============================================================
-   ELEMENTS
-============================================================ */
-
-const statusEl =
-    document.getElementById("status");
-
-const statusText =
-    document.getElementById("statusText");
-
-const connectionStatus =
-    document.getElementById("connectionStatus");
-
-const connectionStatusText =
-    document.getElementById(
-        "connectionStatusText"
-    );
-
-const searchInput =
-    document.getElementById("search");
-
-const refreshBtn =
-    document.getElementById("refreshBtn");
-
-const trackedCount =
-    document.getElementById("trackedCount");
-
-const coveredCount =
-    document.getElementById("coveredCount");
-
-const highestPrice =
-    document.getElementById("highestPrice");
-
-const lastUpdate =
-    document.getElementById("lastUpdate");
-
-const radarGrid =
-    document.getElementById("radarGrid");
-
-const catalogueBody =
-    document.getElementById("catalogueBody");
-
-const resultCount =
-    document.getElementById("resultCount");
-
-
-/* ============================================================
-   STATUS
-============================================================ */
-
-function setStatus(
-    text,
-    type = "normal"
-){
-
-    statusText.textContent = text;
-
-    statusEl.classList.remove(
-        "connected",
-        "error"
-    );
-
-    if(type === "connected"){
-        statusEl.classList.add("connected");
-    }
-
-    if(type === "error"){
-        statusEl.classList.add("error");
-    }
-
-}
-
-
-function setConnectionStatus(
-    text,
-    type = "normal"
-){
-
-    connectionStatusText.textContent = text;
-
-    connectionStatus.classList.remove(
-        "connected",
-        "error"
-    );
-
-    if(type === "connected"){
-        connectionStatus.classList.add("connected");
-    }
-
-    if(type === "error"){
-        connectionStatus.classList.add("error");
-    }
-
-}
-
-
-/* ============================================================
-   FX DATA
-============================================================ */
-
-async function loadFX(){
-
-    try{
-
-        const response =
-            await fetch(
-                FX_ENDPOINT +
-                "?t=" +
-                Date.now(),
-                {
-                    cache:"no-store"
-                }
-            );
-
-        if(!response.ok){
-            throw new Error(
-                "FX data unavailable"
-            );
-        }
-
-        const data =
-            await response.json();
-
-        if(
-            data &&
-            data.rates
-        ){
-
-            fxRates = {
-
-                USD: 1,
-
-                SGD:
-                    Number(
-                        data.rates.SGD
-                    ) ||
-                    fxRates.SGD,
-
-                EUR:
-                    Number(
-                        data.rates.EUR
-                    ) ||
-                    fxRates.EUR,
-
-                JPY:
-                    Number(
-                        data.rates.JPY
-                    ) ||
-                    fxRates.JPY,
-
-                GBP:
-                    Number(
-                        data.rates.GBP
-                    ) ||
-                    fxRates.GBP
-
-            };
-
-        }
-
-    }catch(error){
-
-        console.warn(
-            "Using fallback FX rates.",
-            error
-        );
-
-    }
-
-}
-
-
-/* ============================================================
-   NUMBER / CURRENCY
-============================================================ */
-
-function cleanNumber(value){
-
-    const number =
-        Number(value);
-
-    return Number.isFinite(number)
-        ? number
-        : null;
-
-}
-
-
-function formatCurrency(
-    value,
-    currency
-){
-
-    const number =
-        cleanNumber(value);
-
-    if(number === null){
-        return "—";
-    }
-
-    return new Intl.NumberFormat(
-        "en-SG",
-        {
-            style:"currency",
-            currency:currency,
-            maximumFractionDigits:
-                currency === "JPY"
-                    ? 0
-                    : 2
-        }
-    ).format(number);
-
-}
-
-
-/* ============================================================
-   CARD IDENTITY
-============================================================ */
-
-function getSetName(card){
-
-    if(
-        card.set &&
-        typeof card.set === "object"
-    ){
-
-        return (
-            card.set.name ||
-            "Unknown Set"
-        );
-
-    }
-
-    return (
-        card.set_name ||
-        card.setName ||
-        "Unknown Set"
-    );
-
-}
-
-
-function getCardNumber(card){
-
-    return (
-        card.number ||
-        card.card_number ||
-        "—"
-    );
-
-}
-
-
-function getRarity(card){
-
-    return (
-        card.rarity ||
-        "Rarity unavailable"
-    );
-
-}
-
+/* =========================================================
+   POKIRADAR
+   DIRECT POKEMON TCG API ARCHITECTURE
+========================================================= */
+
+const API_BASE = "https://api.pokemontcgapi.com/v1";
+const STORAGE_KEY = "pokiradar_public_api_key";
 
 /*
-    IMPORTANT:
+  Display conversion rates.
 
-    The image always comes from the SAME card object.
-
-    We never match images by Pokémon name.
-    We never search Google.
-    We never match images across different IDs.
+  The API's catalogue index is EUR.
+  These rates are used only for display conversion.
+  They are NOT presented as native marketplace quotes.
 */
+const FX = {
+  EUR: 1,
+  SGD: 1.49,
+  USD: 1.17,
+  JPY: 183.00,
+  GBP: 0.87
+};
+
+const state = {
+  apiKey: localStorage.getItem(STORAGE_KEY) || "",
+  cards: [],
+  nextUrl: null,
+  loading: false,
+  filter: "all",
+  search: "",
+  connected: false,
+  lastUpdated: null
+};
+
+/* =========================================================
+   ELEMENTS
+========================================================= */
+
+const $ = id => document.getElementById(id);
+
+const apiPanel = $("apiPanel");
+const apiKeyInput = $("apiKeyInput");
+const apiMessage = $("apiMessage");
+const connectBtn = $("connectBtn");
+const clearKeyBtn = $("clearKeyBtn");
+
+const connectionStatus = $("connectionStatus");
+const connectionText = $("connectionText");
+
+const searchInput = $("searchInput");
+const refreshBtn = $("refreshBtn");
+const loadMoreBtn = $("loadMoreBtn");
+
+const cardsLoaded = $("cardsLoaded");
+const marketCovered = $("marketCovered");
+const highestPrice = $("highestPrice");
+const lastUpdate = $("lastUpdate");
+
+const radarGrid = $("radarGrid");
+const catalogueBody = $("catalogueBody");
+
+const apiEndpointStatus = $("apiEndpointStatus");
+const connectionDetail = $("connectionDetail");
+
+const modal = $("modal");
+const modalBody = $("modalBody");
+const closeModal = $("closeModal");
+
+const toast = $("toast");
+
+/* =========================================================
+   HELPERS
+========================================================= */
+
+function escapeHtml(value){
+  return String(value ?? "")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
+
+function showToast(message){
+  toast.textContent = message;
+  toast.classList.add("show");
+
+  clearTimeout(showToast.timer);
+
+  showToast.timer = setTimeout(()=>{
+    toast.classList.remove("show");
+  },2500);
+}
+
+function setApiMessage(message,type=""){
+  apiMessage.textContent = message;
+  apiMessage.className = "api-message";
+
+  if(type){
+    apiMessage.classList.add(type);
+  }
+}
+
+function setConnection(connected, message){
+  state.connected = connected;
+
+  connectionStatus.classList.remove("connected","error");
+
+  if(connected){
+    connectionStatus.classList.add("connected");
+  }else if(message){
+    connectionStatus.classList.add("error");
+  }
+
+  connectionText.textContent = message || "Not connected";
+  connectionDetail.textContent = message || "Not connected";
+}
+
+function isPublicKey(key){
+  return /^ptcg_pub_[A-Za-z0-9_-]+$/.test(key.trim());
+}
+
+function formatCurrency(value,currency){
+  if(value === null || value === undefined || !Number.isFinite(Number(value))){
+    return "—";
+  }
+
+  const symbols = {
+    SGD:"S$",
+    USD:"$",
+    EUR:"€",
+    JPY:"¥",
+    GBP:"£"
+  };
+
+  const decimals = currency === "JPY" ? 0 : 2;
+
+  return symbols[currency] +
+    Number(value).toLocaleString(undefined,{
+      minimumFractionDigits:decimals,
+      maximumFractionDigits:decimals
+    });
+}
+
+function eurTo(currency,value){
+  if(value === null || value === undefined){
+    return null;
+  }
+
+  const numeric = Number(value);
+
+  if(!Number.isFinite(numeric)){
+    return null;
+  }
+
+  return numeric * FX[currency];
+}
 
 function getCardImage(card){
 
-    if(
-        card.images &&
-        typeof card.images === "object" &&
-        !Array.isArray(card.images)
-    ){
+  /*
+    Images are taken ONLY from this exact card object.
+    No Pokémon-name lookup.
+    No fuzzy matching.
+    No cross-card image assignment.
+  */
 
-        if(card.images.large){
-            return card.images.large;
-        }
-
-        if(card.images.small){
-            return card.images.small;
-        }
-
-    }
-
-
-    if(
-        Array.isArray(card.images)
-    ){
-
-        const image =
-            card.images.find(
-                item =>
-                    item &&
-                    item.url
-            );
-
-        if(image){
-            return image.url;
-        }
-
-    }
-
-
+  if(!card || !card.images){
     return "";
+  }
 
-}
+  if(typeof card.images === "object"){
+    return (
+      card.images.large ||
+      card.images.small ||
+      card.images.large_url ||
+      card.images.small_url ||
+      ""
+    );
+  }
 
-
-/* ============================================================
-   PRICE SELECTION
-============================================================ */
-
-function getPriceRows(card){
-
-    if(
-        !Array.isArray(card.prices)
-    ){
-        return [];
-    }
-
-    return card.prices.filter(
-        price =>
-            price &&
-            cleanNumber(
-                price.amount
-            ) !== null &&
-            price.currency
+  if(Array.isArray(card.images)){
+    const image = card.images.find(x =>
+      x &&
+      (
+        x.large ||
+        x.small ||
+        x.url
+      )
     );
 
+    if(image){
+      return image.large || image.small || image.url || "";
+    }
+  }
+
+  return "";
 }
 
+function getIndex(card){
 
-function getBestPrice(card){
+  const value = Number(card?.index_eur);
 
-    const prices =
-        getPriceRows(card);
+  if(!Number.isFinite(value) || value <= 0){
+    return null;
+  }
 
-    if(!prices.length){
-        return null;
-    }
-
-
-    const preferred = [
-
-        price =>
-            price.source === "PTCG_INDEX" &&
-            price.variant === "INDEX",
-
-        price =>
-            price.variant === "MARKET",
-
-        price =>
-            price.variant === "LOW",
-
-        price =>
-            price.variant === "TREND",
-
-        price =>
-            price.variant === "AVG_1D"
-
-    ];
-
-
-    for(
-        const test of preferred
-    ){
-
-        const found =
-            prices.find(test);
-
-        if(found){
-            return found;
-        }
-
-    }
-
-
-    return prices[0];
-
+  return value;
 }
 
+function formatRelativeDate(dateString){
 
-function getNativePrice(
-    card,
-    currency
-){
+  if(!dateString){
+    return "—";
+  }
 
-    const prices =
-        getPriceRows(card)
-            .filter(
-                price =>
-                    price.currency === currency
-            );
+  const date = new Date(dateString);
 
+  if(Number.isNaN(date.getTime())){
+    return "—";
+  }
 
-    if(!prices.length){
-        return null;
-    }
+  const diff = Date.now() - date.getTime();
 
+  const minutes = Math.floor(diff / 60000);
 
-    const preferred = [
+  if(minutes < 1){
+    return "Now";
+  }
 
-        price =>
-            price.source === "PTCG_INDEX" &&
-            price.variant === "INDEX",
+  if(minutes < 60){
+    return `${minutes}m ago`;
+  }
 
-        price =>
-            price.variant === "MARKET",
+  const hours = Math.floor(minutes / 60);
 
-        price =>
-            price.variant === "LOW",
+  if(hours < 24){
+    return `${hours}h ago`;
+  }
 
-        price =>
-            price.variant === "TREND",
+  const days = Math.floor(hours / 24);
 
-        price =>
-            price.variant === "AVG_1D"
-
-    ];
-
-
-    for(
-        const test of preferred
-    ){
-
-        const found =
-            prices.find(test);
-
-        if(found){
-            return found;
-        }
-
-    }
-
-
-    return prices[0];
-
+  return `${days}d ago`;
 }
 
+/* =========================================================
+   API ERROR HANDLING
+========================================================= */
 
-/* ============================================================
-   PRICE CONVERSION
-============================================================ */
+async function readApiError(response){
 
-function getDisplayPrice(
-    card,
-    currency
-){
+  let payload = null;
 
-    const native =
-        getNativePrice(
-            card,
-            currency
-        );
+  try{
+    payload = await response.json();
+  }catch(_){}
 
+  const error = payload?.error;
 
-    if(native){
+  if(error?.code){
+    return `${error.code}: ${error.message || "API request failed"}`;
+  }
 
-        return {
+  if(response.status === 401){
+    return "401: API key rejected.";
+  }
 
-            amount:
-                Number(native.amount),
+  if(response.status === 403){
+    return "403: browser key/referrer is not authorised for this site.";
+  }
 
-            currency:
-                currency,
+  if(response.status === 429){
+    return "429: API quota exceeded.";
+  }
 
-            converted:false
-
-        };
-
-    }
-
-
-    const primary =
-        getBestPrice(card);
-
-
-    if(!primary){
-        return null;
-    }
-
-
-    const amount =
-        cleanNumber(
-            primary.amount
-        );
-
-
-    if(amount === null){
-        return null;
-    }
-
-
-    const sourceCurrency =
-        primary.currency;
-
-
-    if(
-        !fxRates[sourceCurrency]
-    ){
-        return null;
-    }
-
-
-    const usdValue =
-        sourceCurrency === "USD"
-
-            ? amount
-
-            : amount /
-              fxRates[sourceCurrency];
-
-
-    const converted =
-        usdValue *
-        (
-            fxRates[currency] || 1
-        );
-
-
-    return {
-
-        amount:converted,
-
-        currency:currency,
-
-        converted:true
-
-    };
-
+  return `HTTP ${response.status}: API request failed.`;
 }
 
+/* =========================================================
+   API REQUEST
+========================================================= */
 
-/* ============================================================
-   LOAD CARDS
-============================================================ */
+async function apiFetch(url){
 
-async function loadCards(){
+  if(!state.apiKey){
+    throw new Error("No API key configured.");
+  }
 
-    setStatus(
-        "Loading data..."
+  const response = await fetch(url,{
+    method:"GET",
+    headers:{
+      "X-Api-Key":state.apiKey,
+      "Accept":"application/json"
+    },
+    cache:"no-store"
+  });
+
+  if(!response.ok){
+    throw new Error(await readApiError(response));
+  }
+
+  return await response.json();
+}
+
+/* =========================================================
+   BUILD CARD QUERY
+========================================================= */
+
+function buildCardUrl(){
+
+  const url = new URL(`${API_BASE}/cards`);
+
+  url.searchParams.set("limit","100");
+
+  /*
+    Exact catalogue fields.
+    index is included separately because it is a relation.
+  */
+
+  url.searchParams.set(
+    "select",
+    [
+      "id",
+      "name",
+      "number",
+      "rarity",
+      "set_code",
+      "set_name",
+      "release_date",
+      "artist_name",
+      "index_eur",
+      "last_price_at"
+    ].join(",")
+  );
+
+  url.searchParams.set(
+    "include",
+    "index,images"
+  );
+
+  url.searchParams.set(
+    "orderBy",
+    "-index_eur"
+  );
+
+  if(state.search.trim()){
+
+    /*
+      Search the API catalogue rather than filtering
+      a tiny local sample.
+    */
+
+    const query = state.search.trim()
+      .replaceAll('"','');
+
+    url.searchParams.set(
+      "q",
+      `name:*${query}* OR set.name:*${query}* OR number:${query} OR rarity:*${query}*`
+    );
+  }
+
+  return url.toString();
+}
+
+/* =========================================================
+   LOAD INITIAL DATA
+========================================================= */
+
+async function loadInitial(){
+
+  if(!state.apiKey){
+    renderEmptyState();
+    return;
+  }
+
+  state.loading = true;
+
+  setLoadingUi(true);
+
+  setApiMessage("Connecting to the Pokémon TCG API…");
+
+  try{
+
+    const url = buildCardUrl();
+
+    const payload = await apiFetch(url);
+
+    const cards = Array.isArray(payload.data)
+      ? payload.data
+      : [];
+
+    state.cards = cards;
+    state.nextUrl = payload.links?.next || null;
+    state.lastUpdated = new Date();
+
+    state.connected = true;
+
+    setConnection(
+      true,
+      `Connected · ${cards.length} cards`
     );
 
-    setConnectionStatus(
-        "Loading latest market snapshot..."
+    setApiMessage(
+      `Live API connection established. ${cards.length} cards loaded.`,
+      "good"
     );
 
+    renderAll();
 
-    try{
+  }catch(error){
 
-        await loadFX();
+    console.error(error);
 
+    state.cards = [];
+    state.nextUrl = null;
 
-        const response =
-            await fetch(
-                DATA_ENDPOINT +
-                "?t=" +
-                Date.now(),
-                {
-                    cache:"no-store"
-                }
-            );
+    setConnection(
+      false,
+      "Connection failed"
+    );
 
+    setApiMessage(
+      error.message || "Unable to connect to API.",
+      "error"
+    );
 
-        if(!response.ok){
+    renderError(error.message);
 
-            throw new Error(
-                "cards.json returned HTTP " +
-                response.status
-            );
+  }finally{
 
-        }
+    state.loading = false;
 
-
-        const payload =
-            await response.json();
-
-
-        if(
-            Array.isArray(payload)
-        ){
-
-            cards =
-                payload;
-
-        }else if(
-            Array.isArray(
-                payload.data
-            )
-        ){
-
-            cards =
-                payload.data;
-
-        }else{
-
-            throw new Error(
-                "cards.json has an invalid format."
-            );
-
-        }
-
-
-        /*
-            SAFETY:
-
-            Every displayed card must have a stable
-            API ID.
-
-            Cards without IDs are discarded rather
-            than risking incorrect matching.
-        */
-
-        cards =
-            cards.filter(
-                card =>
-                    card &&
-                    typeof card.id === "string" &&
-                    card.id.trim()
-            );
-
-
-        render();
-
-
-        setStatus(
-            "Connected",
-            "connected"
-        );
-
-
-        setConnectionStatus(
-            cards.length.toLocaleString() +
-            " verified card records loaded",
-            "connected"
-        );
-
-
-        const updatedAt =
-            payload.updated_at ||
-            payload.updatedAt ||
-            null;
-
-
-        if(updatedAt){
-
-            const date =
-                new Date(updatedAt);
-
-
-            if(!Number.isNaN(date.getTime())){
-
-                lastUpdate.textContent =
-                    date.toLocaleTimeString(
-                        "en-SG",
-                        {
-                            hour:"2-digit",
-                            minute:"2-digit"
-                        }
-                    );
-
-            }
-
-        }else{
-
-            lastUpdate.textContent =
-                new Date().toLocaleTimeString(
-                    "en-SG",
-                    {
-                        hour:"2-digit",
-                        minute:"2-digit"
-                    }
-                );
-
-        }
-
-
-    }catch(error){
-
-        console.error(
-            "PokiRadar data error:",
-            error
-        );
-
-
-        setStatus(
-            "Data connection error",
-            "error"
-        );
-
-
-        setConnectionStatus(
-            error.message,
-            "error"
-        );
-
-
-        radarGrid.innerHTML = `
-
-            <div class="empty">
-
-                <strong>
-                    PokiRadar cannot find its market data.
-                </strong>
-
-                <br><br>
-
-                Expected:
-
-                <br>
-
-                <strong>
-                    data/cards.json
-                </strong>
-
-                <br><br>
-
-                The GitHub data collector must create
-                this file before the catalogue can load.
-
-            </div>
-
-        `;
-
-
-        catalogueBody.innerHTML = `
-
-            <tr>
-
-                <td colspan="9">
-
-                    <div class="empty">
-
-                        No market data snapshot available.
-
-                    </div>
-
-                </td>
-
-            </tr>
-
-        `;
-
-    }
-
+    setLoadingUi(false);
+  }
 }
 
+/* =========================================================
+   LOAD MORE
+========================================================= */
 
-/* ============================================================
-   FILTER
-============================================================ */
+async function loadMore(){
 
-function getFilteredCards(){
+  if(state.loading){
+    return;
+  }
 
-    const query =
-        searchInput.value
-            .trim()
-            .toLowerCase();
+  if(!state.nextUrl){
+    showToast("No more cards in this result.");
+    return;
+  }
 
+  state.loading = true;
 
-    let result =
-        cards;
+  loadMoreBtn.disabled = true;
+  loadMoreBtn.textContent = "Loading…";
 
+  try{
 
-    if(query){
+    const payload = await apiFetch(state.nextUrl);
 
-        result =
-            result.filter(
-                card => {
+    const cards = Array.isArray(payload.data)
+      ? payload.data
+      : [];
 
-                    const searchable = [
+    /*
+      Exact ID de-duplication.
+    */
 
-                        card.id,
+    const existingIds = new Set(
+      state.cards.map(card => card.id)
+    );
 
-                        card.name,
+    for(const card of cards){
 
-                        getSetName(card),
-
-                        getCardNumber(card),
-
-                        getRarity(card)
-
-                    ]
-                    .join(" ")
-                    .toLowerCase();
-
-
-                    return searchable.includes(
-                        query
-                    );
-
-                }
-            );
-
+      if(!existingIds.has(card.id)){
+        state.cards.push(card);
+      }
     }
 
+    state.nextUrl = payload.links?.next || null;
 
-    if(
-        activeFilter === "market"
-    ){
+    renderAll();
 
-        result =
-            result.filter(
-                card =>
-                    getBestPrice(card)
-            );
+    showToast(`${cards.length} more cards loaded.`);
 
-    }
+  }catch(error){
 
+    console.error(error);
 
-    if(
-        activeFilter === "priced"
-    ){
+    showToast(
+      error.message || "Unable to load more cards."
+    );
 
-        result =
-            result.filter(
-                card =>
-                    getPriceRows(card).length
-            );
+  }finally{
 
-    }
+    state.loading = false;
 
+    loadMoreBtn.disabled = false;
 
-    return result;
-
+    loadMoreBtn.textContent =
+      state.nextUrl
+        ? "Load More"
+        : "All Loaded";
+  }
 }
 
+/* =========================================================
+   FILTERING
+========================================================= */
 
-/* ============================================================
-   MAIN RENDER
-============================================================ */
+function filteredCards(){
 
-function render(){
+  let result = [...state.cards];
 
-    const filtered =
-        getFilteredCards();
+  if(state.filter === "priced"){
 
-
-    trackedCount.textContent =
-        cards.length.toLocaleString();
-
-
-    const covered =
-        cards.filter(
-            card =>
-                getBestPrice(card)
-        ).length;
-
-
-    coveredCount.textContent =
-        covered.toLocaleString();
-
-
-    let highest = null;
-
-
-    cards.forEach(
-        card => {
-
-            const price =
-                getDisplayPrice(
-                    card,
-                    "SGD"
-                );
-
-
-            if(
-                price &&
-                (
-                    highest === null ||
-                    price.amount >
-                    highest.amount
-                )
-            ){
-
-                highest =
-                    price;
-
-            }
-
-        }
+    result = result.filter(card =>
+      getIndex(card) !== null
     );
+  }
 
+  if(state.filter === "high"){
 
-    highestPrice.textContent =
-        highest
-            ? formatCurrency(
-                highest.amount,
-                "SGD"
-            )
-            : "—";
-
-
-    resultCount.textContent =
-        filtered.length.toLocaleString() +
-        " cards";
-
-
-    renderRadar(
-        filtered.slice(0,8)
+    result = result.filter(card =>
+      (getIndex(card) || 0) >= 50
     );
+  }
 
+  if(state.filter === "recent"){
 
-    renderTable(
-        filtered
-    );
+    const cutoff =
+      Date.now() - (7 * 24 * 60 * 60 * 1000);
 
+    result = result.filter(card => {
+
+      if(!card.last_price_at){
+        return false;
+      }
+
+      const time =
+        new Date(card.last_price_at).getTime();
+
+      return Number.isFinite(time) && time >= cutoff;
+    });
+  }
+
+  return result;
 }
 
+/* =========================================================
+   RENDER ALL
+========================================================= */
 
-/* ============================================================
+function renderAll(){
+
+  updateStats();
+  renderRadar();
+  renderCatalogue();
+
+  loadMoreBtn.disabled =
+    !state.nextUrl || state.loading;
+
+  loadMoreBtn.textContent =
+    state.nextUrl
+      ? "Load More"
+      : "All Loaded";
+}
+
+/* =========================================================
+   STATS
+========================================================= */
+
+function updateStats(){
+
+  const cards = state.cards;
+
+  const covered = cards.filter(card =>
+    getIndex(card) !== null
+  );
+
+  cardsLoaded.textContent =
+    cards.length.toLocaleString();
+
+  marketCovered.textContent =
+    covered.length.toLocaleString();
+
+  const highest =
+    covered.length
+      ? Math.max(...covered.map(card => getIndex(card)))
+      : null;
+
+  highestPrice.textContent =
+    highest === null
+      ? "—"
+      : formatCurrency(
+          eurTo("SGD",highest),
+          "SGD"
+        );
+
+  lastUpdate.textContent =
+    state.lastUpdated
+      ? state.lastUpdated.toLocaleTimeString([],{
+          hour:"2-digit",
+          minute:"2-digit"
+        })
+      : "—";
+}
+
+/* =========================================================
    RADAR
-============================================================ */
+========================================================= */
 
-function renderRadar(list){
+function renderRadar(){
 
-    if(!list.length){
+  const candidates =
+    [...filteredCards()]
+      .filter(card => getIndex(card) !== null)
+      .sort(
+        (a,b) =>
+          (getIndex(b) || 0) -
+          (getIndex(a) || 0)
+      )
+      .slice(0,8);
 
-        radarGrid.innerHTML = `
+  if(!candidates.length){
 
-            <div class="empty">
+    radarGrid.innerHTML = `
+      <div class="empty">
+        No cards match the current radar filter.
+      </div>
+    `;
 
-                No cards match your search.
+    return;
+  }
+
+  radarGrid.innerHTML =
+    candidates.map(card => {
+
+      const image =
+        getCardImage(card);
+
+      const eur =
+        getIndex(card);
+
+      const sgd =
+        eurTo("SGD",eur);
+
+      return `
+        <article
+          class="radar-card"
+          data-card-id="${escapeHtml(card.id)}"
+        >
+
+          <div class="radar-image">
+
+            ${
+              image
+              ? `
+                <img
+                  src="${escapeHtml(image)}"
+                  alt="${escapeHtml(card.name)}"
+                  loading="lazy"
+                >
+              `
+              : `
+                <div class="muted">
+                  No image
+                </div>
+              `
+            }
+
+          </div>
+
+          <div class="radar-info">
+
+            <div class="radar-name">
+              ${escapeHtml(card.name)}
+            </div>
+
+            <div class="radar-set">
+              ${escapeHtml(card.set_name || card.set_code || "Unknown set")}
+              · ${escapeHtml(card.number || "—")}
+            </div>
+
+            <div class="radar-bottom">
+
+              <div class="radar-price">
+                ${formatCurrency(sgd,"SGD")}
+                <small>
+                  ${formatCurrency(eur,"EUR")} API index
+                </small>
+              </div>
+
+              <div class="radar-tag">
+                Market
+              </div>
 
             </div>
 
-        `;
+          </div>
 
-        return;
+        </article>
+      `;
+    }).join("");
 
-    }
+  radarGrid
+    .querySelectorAll(".radar-card")
+    .forEach(element => {
 
+      element.addEventListener("click",()=>{
 
-    radarGrid.innerHTML =
-        list.map(
-            card => {
+        const card =
+          state.cards.find(
+            item => item.id === element.dataset.cardId
+          );
 
-                const image =
-                    getCardImage(card);
+        if(card){
+          openModal(card);
+        }
 
+      });
 
-                const sgd =
-                    getDisplayPrice(
-                        card,
-                        "SGD"
-                    );
-
-
-                const usd =
-                    getDisplayPrice(
-                        card,
-                        "USD"
-                    );
-
-
-                return `
-
-                    <article class="card">
-
-                        <div class="card-image">
-
-                            ${
-                                image
-
-                                ?
-
-                                `
-                                <img
-                                    src="${escapeAttribute(image)}"
-                                    alt="${escapeAttribute(card.name || "Pokémon card")}"
-                                    loading="lazy"
-                                >
-                                `
-
-                                :
-
-                                `
-                                <div class="empty">
-                                    Image unavailable
-                                </div>
-                                `
-                            }
-
-                        </div>
-
-
-                        <div class="card-body">
-
-                            <div class="card-name">
-
-                                ${escapeHTML(
-                                    card.name ||
-                                    "Unknown Card"
-                                )}
-
-                            </div>
-
-
-                            <div class="card-meta">
-
-                                ${escapeHTML(
-                                    getSetName(card)
-                                )}
-
-                                · #
-
-                                ${escapeHTML(
-                                    getCardNumber(card)
-                                )}
-
-                                <br>
-
-                                ${escapeHTML(
-                                    getRarity(card)
-                                )}
-
-                            </div>
-
-
-                            <div class="card-id">
-
-                                ID:
-                                ${escapeHTML(
-                                    card.id
-                                )}
-
-                            </div>
-
-
-                            <div class="card-prices">
-
-                                <div class="price-box">
-
-                                    <div class="price-label">
-                                        SGD
-                                    </div>
-
-                                    <div class="price-value primary">
-
-                                        ${
-                                            sgd
-                                                ? formatCurrency(
-                                                    sgd.amount,
-                                                    "SGD"
-                                                )
-                                                : "—"
-                                        }
-
-                                    </div>
-
-                                </div>
-
-
-                                <div class="price-box">
-
-                                    <div class="price-label">
-                                        USD
-                                    </div>
-
-                                    <div class="price-value">
-
-                                        ${
-                                            usd
-                                                ? formatCurrency(
-                                                    usd.amount,
-                                                    "USD"
-                                                )
-                                                : "—"
-                                        }
-
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                    </article>
-
-                `;
-
-            }
-        )
-        .join("");
-
+    });
 }
 
-
-/* ============================================================
-   TABLE
-============================================================ */
-
-function renderTable(list){
-
-    if(!list.length){
-
-        catalogueBody.innerHTML = `
-
-            <tr>
-
-                <td colspan="9">
-
-                    <div class="empty">
-
-                        No matching cards.
-
-                    </div>
-
-                </td>
-
-            </tr>
-
-        `;
-
-        return;
-
-    }
-
-
-    catalogueBody.innerHTML =
-        list.map(
-            card => {
-
-                const image =
-                    getCardImage(card);
-
-
-                const prices = {
-
-                    SGD:
-                        getDisplayPrice(
-                            card,
-                            "SGD"
-                        ),
-
-                    USD:
-                        getDisplayPrice(
-                            card,
-                            "USD"
-                        ),
-
-                    EUR:
-                        getDisplayPrice(
-                            card,
-                            "EUR"
-                        ),
-
-                    JPY:
-                        getDisplayPrice(
-                            card,
-                            "JPY"
-                        ),
-
-                    GBP:
-                        getDisplayPrice(
-                            card,
-                            "GBP"
-                        )
-
-                };
-
-
-                return `
-
-                    <tr>
-
-                        <td>
-
-                            <div class="table-card">
-
-                                ${
-                                    image
-
-                                        ?
-
-                                        `
-                                        <img
-                                            src="${escapeAttribute(image)}"
-                                            alt="${escapeAttribute(card.name || "Card")}"
-                                            loading="lazy"
-                                        >
-                                        `
-
-                                        :
-
-                                        `
-                                        <div
-                                            style="
-                                                width:42px;
-                                                height:59px;
-                                                border-radius:5px;
-                                                background:#080d14;
-                                            "
-                                        ></div>
-                                        `
-                                }
-
-
-                                <div>
-
-                                    <div class="table-name">
-
-                                        ${escapeHTML(
-                                            card.name ||
-                                            "Unknown"
-                                        )}
-
-                                    </div>
-
-
-                                    <div class="table-meta">
-
-                                        ID:
-                                        ${escapeHTML(
-                                            card.id
-                                        )}
-
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-                        </td>
-
-
-                        <td>
-
-                            ${escapeHTML(
-                                getSetName(card)
-                            )}
-
-                        </td>
-
-
-                        <td>
-
-                            ${escapeHTML(
-                                getCardNumber(card)
-                            )}
-
-                        </td>
-
-
-                        <td>
-
-                            ${escapeHTML(
-                                getRarity(card)
-                            )}
-
-                        </td>
-
-
-                        <td>
-
-                            ${renderPrice(
-                                prices.SGD,
-                                "SGD"
-                            )}
-
-                        </td>
-
-
-                        <td>
-
-                            ${renderPrice(
-                                prices.USD,
-                                "USD"
-                            )}
-
-                        </td>
-
-
-                        <td>
-
-                            ${renderPrice(
-                                prices.EUR,
-                                "EUR"
-                            )}
-
-                        </td>
-
-
-                        <td>
-
-                            ${renderPrice(
-                                prices.JPY,
-                                "JPY"
-                            )}
-
-                        </td>
-
-
-                        <td>
-
-                            ${renderPrice(
-                                prices.GBP,
-                                "GBP"
-                            )}
-
-                        </td>
-
-                    </tr>
-
-                `;
-
-            }
-        )
-        .join("");
-
-}
-
-
-/* ============================================================
-   PRICE CELL
-============================================================ */
-
-function renderPrice(
-    price,
-    currency
-){
-
-    if(!price){
-        return "—";
-    }
-
-
-    const formatted =
-        formatCurrency(
-            price.amount,
-            currency
-        );
-
-
-    if(price.converted){
-
-        return `
-
-            <div>
-
-                ${formatted}
-
-                <div class="converted">
-                    converted
+/* =========================================================
+   CATALOGUE
+========================================================= */
+
+function renderCatalogue(){
+
+  const cards =
+    filteredCards();
+
+  if(!cards.length){
+
+    catalogueBody.innerHTML = `
+      <tr>
+        <td colspan="9">
+          <div class="empty">
+            No cards match this filter.
+          </div>
+        </td>
+      </tr>
+    `;
+
+    return;
+  }
+
+  catalogueBody.innerHTML =
+    cards.map(card => {
+
+      const eur =
+        getIndex(card);
+
+      const image =
+        getCardImage(card);
+
+      return `
+        <tr data-card-id="${escapeHtml(card.id)}">
+
+          <td>
+
+            <div class="card-cell">
+
+              ${
+                image
+                ? `
+                  <img
+                    class="thumb"
+                    src="${escapeHtml(image)}"
+                    alt="${escapeHtml(card.name)}"
+                    loading="lazy"
+                  >
+                `
+                : `
+                  <div class="thumb"></div>
+                `
+              }
+
+              <div>
+
+                <div class="card-name">
+                  ${escapeHtml(card.name)}
                 </div>
 
+                <div class="card-meta">
+                  ID: ${escapeHtml(card.id)}
+                </div>
+
+              </div>
+
             </div>
 
-        `;
+          </td>
 
-    }
+          <td>
+            ${escapeHtml(card.set_name || card.set_code || "—")}
+          </td>
 
+          <td>
+            ${escapeHtml(card.number || "—")}
+          </td>
 
-    return formatted;
+          <td>
+            ${escapeHtml(card.rarity || "—")}
+          </td>
 
+          <td class="price primary-price">
+            ${formatCurrency(eurTo("SGD",eur),"SGD")}
+          </td>
+
+          <td class="price">
+            ${formatCurrency(eurTo("USD",eur),"USD")}
+          </td>
+
+          <td class="price">
+            ${formatCurrency(eur,"EUR")}
+          </td>
+
+          <td class="price">
+            ${formatCurrency(eurTo("JPY",eur),"JPY")}
+          </td>
+
+          <td class="price">
+            ${formatCurrency(eurTo("GBP",eur),"GBP")}
+          </td>
+
+        </tr>
+      `;
+
+    }).join("");
+
+  catalogueBody
+    .querySelectorAll("tr[data-card-id]")
+    .forEach(row => {
+
+      row.addEventListener("click",()=>{
+
+        const card =
+          state.cards.find(
+            item => item.id === row.dataset.cardId
+          );
+
+        if(card){
+          openModal(card);
+        }
+
+      });
+
+    });
 }
 
+/* =========================================================
+   CARD MODAL
+========================================================= */
 
-/* ============================================================
-   HTML ESCAPING
-============================================================ */
+function openModal(card){
 
-function escapeHTML(value){
+  const image =
+    getCardImage(card);
 
-    return String(
-        value ?? ""
-    )
-    .replace(
-        /&/g,
-        "&amp;"
-    )
-    .replace(
-        /</g,
-        "&lt;"
-    )
-    .replace(
-        />/g,
-        "&gt;"
-    )
-    .replace(
-        /"/g,
-        "&quot;"
-    )
-    .replace(
-        /'/g,
-        "&#039;"
+  const eur =
+    getIndex(card);
+
+  modalBody.innerHTML = `
+
+    <div class="modal-image">
+
+      ${
+        image
+        ? `
+          <img
+            src="${escapeHtml(image)}"
+            alt="${escapeHtml(card.name)}"
+          >
+        `
+        : `
+          <div class="muted">
+            No image supplied by API
+          </div>
+        `
+      }
+
+    </div>
+
+    <div>
+
+      <h2 class="modal-title">
+        ${escapeHtml(card.name)}
+      </h2>
+
+      <div class="modal-sub">
+        ${escapeHtml(card.set_name || card.set_code || "Unknown set")}
+        · ${escapeHtml(card.number || "—")}
+      </div>
+
+      <div class="detail-grid">
+
+        <div class="detail">
+          <div class="detail-label">Exact Card ID</div>
+          <div class="detail-value">
+            ${escapeHtml(card.id)}
+          </div>
+        </div>
+
+        <div class="detail">
+          <div class="detail-label">Rarity</div>
+          <div class="detail-value">
+            ${escapeHtml(card.rarity || "—")}
+          </div>
+        </div>
+
+        <div class="detail">
+          <div class="detail-label">Set Code</div>
+          <div class="detail-value">
+            ${escapeHtml(card.set_code || "—")}
+          </div>
+        </div>
+
+        <div class="detail">
+          <div class="detail-label">Release Date</div>
+          <div class="detail-value">
+            ${escapeHtml(card.release_date || "—")}
+          </div>
+        </div>
+
+        <div class="detail">
+          <div class="detail-label">Artist</div>
+          <div class="detail-value">
+            ${escapeHtml(card.artist_name || "—")}
+          </div>
+        </div>
+
+        <div class="detail">
+          <div class="detail-label">Price Timestamp</div>
+          <div class="detail-value">
+            ${escapeHtml(
+              formatRelativeDate(card.last_price_at)
+            )}
+          </div>
+        </div>
+
+      </div>
+
+      <div class="modal-price">
+
+        <div class="modal-price-label">
+          Current Market Index
+        </div>
+
+        <div class="modal-price-value">
+          ${formatCurrency(eurTo("SGD",eur),"SGD")}
+        </div>
+
+        <div class="modal-note">
+          Base API index:
+          ${formatCurrency(eur,"EUR")}.
+          SGD, USD, JPY and GBP values shown by PokiRadar are
+          converted display values, not independent native-market
+          quotations.
+        </div>
+
+      </div>
+
+      <div class="detail-grid">
+
+        <div class="detail">
+          <div class="detail-label">USD</div>
+          <div class="detail-value">
+            ${formatCurrency(eurTo("USD",eur),"USD")}
+          </div>
+        </div>
+
+        <div class="detail">
+          <div class="detail-label">EUR</div>
+          <div class="detail-value">
+            ${formatCurrency(eur,"EUR")}
+          </div>
+        </div>
+
+        <div class="detail">
+          <div class="detail-label">JPY</div>
+          <div class="detail-value">
+            ${formatCurrency(eurTo("JPY",eur),"JPY")}
+          </div>
+        </div>
+
+        <div class="detail">
+          <div class="detail-label">GBP</div>
+          <div class="detail-value">
+            ${formatCurrency(eurTo("GBP",eur),"GBP")}
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  `;
+
+  modal.classList.add("open");
+}
+
+/* =========================================================
+   EMPTY / ERROR / LOADING
+========================================================= */
+
+function renderEmptyState(){
+
+  radarGrid.innerHTML = `
+    <div class="empty">
+      Enter your browser-safe Pokémon TCG API key above.
+    </div>
+  `;
+
+  catalogueBody.innerHTML = `
+    <tr>
+      <td colspan="9">
+        <div class="empty">
+          Waiting for API connection.
+        </div>
+      </td>
+    </tr>
+  `;
+
+  updateStats();
+}
+
+function renderError(message){
+
+  radarGrid.innerHTML = `
+    <div class="empty">
+      <strong>API connection failed.</strong>
+      <br><br>
+      ${escapeHtml(message)}
+    </div>
+  `;
+
+  catalogueBody.innerHTML = `
+    <tr>
+      <td colspan="9">
+        <div class="empty">
+          ${escapeHtml(message)}
+        </div>
+      </td>
+    </tr>
+  `;
+}
+
+function setLoadingUi(loading){
+
+  if(loading){
+
+    radarGrid.innerHTML = `
+      <div class="loading">
+        <div class="spinner"></div>
+        Connecting to the live catalogue…
+      </div>
+    `;
+
+    catalogueBody.innerHTML = `
+      <tr>
+        <td colspan="9">
+          <div class="loading">
+            <div class="spinner"></div>
+            Loading real Pokémon TCG card data…
+          </div>
+        </td>
+      </tr>
+    `;
+
+  }
+
+  connectBtn.disabled = loading;
+}
+
+/* =========================================================
+   CONNECT
+========================================================= */
+
+async function connect(){
+
+  const key =
+    apiKeyInput.value.trim();
+
+  if(!isPublicKey(key)){
+
+    setApiMessage(
+      "Use a browser-safe ptcg_pub_ key. Do not put a ptcg_live_ secret in this page.",
+      "error"
     );
 
+    setConnection(
+      false,
+      "Invalid browser key"
+    );
+
+    return;
+  }
+
+  state.apiKey = key;
+
+  localStorage.setItem(
+    STORAGE_KEY,
+    key
+  );
+
+  await loadInitial();
 }
 
+/* =========================================================
+   CLEAR KEY
+========================================================= */
 
-function escapeAttribute(value){
+function clearKey(){
 
-    return escapeHTML(value);
+  localStorage.removeItem(STORAGE_KEY);
 
+  state.apiKey = "";
+  state.cards = [];
+  state.nextUrl = null;
+  state.connected = false;
+
+  apiKeyInput.value = "";
+
+  setConnection(
+    false,
+    "Not connected"
+  );
+
+  setApiMessage(
+    "API key removed from this browser."
+  );
+
+  renderEmptyState();
+
+  showToast("API key cleared.");
 }
 
+/* =========================================================
+   SEARCH
+========================================================= */
 
-/* ============================================================
-   EVENTS
-============================================================ */
+let searchTimer = null;
 
-refreshBtn.addEventListener(
-    "click",
-    loadCards
-);
+searchInput.addEventListener("input",()=>{
 
+  clearTimeout(searchTimer);
 
-searchInput.addEventListener(
-    "input",
-    render
-);
+  state.search =
+    searchInput.value.trim();
 
+  searchTimer =
+    setTimeout(()=>{
+
+      if(state.apiKey){
+        loadInitial();
+      }
+
+    },500);
+});
+
+/* =========================================================
+   FILTER BUTTONS
+========================================================= */
 
 document
-    .querySelectorAll(".filter")
-    .forEach(
-        button => {
+  .querySelectorAll(".filter")
+  .forEach(button => {
 
-            button.addEventListener(
-                "click",
-                () => {
+    button.addEventListener("click",()=>{
 
-                    document
-                        .querySelectorAll(
-                            ".filter"
-                        )
-                        .forEach(
-                            item =>
-                                item.classList.remove(
-                                    "active"
-                                )
-                        );
+      document
+        .querySelectorAll(".filter")
+        .forEach(item =>
+          item.classList.remove("active")
+        );
 
+      button.classList.add("active");
 
-                    button.classList.add(
-                        "active"
-                    );
+      state.filter =
+        button.dataset.filter;
 
+      renderAll();
+    });
 
-                    activeFilter =
-                        button.dataset.filter;
+  });
 
+/* =========================================================
+   EVENTS
+========================================================= */
 
-                    render();
+connectBtn.addEventListener(
+  "click",
+  connect
+);
 
-                }
-            );
+clearKeyBtn.addEventListener(
+  "click",
+  clearKey
+);
 
-        }
-    );
+refreshBtn.addEventListener(
+  "click",
+  ()=>{
 
+    if(!state.apiKey){
 
-/* ============================================================
-   START
-============================================================ */
+      setApiMessage(
+        "Connect an API key first.",
+        "error"
+      );
 
-loadCards();
+      return;
+    }
+
+    loadInitial();
+
+  }
+);
+
+loadMoreBtn.addEventListener(
+  "click",
+  loadMore
+);
+
+closeModal.addEventListener(
+  "click",
+  ()=>{
+    modal.classList.remove("open");
+  }
+);
+
+modal.addEventListener(
+  "click",
+  event => {
+
+    if(event.target === modal){
+      modal.classList.remove("open");
+    }
+
+  }
+);
+
+document.addEventListener(
+  "keydown",
+  event => {
+
+    if(event.key === "Escape"){
+      modal.classList.remove("open");
+    }
+
+  }
+);
+
+/* =========================================================
+   RESTORE SAVED KEY
+========================================================= */
+
+if(state.apiKey){
+
+  apiKeyInput.value =
+    state.apiKey;
+
+  setApiMessage(
+    "Saved browser key detected. Connecting…"
+  );
+
+  /*
+    Automatically reconnect when returning to
+    the GitHub Pages deployment.
+  */
+
+  loadInitial();
+
+}else{
+
+  renderEmptyState();
+
+}
+
+/* =========================================================
+   INITIAL UI STATE
+========================================================= */
+
+apiEndpointStatus.textContent =
+  "api.pokemontcgapi.com/v1/cards";
 
 </script>
 
